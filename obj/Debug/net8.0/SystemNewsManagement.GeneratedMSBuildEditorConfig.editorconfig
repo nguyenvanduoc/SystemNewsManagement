@@ -23,6 +23,46 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/DanhMuc/ChinhSua.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xEYW5oTXVjXENoaW5oU3VhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/DanhMuc/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xEYW5oTXVjXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/DanhMuc/ThemMoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xEYW5oTXVjXFRoZW1Nb2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/LienHe/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xMaWVuSGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/SanPham/ChinhSua.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xTYW5QaGFtXENoaW5oU3VhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/SanPham/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xTYW5QaGFtXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/SanPham/ThemMoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xTYW5QaGFtXFRoZW1Nb2kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/Shared/_LayoutQuanTri.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xTaGFyZWRcX0xheW91dFF1YW5UcmkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/TongQuan/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xUb25nUXVhblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xfVmlld1N0YXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -31,12 +71,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/LienHe/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGllbkhlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/SanPham/ChiTiet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuUGhhbVxDaGlUaWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/SanPham/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FuUGhhbVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/TinTuc/ChiTiet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjXENoaVRpZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/TinTuc/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluVHVjXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/TrangChu/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhbmdDaHVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/_ViewImports.cshtml]

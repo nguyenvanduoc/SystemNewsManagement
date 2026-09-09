@@ -4,6 +4,28 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Tối ưu hóa IIS Startup & TTFB -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <TieredCompilation>true</TieredCompilation>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Entity Framework Core 8 cho Admin & Schema -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <!-- Dapper cho Storefront High-Performance Read -->
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+
+    <!-- Xử lý và nén ảnh WebP -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="4.1.1" />
+  </ItemGroup>
+
 </Project>
+

@@ -1,0 +1,256 @@
+@model ThaiBeer.ViewModels.TrangChuViewModel
+@{
+    ViewData["Title"] = "ThaiBeer - Đẳng Cấp Bia Hoàng Gia Thái Lan";
+    ViewData["Description"] = "Trải nghiệm dòng bia Thái trứ danh với vị đắng êm dịu, bọt tuyết mịn màng và hương thơm hoa bia Saaz quý tộc.";
+}
+
+<!-- 1. Hero Banner Slider (Swiper.js Fade Effect) -->
+<section class="relative bg-black overflow-hidden">
+    <div class="swiper hero-swiper h-[460px] sm:h-[540px] md:h-[620px] w-full">
+        <div class="swiper-wrapper">
+            @foreach (var banner in Model.DanhSachBanner)
+            {
+                <div class="swiper-slide relative flex items-center">
+                    <!-- Background Image with Gradient Overlay -->
+                    <img src="@banner.HinhAnhWebP" alt="@banner.TieuDe" class="absolute inset-0 w-full h-full object-cover object-center" />
+                    <div class="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-thaidark via-transparent to-black/40"></div>
+
+                    <!-- Slide Content -->
+                    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+                        <div class="max-w-2xl space-y-6">
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-widest border border-amber-500/30">
+                                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                                Tuyệt Tác Bia Thái Thượng Hạng
+                            </span>
+                            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-stone-100 leading-tight">
+                                @banner.TieuDe
+                            </h1>
+                            <p class="text-sm sm:text-base text-stone-300 leading-relaxed">
+                                @banner.PhuDe
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4 pt-2">
+                                <a href="@(banner.LienKetUrl ?? "/san-pham")" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-stone-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/30 transition-transform duration-300 hover:scale-105">
+                                    @(banner.TextNutBam ?? "Khám Phá Ngay")
+                                </a>
+                                <a href="/lien-he" class="px-7 py-3.5 rounded-xl bg-stone-900/80 hover:bg-stone-800 text-stone-200 border border-stone-700 font-bold text-sm tracking-wider transition">
+                                    Hợp Tác Phân Phối
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="swiper-pagination !bottom-8"></div>
+    </div>
+</section>
+
+<!-- 2. Danh Mục Sản Phẩm (Category Grid Cards) -->
+<section class="py-16 sm:py-20 bg-thaidark border-b border-stone-800/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Bộ Sưu Tập Đỉnh Cao</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-stone-100 mt-2">Dòng Sản Phẩm ThaiBeer</h2>
+            <p class="text-xs sm:text-sm text-stone-400 mt-2">Đa dạng dung tích và phong cách thưởng thức đáp ứng mọi khẩu vị</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach (var dm in Model.DanhSachDanhMuc)
+            {
+                <a href="/danh-muc/@dm.DuongDanSlug" class="group relative rounded-2xl bg-thaicard border border-stone-800 p-6 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 shadow-lg overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-stone-950 transition-all duration-300">
+                        <i class="fa-solid fa-beer-mug-empty"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-100 group-hover:text-amber-400 transition-colors">
+                        @dm.TenDanhMuc
+                    </h3>
+                    <p class="text-xs text-stone-400 mt-2 line-clamp-2 leading-relaxed">
+                        @dm.MoTa
+                    </p>
+                    <span class="inline-flex items-center gap-1.5 text-xs text-amber-500 font-bold mt-4 group-hover:translate-x-1 transition-transform">
+                        Khám phá dòng bia <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- 3. Sản Phẩm Nổi Bật (Swiper.js Touch Slider 60fps) -->
+<section class="py-16 sm:py-24 bg-gradient-to-b from-thaidark via-thaicard to-thaidark relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
+            <div>
+                <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Được Yêu Thích Nhất</span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-stone-100 mt-2">Sản Phẩm Bán Chạy</h2>
+            </div>
+            <!-- Slider Navigation Buttons -->
+            <div class="flex items-center gap-3">
+                <button class="product-prev w-11 h-11 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 hover:border-amber-500/50 flex items-center justify-center transition shadow">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="product-next w-11 h-11 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 hover:border-amber-500/50 flex items-center justify-center transition shadow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Product Swiper Slider -->
+        <div class="swiper product-swiper !overflow-visible">
+            <div class="swiper-wrapper">
+                @foreach (var sp in Model.SanPhamNoiBat)
+                {
+                    <div class="swiper-slide">
+                        <div class="bg-thaicard border border-stone-800/90 rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 shadow-xl flex flex-col h-full">
+                            <!-- Image container with WebP (Clickable) -->
+                            <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-stone-900 aspect-square overflow-hidden p-4 flex items-center justify-center cursor-pointer group-hover:bg-stone-800/80 transition-colors">
+                                <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                                
+                                <!-- ABV Badge -->
+                                <div class="absolute top-3 left-3 bg-stone-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-amber-500/30 text-[11px] font-bold text-amber-400">
+                                    @sp.NongDoCon% ABV
+                                </div>
+                                <div class="absolute top-3 right-3 bg-stone-950/80 backdrop-blur-md px-2 py-1 rounded-lg border border-stone-800 text-[11px] font-medium text-stone-400">
+                                    @sp.DungTichMl ml
+                                </div>
+                            </a>
+
+                            <!-- Product Info (Clickable Text) -->
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <a href="/san-pham/@sp.DuongDanSlug" class="block group/text cursor-pointer">
+                                    <span class="text-[11px] font-semibold text-amber-500 uppercase tracking-wider block mb-1">
+                                        @sp.DanhMuc?.TenDanhMuc
+                                    </span>
+                                    <h3 class="text-base font-bold text-stone-100 mt-1 line-clamp-1 group-hover/text:text-amber-400 transition-colors">
+                                        @sp.TenSanPham
+                                    </h3>
+                                    <p class="text-xs text-stone-400 mt-2 line-clamp-2 leading-relaxed">
+                                        @sp.MoTaNgan
+                                    </p>
+                                </a>
+
+                                <div class="pt-5 mt-4 border-t border-stone-800/80 flex items-center justify-between">
+                                    <span class="text-xs text-stone-500">@sp.QuyCachDongGoi</span>
+                                    <a href="/san-pham/@sp.DuongDanSlug" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs transition">
+                                        Chi tiết
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="/san-pham" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-700 text-stone-200 text-sm font-bold tracking-wider transition">
+                Xem Toàn Bộ Sản Phẩm <i class="fa-solid fa-arrow-right text-amber-400"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 4. Nghệ Thuật Nấu Bia Hoàng Gia Thái Lan (Brewing Heritage) -->
+<section class="py-20 bg-thaidark border-y border-stone-800/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left image collage -->
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?q=80&w=800&auto=format&fit=crop" alt="Quy trình nấu men bia ThaiBeer" class="rounded-3xl shadow-2xl border border-stone-800 w-full object-cover max-h-[460px]" loading="lazy" />
+                <div class="absolute -bottom-6 -right-6 hidden sm:block p-6 rounded-2xl bg-thaicard/90 backdrop-blur-md border border-amber-500/30 max-w-xs shadow-2xl">
+                    <div class="flex items-center gap-3 mb-2">
+                        <i class="fa-solid fa-award text-2xl text-amber-400"></i>
+                        <span class="font-extrabold text-stone-100 text-sm">Chất Lượng Vàng</span>
+                    </div>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        Lên men lạnh 21 ngày đêm giúp bọt bia mịn như kem và vị đắng êm êm không gắt.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="space-y-6">
+                <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Di Sản Nghệ Nhân</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-stone-100 leading-tight">
+                    Tinh Hoa Hoa Bia Quý Tộc Hòa Quyện Men Bia Đông Nam Á
+                </h2>
+                <p class="text-sm text-stone-400 leading-relaxed">
+                    ThaiBeer khởi nguồn từ khát vọng tạo ra một dòng bia mang đậm hương sắc nhiệt đới nhưng tuân thủ chuẩn mực khắt khe của nghệ thuật nấu bia hoàng gia. Chúng tôi chỉ sử dụng nguồn nước tinh khiết, 100% mạch nha lúa mạch tuyển chọn và hoa bia nhập khẩu.
+                </p>
+
+                <div class="grid grid-cols-2 gap-6 pt-4">
+                    <div class="border-l-2 border-amber-500 pl-4">
+                        <span class="text-2xl font-black text-amber-400">100%</span>
+                        <p class="text-xs text-stone-400 mt-1">Mạch nha đại mạch tự nhiên, không pha tạp chất</p>
+                    </div>
+                    <div class="border-l-2 border-amber-500 pl-4">
+                        <span class="text-2xl font-black text-amber-400">21 Ngày</span>
+                        <p class="text-xs text-stone-400 mt-1">Ủ men lạnh sâu giữ trọn hương thơm thanh mát</p>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <a href="/lien-he" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm transition">
+                        Đăng Ký Tham Quan Nhà Máy & Thử Vị
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. Tin Tức & Văn Hóa Bia Thái -->
+<section class="py-16 sm:py-20 bg-thaicard">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Góc Chia Sẻ</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-100 mt-1">Tin Tức & Văn Hóa Bia</h2>
+            </div>
+            <a href="/tin-tuc" class="text-xs text-amber-400 hover:underline font-bold hidden sm:block">Xem tất cả bài viết</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach (var tin in Model.TinTucNoiBat)
+            {
+                <article class="bg-thaidark border border-stone-800 rounded-2xl overflow-hidden group hover:border-amber-500/40 transition duration-300 shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="aspect-video overflow-hidden">
+                            <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        </div>
+                        <div class="p-6">
+                            <span class="text-[11px] text-stone-500 font-mono">@tin.NgayTao.ToString("dd/MM/yyyy") • @tin.TacGia</span>
+                            <h3 class="text-base font-bold text-stone-100 mt-2 line-clamp-2 group-hover:text-amber-400 transition-colors">
+                                <a href="/tin-tuc/@tin.DuongDanSlug">@tin.TieuDe</a>
+                            </h3>
+                            <p class="text-xs text-stone-400 mt-2 line-clamp-3 leading-relaxed">
+                                @tin.TomTat
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <a href="/tin-tuc/@tin.DuongDanSlug" class="text-xs text-amber-400 font-bold hover:underline inline-flex items-center gap-1.5">
+                            Đọc bài viết <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- 6. Banner Đăng Ký Đại Lý Phân Phối -->
+<section class="py-16 bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-600 text-stone-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-black">Trở Thành Đối Tác Phân Phối Độc Quyền ThaiBeer</h2>
+        <p class="text-sm sm:text-base font-medium max-w-2xl mx-auto opacity-90">
+            Chính sách chiết khấu cạnh tranh, hỗ trợ bảng hiệu, vật phẩm quảng cáo (POSM) và đào tạo nhân viên chuyên nghiệp dành cho hệ thống đại lý, nhà hàng, khách sạn trên toàn quốc.
+        </p>
+        <div class="pt-2">
+            <a href="/lien-he" class="inline-block px-8 py-4 rounded-xl bg-stone-950 hover:bg-stone-900 text-amber-400 font-black text-sm uppercase tracking-wider shadow-2xl transition hover:scale-105">
+                Liên Hệ Nhận Chính Sách Chiết Khấu
+            </a>
+        </div>
+    </div>
+</section>

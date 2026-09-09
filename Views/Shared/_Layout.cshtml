@@ -1,49 +1,274 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SystemNewsManagement</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SystemNewsManagement.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>@ViewData["Title"] - ThaiBeer | Bia Hoàng Gia Thái Lan Thượng Hạng</title>
+    <meta name="description" content="@(ViewData["Description"] ?? "ThaiBeer - Thương hiệu bia Thái hảo hạng, kế thừa công thức ủ men truyền thống kết hợp công nghệ hiện đại mang đến cảm giác sảng khoái bất tận.")" />
+    <meta name="keywords" content="thaibeer, bia thái, bia chai thái lan, bia lon thái, bia hoàng gia, đại lý bia thái" />
+    <meta property="og:title" content="@ViewData["Title"] - ThaiBeer" />
+    <meta property="og:description" content="@(ViewData["Description"] ?? "Khám phá thế giới bia Thái đẳng cấp với ThaiBeer.")" />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <!-- Turbo Drive (Hotwired) - Chuyển trang mượt mà không chớp trắng -->
+    <script src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@8.0.5/dist/turbo.es2017-umd.js" defer></script>
+
+
+    <!-- Swiper Slider CSS & JS - 60fps Mobile Swipe Touch -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Tailwind CSS CDN với bảng màu ThaiBeer Hoàng Gia -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        thaigold: '#D4AF37',
+                        thaiamber: '#F59E0B',
+                        thaidark: '#0B0B0C',
+                        thaicard: '#141416',
+                        thaimuted: '#242429'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Turbo progress bar styling */
+        .turbo-progress-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #F59E0B, #D4AF37, #FDE047);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0B0C; }
+        ::-webkit-scrollbar-thumb { background: #2A2A30; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SystemNewsManagement</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+<body class="bg-thaidark text-stone-100 font-sans antialiased selection:bg-amber-500 selection:text-stone-950 flex flex-col min-h-screen">
+
+    <!-- Top Notice Bar: Quy chuẩn uống có trách nhiệm -->
+    <div class="bg-amber-500/10 border-b border-amber-500/20 py-1.5 px-4 text-center text-xs text-amber-300 font-medium">
+        <span><i class="fa-solid fa-shield-halved mr-1"></i> Sản phẩm dành cho người trên 18 tuổi. Đã uống rượu bia - Không lái xe.</span>
+    </div>
+
+    <!-- Main Navigation Bar (Sticky Glassmorphism) -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-thaidark/90 border-b border-stone-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 flex items-center justify-center font-black text-stone-950 text-2xl shadow-lg shadow-amber-500/30 group-hover:scale-105 transition-transform duration-300">
+                    TB
+                </div>
+                <div>
+                    <span class="block text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 leading-none">
+                        THAIBEER
+                    </span>
+                    <span class="text-[10px] tracking-[0.25em] text-stone-400 font-bold uppercase block mt-1">Premium Royal Taste</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="/" class="text-stone-300 hover:text-amber-400 transition-colors">Trang Chủ</a>
+                <a href="/san-pham" class="text-stone-300 hover:text-amber-400 transition-colors">Bộ Sưu Tập Sản Phẩm</a>
+                <a href="/tin-tuc" class="text-stone-300 hover:text-amber-400 transition-colors">Văn Hóa & Tin Tức</a>
+                <a href="/lien-he" class="text-stone-300 hover:text-amber-400 transition-colors">Hợp Tác Đại Lý</a>
+            </nav>
+
+            <!-- Call to Action & Hotline -->
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="tel:19008888" class="flex items-center gap-2 text-xs font-semibold text-stone-400 hover:text-amber-400 transition">
+                    <span class="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center text-amber-400 border border-stone-700">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </span>
+                    <div>
+                        <span class="block text-[10px] text-stone-500">Hotline Đặt Hàng</span>
+                        <span class="font-bold text-amber-400 text-sm">1900 8888</span>
+                    </div>
+                </a>
+                <a href="/lien-he" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-stone-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition-all hover:scale-105">
+                    Đăng Ký Đại Lý
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" type="button" class="md:hidden p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 focus:outline-none" aria-label="Menu">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileDrawer" class="hidden md:hidden bg-thaicard border-b border-stone-800 px-6 py-6 space-y-4">
+            <a href="/" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Trang Chủ</a>
+            <a href="/san-pham" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Bộ Sưu Tập Sản Phẩm</a>
+            <a href="/tin-tuc" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Văn Hóa & Tin Tức</a>
+            <a href="/lien-he" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Hợp Tác Đại Lý</a>
+            <div class="pt-4 flex flex-col gap-3">
+                <a href="/lien-he" class="w-full text-center py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-stone-950 font-bold text-sm">
+                    Đăng Ký Đại Lý Phân Phối
+                </a>
+                <a href="/quan-tri" class="w-full text-center py-2.5 rounded-xl bg-stone-800 text-stone-400 text-xs font-semibold">
+                    <i class="fa-solid fa-lock mr-1.5"></i> Cổng Quản Trị Hệ Thống
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Body -->
+    <main id="main-content" class="flex-1">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-thaicard border-t border-stone-800/80 pt-16 pb-12 mt-20 text-stone-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
+                <!-- Column 1: Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center font-black text-stone-950 text-xl">
+                            TB
+                        </div>
+                        <span class="text-2xl font-black tracking-wider text-amber-400">THAIBEER</span>
+                    </div>
+                    <p class="text-xs text-stone-400 leading-relaxed pr-6">
+                        ThaiBeer tự hào mang đến trải nghiệm bia hoàng gia Thái Lan đỉnh cao với nguồn nguyên liệu hoa bia Saaz và mạch nha lúa mạch thượng hạng. Thiết kế đậm chất Đông Nam Á cùng chất lượng quốc tế.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
+                            <i class="fa-brands fa-youtube"></i>
+                        </span>
+                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Sản Phẩm</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="/danh-muc/bia-chai-thai" class="hover:text-amber-400 transition">Bia Chai Thái Cao Cấp</a></li>
+                        <li><a href="/danh-muc/bia-lon-thai" class="hover:text-amber-400 transition">Bia Lon Tiện Lợi</a></li>
+                        <li><a href="/danh-muc/bia-tuoi-craft" class="hover:text-amber-400 transition">Bia Tươi & Craft Thủ Công</a></li>
+                        <li><a href="/danh-muc/hop-qua-phu-kien" class="hover:text-amber-400 transition">Hộp Quà & Phụ Kiện</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Corporate -->
+                <div>
+                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Về ThaiBeer</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="/tin-tuc" class="hover:text-amber-400 transition">Văn Hóa Bia Thái</a></li>
+                        <li><a href="/tin-tuc" class="hover:text-amber-400 transition">Quy Trình Nấu Men Bia</a></li>
+                        <li><a href="/lien-he" class="hover:text-amber-400 transition">Chính Sách Nhà Phân Phối</a></li>
+                        <li><a href="/lien-he" class="hover:text-amber-400 transition">Hệ Thống Nhà Hàng & Bar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact & Hotlines -->
+                <div>
+                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Hỗ Trợ & Liên Hệ</h4>
+                    <ul class="space-y-3 text-xs">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-location-dot text-amber-500 mt-1"></i>
+                            <span>Văn phòng đại diện: Tòa nhà Bitexco, Q.1, TP. Hồ Chí Minh</span>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone text-amber-500"></i>
+                            <span class="text-stone-200 font-bold">1900 8888 / 0909 123 456</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-amber-500"></i>
+                            <span>contact@thaibeer.vn</span>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - SystemNewsManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Bottom Copyright & Legal -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+                <p>© @DateTime.Now.Year ThaiBeer Vietnam. All rights reserved. Vận hành ổn định trên nền tảng Windows IIS HOSTVN.</p>
+                <div class="flex items-center gap-4">
+                    <a href="/quan-tri" class="hover:text-amber-400 transition flex items-center gap-1.5 text-stone-400">
+                        <i class="fa-solid fa-lock text-[10px]"></i> Đăng Nhập Quản Trị
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Global Client Scripts: Turbo Reconnect & Swiper Initialization -->
+    <script>
+        function initializeThaiBeerUI() {
+            // 1. Khởi tạo lại Swiper Hero Banner
+            if (document.querySelector(".hero-swiper")) {
+                new Swiper(".hero-swiper", {
+                    loop: true,
+                    speed: 800,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    effect: "fade",
+                    fadeEffect: { crossFade: true }
+                });
+            }
+
+            // 2. Khởi tạo lại Swiper Sản phẩm nổi bật 60fps
+            if (document.querySelector(".product-swiper")) {
+                new Swiper(".product-swiper", {
+                    slidesPerView: 1.2,
+                    spaceBetween: 16,
+                    grabCursor: true,
+                    navigation: {
+                        nextEl: ".product-next",
+                        prevEl: ".product-prev",
+                    },
+                    breakpoints: {
+                        640: { slidesPerView: 2.2, spaceBetween: 20 },
+                        1024: { slidesPerView: 3.5, spaceBetween: 24 },
+                        1280: { slidesPerView: 4, spaceBetween: 28 }
+                    }
+                });
+            }
+
+            // 3. Xử lý nút Mobile Menu
+            const btn = document.getElementById("mobileMenuBtn");
+            const drawer = document.getElementById("mobileDrawer");
+            if (btn && drawer) {
+                btn.onclick = function() {
+                    drawer.classList.toggle("hidden");
+                };
+            }
+        }
+
+        // Kích hoạt khi trang tải lần đầu hoặc khi Turbo Drive điều hướng trang thành công
+        document.addEventListener("turbo:load", initializeThaiBeerUI);
+        document.addEventListener("DOMContentLoaded", initializeThaiBeerUI);
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

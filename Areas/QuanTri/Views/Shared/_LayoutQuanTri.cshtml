@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Quản Trị ThaiBeer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        thaigold: '#D4AF37',
+                        thaiamber: '#F59E0B',
+                        thaidark: '#121214',
+                        thaihover: '#22201E'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-100 flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-stone-900 border-r border-stone-800 flex flex-col justify-between shrink-0 hidden md:flex">
+        <div>
+            <div class="p-5 border-b border-stone-800 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center font-black text-stone-950 text-xl shadow-lg shadow-amber-500/20">
+                    TB
+                </div>
+                <div>
+                    <h1 class="font-bold text-amber-400 text-lg leading-tight tracking-wider">THAIBEER</h1>
+                    <span class="text-xs text-stone-400 font-medium">Hệ Thống Quản Trị</span>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-1.5 text-sm font-medium">
+                <a href="/quan-tri" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                    <i class="fa-solid fa-chart-pie w-5 text-center text-amber-500"></i>
+                    <span>Tổng quan</span>
+                </a>
+                <a href="/quan-tri/san-pham" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                    <i class="fa-solid fa-beer-mug-empty w-5 text-center text-amber-500"></i>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+                <a href="/quan-tri/danh-muc" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                    <i class="fa-solid fa-tags w-5 text-center text-amber-500"></i>
+                    <span>Danh mục sản phẩm</span>
+                </a>
+                <a href="/quan-tri/lien-he" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                    <i class="fa-solid fa-handshake w-5 text-center text-amber-500"></i>
+                    <span>Liên hệ & Hợp tác</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-4 border-t border-stone-800">
+            <a href="/" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-stone-800 hover:bg-stone-700 text-amber-400 text-sm font-semibold transition">
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                <span>Xem Website</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0">
+        <!-- Topbar -->
+        <header class="h-16 bg-stone-900/80 backdrop-blur-md border-b border-stone-800 px-6 flex items-center justify-between sticky top-0 z-30">
+            <div class="flex items-center gap-3">
+                <span class="text-sm text-stone-400">Trang Quản Trị Hệ Thống</span>
+                <span class="text-stone-600">/</span>
+                <span class="text-sm font-semibold text-amber-400">@ViewData["Title"]</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 text-xs bg-amber-500/10 text-amber-400 px-3 py-1.5 rounded-full border border-amber-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    IIS Production Ready
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="p-6 flex-1 overflow-y-auto">
+            @if (TempData["ThongBaoThanhCong"] != null)
+            {
+                <div class="mb-6 p-4 rounded-xl bg-emerald-950/70 border border-emerald-700/50 text-emerald-300 flex items-center gap-3 shadow-lg shadow-emerald-950/30">
+                    <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                    <p class="text-sm font-medium">@TempData["ThongBaoThanhCong"]</p>
+                </div>
+            }
+
+            @if (TempData["ThongBaoLoi"] != null)
+            {
+                <div class="mb-6 p-4 rounded-xl bg-rose-950/70 border border-rose-700/50 text-rose-300 flex items-center gap-3 shadow-lg shadow-rose-950/30">
+                    <i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg"></i>
+                    <p class="text-sm font-medium">@TempData["ThongBaoLoi"]</p>
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

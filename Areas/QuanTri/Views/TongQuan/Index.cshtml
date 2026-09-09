@@ -1,0 +1,122 @@
+@model ThaiBeer.Areas.QuanTri.ViewModels.TongQuanViewModel
+@{
+    ViewData["Title"] = "Tổng Quan Bảng Điều Khiển";
+}
+
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-stone-400">Tổng sản phẩm</span>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i class="fa-solid fa-beer-mug-empty"></i>
+            </div>
+        </div>
+        <p class="text-3xl font-extrabold text-stone-100 mt-4">@Model.TongSanPham</p>
+        <p class="text-xs text-amber-500 mt-2 font-medium">Bia chai, bia lon & craft</p>
+    </div>
+
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-stone-400">Danh mục sản phẩm</span>
+            <div class="w-10 h-10 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
+                <i class="fa-solid fa-tags"></i>
+            </div>
+        </div>
+        <p class="text-3xl font-extrabold text-stone-100 mt-4">@Model.TongDanhMuc</p>
+        <p class="text-xs text-yellow-500 mt-2 font-medium">Phân loại hiển thị</p>
+    </div>
+
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-stone-400">Bài viết & Tin tức</span>
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                <i class="fa-solid fa-newspaper"></i>
+            </div>
+        </div>
+        <p class="text-3xl font-extrabold text-stone-100 mt-4">@Model.TongBaiViet</p>
+        <p class="text-xs text-blue-400 mt-2 font-medium">Văn hóa & kiến thức bia</p>
+    </div>
+
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-stone-400">Liên hệ đại lý mới</span>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+        </div>
+        <p class="text-3xl font-extrabold text-emerald-400 mt-4">@Model.TongLienHeMoiChuaXuLy</p>
+        <p class="text-xs text-emerald-500 mt-2 font-medium">Cần xử lý liên hệ</p>
+    </div>
+</div>
+
+<!-- Two Column Layout: Recent Products and Inquiries -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Recent Products -->
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-stone-800">
+            <h2 class="text-lg font-bold text-stone-100 flex items-center gap-2">
+                <i class="fa-solid fa-wine-bottle text-amber-500"></i>
+                Sản phẩm vừa cập nhật
+            </h2>
+            <a href="/quan-tri/san-pham" class="text-xs text-amber-400 hover:underline font-semibold">Xem tất cả</a>
+        </div>
+
+        <div class="space-y-4">
+            @foreach (var sp in Model.SanPhamMoi)
+            {
+                <div class="flex items-center justify-between p-3 rounded-xl bg-stone-950/60 border border-stone-800/80">
+                    <div class="flex items-center gap-3">
+                        <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="w-12 h-12 object-cover rounded-lg bg-stone-800 border border-stone-700" loading="lazy" />
+                        <div>
+                            <p class="text-sm font-bold text-stone-200 line-clamp-1">@sp.TenSanPham</p>
+                            <span class="text-xs text-stone-400">@sp.DanhMuc?.TenDanhMuc - @sp.NongDoCon% ABV</span>
+                        </div>
+                    </div>
+                    <a href="/quan-tri/san-pham/chinh-sua/@sp.Id" class="text-xs text-stone-400 hover:text-amber-400 p-2">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Recent Agency Leads -->
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-stone-800">
+            <h2 class="text-lg font-bold text-stone-100 flex items-center gap-2">
+                <i class="fa-solid fa-handshake text-emerald-400"></i>
+                Yêu cầu hợp tác đại lý mới nhất
+            </h2>
+            <a href="/quan-tri/lien-he" class="text-xs text-amber-400 hover:underline font-semibold">Xem tất cả</a>
+        </div>
+
+        <div class="space-y-4">
+            @if (!Model.LienHeMoiNhat.Any())
+            {
+                <p class="text-sm text-stone-500 text-center py-6">Chưa có yêu cầu liên hệ nào.</p>
+            }
+            else
+            {
+                @foreach (var lh in Model.LienHeMoiNhat)
+                {
+                    <div class="p-3.5 rounded-xl bg-stone-950/60 border border-stone-800/80">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-bold text-stone-200">@lh.HoTen</span>
+                            @if (lh.DaXuLy)
+                            {
+                                <span class="text-[10px] px-2 py-0.5 rounded-full bg-stone-800 text-stone-400">Đã xử lý</span>
+                            }
+                            else
+                            {
+                                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Mới</span>
+                            }
+                        </div>
+                        <p class="text-xs text-amber-400 font-mono">@lh.SoDienThoai - @(lh.DiaChiKhuVuc ?? "Toàn quốc")</p>
+                        <p class="text-xs text-stone-400 mt-1 line-clamp-1">@lh.NoiDungGhiChu</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

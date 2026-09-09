@@ -1,0 +1,73 @@
+@model IEnumerable<ThaiBeer.Core.Domain.Entities.DanhMuc>
+@{
+    ViewData["Title"] = "Quản Lý Danh Mục Sản Phẩm";
+}
+
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-stone-100">Danh Mục Sản Phẩm</h1>
+        <p class="text-xs text-stone-400 mt-1">Phân loại hiển thị sản phẩm trên menu và trang chủ</p>
+    </div>
+    <a href="/quan-tri/danh-muc/them-moi" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition">
+        <i class="fa-solid fa-plus"></i>
+        Thêm Danh Mục
+    </a>
+</div>
+
+<div class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-stone-300">
+            <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-b border-stone-800">
+                <tr>
+                    <th class="py-3.5 px-4">Thứ tự</th>
+                    <th class="py-3.5 px-4">Tên Danh Mục</th>
+                    <th class="py-3.5 px-4">Đường Dẫn Slug</th>
+                    <th class="py-3.5 px-4 text-center">Số Sản Phẩm</th>
+                    <th class="py-3.5 px-4 text-center">Trạng Thái</th>
+                    <th class="py-3.5 px-4 text-right">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800/80">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-stone-800/50 transition">
+                        <td class="py-3 px-4 font-mono text-amber-400">@item.ThuTuHienThi</td>
+                        <td class="py-3 px-4 font-bold text-stone-100">@item.TenDanhMuc</td>
+                        <td class="py-3 px-4 font-mono text-xs text-stone-400">/danh-muc/@item.DuongDanSlug</td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-stone-800 text-stone-300">
+                                @(item.SanPhams?.Count ?? 0)
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            @if (item.TrangThaiHoatDong)
+                            {
+                                <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">Hoạt động</span>
+                            }
+                            else
+                            {
+                                <span class="text-[11px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 font-medium">Ẩn</span>
+                            }
+                        </td>
+                        <td class="py-3 px-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="/danh-muc/@item.DuongDanSlug" target="_blank" class="p-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-stone-200 transition" title="Xem danh mục trên web">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                </a>
+                                <a href="/quan-tri/danh-muc/chinh-sua/@item.Id" class="p-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition" title="Chỉnh sửa">
+                                    <i class="fa-solid fa-pen-to-square text-xs"></i>
+                                </a>
+                                <form method="post" action="/quan-tri/danh-muc/xoa/@item.Id" onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');" class="inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition" title="Xóa">
+                                        <i class="fa-solid fa-trash text-xs"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

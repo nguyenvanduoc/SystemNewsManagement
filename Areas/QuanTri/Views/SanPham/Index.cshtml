@@ -1,0 +1,136 @@
+@model IEnumerable<ThaiBeer.Core.Domain.Entities.SanPham>
+@{
+    ViewData["Title"] = "Quản Lý Sản Phẩm";
+}
+
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-stone-100">Danh Sách Sản Phẩm ThaiBeer</h1>
+        <p class="text-xs text-stone-400 mt-1">Quản lý kho sản phẩm bia chai, lon, bia tươi và quà tặng</p>
+    </div>
+    <a href="/quan-tri/san-pham/them-moi" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition">
+        <i class="fa-solid fa-plus"></i>
+        Thêm Sản Phẩm Mới
+    </a>
+</div>
+
+<!-- Filter Bar -->
+<div class="bg-stone-900 border border-stone-800 rounded-2xl p-4 mb-6">
+    <form method="get" action="/quan-tri/san-pham" class="flex flex-wrap items-center gap-4">
+        <div class="flex-1 min-w-[240px]">
+            <input type="text" name="tuKhoa" value="@ViewBag.TuKhoa" placeholder="Tìm kiếm theo tên sản phẩm..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="w-48">
+            <select name="danhMucId" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+                <option value="">-- Tất cả danh mục --</option>
+                @foreach (var dm in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.DanhMucs)
+                {
+                    <option value="@dm.Value" selected="@(dm.Selected ? "selected" : null)">@dm.Text</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-sm font-semibold transition">
+            <i class="fa-solid fa-filter mr-1.5 text-amber-500"></i> Lọc dữ liệu
+        </button>
+        @if (ViewBag.DanhMucHienTai != null || !string.IsNullOrWhiteSpace(ViewBag.TuKhoa))
+        {
+            <a href="/quan-tri/san-pham" class="text-xs text-stone-400 hover:text-amber-400 self-center">Xóa bộ lọc</a>
+        }
+    </form>
+</div>
+
+<!-- Product Table -->
+<div class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-stone-300">
+            <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-b border-stone-800">
+                <tr>
+                    <th class="py-3.5 px-4">Ảnh WebP</th>
+                    <th class="py-3.5 px-4">Tên Sản Phẩm</th>
+                    <th class="py-3.5 px-4">Danh Mục</th>
+                    <th class="py-3.5 px-4">Quy Cách & Cồn</th>
+                    <th class="py-3.5 px-4 text-center">Trang Chủ</th>
+                    <th class="py-3.5 px-4 text-center">Trạng Thái</th>
+                    <th class="py-3.5 px-4 text-right">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800/80">
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="py-8 text-center text-stone-500">Không tìm thấy sản phẩm nào phù hợp.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-stone-800/50 transition">
+                            <td class="py-3 px-4">
+                                <img src="@item.HinhAnhWebP" alt="@item.TenSanPham" class="w-14 h-14 object-cover rounded-xl bg-stone-800 border border-stone-700 shadow-sm" loading="lazy" />
+                            </td>
+                            <td class="py-3 px-4">
+                                <p class="font-bold text-stone-100 line-clamp-1">@item.TenSanPham</p>
+                                <span class="text-xs text-stone-500 font-mono">/@item.DuongDanSlug</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold bg-stone-800 text-amber-400 border border-stone-700">
+                                    @item.DanhMuc?.TenDanhMuc
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <div class="text-xs">
+                                    <span class="text-stone-300 font-medium">@item.DungTichMl ml</span> • 
+                                    <span class="text-amber-400 font-semibold">@item.NongDoCon% ABV</span>
+                                </div>
+                                <span class="text-[11px] text-stone-500">@item.QuyCachDongGoi</span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                @if (item.HienThiTrangChu)
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+                                        <i class="fa-solid fa-star text-[10px]"></i> Nổi bật
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-[11px] text-stone-600">-</span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                @if (item.TrangThaiHoatDong)
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Đang bán
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 font-medium">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Tạm ẩn
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="/san-pham/@item.DuongDanSlug" target="_blank" class="p-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-stone-200 transition" title="Xem trên web">
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </a>
+                                    <a href="/quan-tri/san-pham/chinh-sua/@item.Id" class="p-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition" title="Chỉnh sửa">
+                                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+                                    </a>
+                                    <form method="post" action="/quan-tri/san-pham/xoa/@item.Id" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition" title="Xóa">
+                                            <i class="fa-solid fa-trash text-xs"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

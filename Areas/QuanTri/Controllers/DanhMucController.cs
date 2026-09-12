@@ -105,6 +105,7 @@ public class DanhMucController : Controller
         existing.MoTa = danhMuc.MoTa;
         existing.ThuTuHienThi = danhMuc.ThuTuHienThi;
         existing.TrangThaiHoatDong = danhMuc.TrangThaiHoatDong;
+        existing.ToneMau = string.IsNullOrWhiteSpace(danhMuc.ToneMau) ? "#007A29" : danhMuc.ToneMau;
         existing.NgayCapNhat = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();

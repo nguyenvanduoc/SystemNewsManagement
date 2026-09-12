@@ -21,6 +21,7 @@
                 <tr>
                     <th class="py-3.5 px-4">Thứ tự</th>
                     <th class="py-3.5 px-4">Tên Danh Mục</th>
+                    <th class="py-3.5 px-4 text-center">Tone Màu</th>
                     <th class="py-3.5 px-4">Đường Dẫn Slug</th>
                     <th class="py-3.5 px-4 text-center">Số Sản Phẩm</th>
                     <th class="py-3.5 px-4 text-center">Trạng Thái</th>
@@ -33,6 +34,12 @@
                     <tr class="hover:bg-stone-800/50 transition">
                         <td class="py-3 px-4 font-mono text-amber-400">@item.ThuTuHienThi</td>
                         <td class="py-3 px-4 font-bold text-stone-100">@item.TenDanhMuc</td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono border border-white/10" style="background-color: @(item.ToneMau ?? "#007A29")20; color: @(item.ToneMau ?? "#007A29");">
+                                <span class="w-2.5 h-2.5 rounded-full" style="background-color: @(item.ToneMau ?? "#007A29");"></span>
+                                @(item.ToneMau ?? "#007A29")
+                            </span>
+                        </td>
                         <td class="py-3 px-4 font-mono text-xs text-stone-400">/danh-muc/@item.DuongDanSlug</td>
                         <td class="py-3 px-4 text-center">
                             <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-stone-800 text-stone-300">

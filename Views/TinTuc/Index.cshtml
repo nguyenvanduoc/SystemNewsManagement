@@ -1,15 +1,20 @@
 @model IReadOnlyList<ThaiBeer.Core.Domain.Entities.BaiViet>
 @{
-    ViewData["Title"] = "Văn Hóa & Tin Tức Bia Thái";
-    ViewData["Description"] = "Cập nhật các bài viết về văn hóa ẩm thực Thái Lan, nghệ thuật nấu bia và sự kiện thương hiệu ThaiBeer.";
+    ViewData["Title"] = "Tin Tức & Sự Kiện";
+    ViewData["Description"] = "Cập nhật các thông cáo báo chí, hoạt động văn hóa và sự kiện thương hiệu mới nhất.";
 }
 
-<div class="bg-thaicard border-b border-stone-800 py-12">
+<div class="bg-[#E5E8E7] border-b border-gray-300 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Góc Tri Thức & Văn Hóa</span>
-        <h1 class="text-3xl sm:text-4xl font-black text-stone-100 mt-2">Tin Tức & Văn Hóa Thưởng Thức</h1>
-        <p class="text-xs sm:text-sm text-stone-400 mt-2 max-w-2xl">
-            Khám phá câu chuyện đằng sau từng mẻ bia ThaiBeer và phong vị ẩm thực đặc sắc xứ sở Chùa Vàng.
+        <nav class="flex items-center gap-2 text-xs text-[#666666] mb-3">
+            <a href="/" class="hover:text-[#007A29] transition">Trang Chủ</a>
+            <span>/</span>
+            <span class="text-[#222222] font-semibold">Tin Tức</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#222222] uppercase tracking-tight">TIN TỨC & SỰ KIỆN</h1>
+        <div class="w-16 h-1 bg-[#007A29] mt-3"></div>
+        <p class="text-xs sm:text-sm text-[#555555] mt-3 max-w-2xl">
+            Cập nhật những thông cáo báo chí, hoạt động phát triển bền vững và câu chuyện văn hóa thưởng thức đồ uống thượng hạng.
         </p>
     </div>
 </div>
@@ -18,28 +23,28 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach (var tin in Model)
         {
-            <article class="bg-thaicard border border-stone-800 rounded-3xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 shadow-xl flex flex-col justify-between">
+            <article class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
                 <div>
                     <div class="aspect-video overflow-hidden">
                         <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     </div>
                     <div class="p-6">
-                        <div class="flex items-center gap-2 text-[11px] text-stone-500 font-mono mb-2">
-                            <span>@tin.NgayTao.ToString("dd/MM/yyyy")</span>
+                        <div class="flex items-center gap-2 text-[11px] text-[#666666] font-mono mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> @tin.NgayTao.ToString("dd/MM/yyyy")</span>
                             <span>•</span>
                             <span>@tin.TacGia</span>
                         </div>
-                        <h2 class="text-lg font-bold text-stone-100 line-clamp-2 group-hover:text-amber-400 transition-colors">
+                        <h2 class="text-base font-bold text-[#222222] line-clamp-2 group-hover:text-[#007A29] transition-colors leading-snug">
                             <a href="/tin-tuc/@tin.DuongDanSlug">@tin.TieuDe</a>
                         </h2>
-                        <p class="text-xs text-stone-400 mt-3 line-clamp-3 leading-relaxed">
+                        <p class="text-xs text-[#666666] mt-3 line-clamp-3 leading-relaxed">
                             @tin.TomTat
                         </p>
                     </div>
                 </div>
 
                 <div class="p-6 pt-0">
-                    <a href="/tin-tuc/@tin.DuongDanSlug" class="inline-flex items-center gap-2 text-xs font-bold text-amber-400 hover:underline">
+                    <a href="/tin-tuc/@tin.DuongDanSlug" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#007A29] hover:underline">
                         Đọc toàn bộ bài viết <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
@@ -47,3 +52,4 @@
         }
     </div>
 </div>
+

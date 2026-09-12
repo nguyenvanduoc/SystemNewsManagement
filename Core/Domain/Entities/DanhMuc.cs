@@ -30,6 +30,10 @@ public class DanhMuc : BaseEntity
 
     public bool TrangThaiHoatDong { get; set; } = true;
 
+    [MaxLength(30)]
+    [Column(TypeName = "varchar(30)")]
+    public string? ToneMau { get; set; } = "#007A29";
+
     // Navigation Property
     public virtual ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
 }

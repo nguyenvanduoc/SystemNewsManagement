@@ -10,5 +10,7 @@ public class DanhMucSanPhamViewModel
     public int TongSoSanPham { get; set; }
     public int TrangHienTai { get; set; } = 1;
     public int SoLuongMoiTrang { get; set; } = 12;
+    public string? TuKhoa { get; set; }
+    public string? SapXep { get; set; }
     public int TongSoTrang => (int)Math.Ceiling((double)TongSoSanPham / SoLuongMoiTrang);
 }

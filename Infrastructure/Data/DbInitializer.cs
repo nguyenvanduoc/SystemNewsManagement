@@ -10,6 +10,31 @@ public static class DbInitializer
         // Tự động tạo bảng nếu chưa có
         await context.Database.EnsureCreatedAsync();
 
+        // Đảm bảo cột ToneMau tồn tại nếu bảng đã được tạo trước đó
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync(@"
+                IF EXISTS (SELECT * FROM sys.tables WHERE name = 'DanhMucs')
+                BEGIN
+                    IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('DanhMucs') AND name = 'ToneMau')
+                    BEGIN
+                        EXEC('ALTER TABLE DanhMucs ADD ToneMau varchar(30) NULL DEFAULT ''#007A29'';');
+                    END
+                    EXEC('UPDATE DanhMucs SET ToneMau = ''#007A29'' WHERE ToneMau IS NULL;');
+                END
+
+                IF EXISTS (SELECT * FROM sys.tables WHERE name = 'SanPhams')
+                BEGIN
+                    UPDATE SanPhams 
+                    SET TenSanPham = 'THAIBEER SLEEK', 
+                        MoTaNgan = N'Thái bạc lon cao', 
+                        HinhAnhWebP = '/images/logo/BiaThai.png'
+                    WHERE ThuTuHienThi = 1;
+                END
+            ");
+        }
+        catch { }
+
         // Kiểm tra nếu đã có dữ liệu thì không seed lại
         if (await context.DanhMucs.AnyAsync())
         {
@@ -24,7 +49,8 @@ public static class DbInitializer
             MoTa = "Các dòng bia chai thủy tinh hảo hạng, giữ trọn hương vị sảng khoái mát lạnh và phong cách hoàng gia.",
             HinhAnhWebP = "/images/categories/bia-chai.webp",
             ThuTuHienThi = 1,
-            TrangThaiHoatDong = true
+            TrangThaiHoatDong = true,
+            ToneMau = "#007A29"
         };
 
         var danhMucLon = new DanhMuc
@@ -34,7 +60,8 @@ public static class DbInitializer
             MoTa = "Bia lon thời thượng, tiện lợi cho các bữa tiệc ngoài trời, dã ngoại và hội họp bạn bè.",
             HinhAnhWebP = "/images/categories/bia-lon.webp",
             ThuTuHienThi = 2,
-            TrangThaiHoatDong = true
+            TrangThaiHoatDong = true,
+            ToneMau = "#007A29"
         };
 
         var danhMucCraft = new DanhMuc
@@ -44,7 +71,8 @@ public static class DbInitializer
             MoTa = "Hương vị thủ công độc đáo với men bia sống và hoa bia tuyển chọn, độ đắng êm dịu.",
             HinhAnhWebP = "/images/categories/bia-craft.webp",
             ThuTuHienThi = 3,
-            TrangThaiHoatDong = true
+            TrangThaiHoatDong = true,
+            ToneMau = "#D4AF37"
         };
 
         var danhMucQuaTang = new DanhMuc
@@ -54,7 +82,8 @@ public static class DbInitializer
             MoTa = "Bộ sưu tập ly thủy tinh pha lê cao cấp và set quà tặng đặc biệt cho đối tác.",
             HinhAnhWebP = "/images/categories/qua-tang.webp",
             ThuTuHienThi = 4,
-            TrangThaiHoatDong = true
+            TrangThaiHoatDong = true,
+            ToneMau = "#900C13"
         };
 
         context.DanhMucs.AddRange(danhMucChai, danhMucLon, danhMucCraft, danhMucQuaTang);

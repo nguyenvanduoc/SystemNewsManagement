@@ -32,6 +32,7 @@ public class ThaiBeerDbContext : DbContext
 
             entity.Property(e => e.DuongDanSlug).IsUnicode(false);
             entity.Property(e => e.HinhAnhWebP).IsUnicode(false);
+            entity.Property(e => e.ToneMau).IsUnicode(false).HasMaxLength(30);
         });
 
         // Cấu hình SanPham

@@ -10,10 +10,10 @@
     <meta property="og:description" content="@(ViewData["Description"] ?? "Khám phá thế giới bia Thái đẳng cấp với ThaiBeer.")" />
     <meta property="og:type" content="website" />
 
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Montserrat (Chuẩn thaibeer.vn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
     <!-- Turbo Drive (Hotwired) - Chuyển trang mượt mà không chớp trắng -->
     <script src="https://cdn.jsdelivr.net/npm/@@hotwired/turbo@8.0.5/dist/turbo.es2017-umd.js" defer></script>
@@ -21,23 +21,32 @@
 
     <!-- Swiper Slider CSS & JS - 60fps Mobile Swipe Touch -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <!-- Tailwind CSS CDN với bảng màu ThaiBeer Hoàng Gia -->
+   
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        thaigold: '#D4AF37',
-                        thaiamber: '#F59E0B',
-                        thaidark: '#0B0B0C',
-                        thaicard: '#141416',
-                        thaimuted: '#242429'
+                        hnkgreen: '#007A29',
+                        hnkdeep: '#003110',
+                        hnkred: '#E31B23',
+                        hnkbody: '#F4F4F4',
+                        hnksub: '#E5E8E7',
+                        hnkfooter: '#E0E2E1',
+                        hnktext: '#222222',
+                        hnkmuted: '#666666',
+                        // Compatibility aliases
+                        thaigold: '#007A29',
+                        thaiamber: '#007A29',
+                        thaidark: '#FFFFFF',
+                        thaicard: '#FFFFFF',
+                        thaimuted: '#F4F4F4'
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif']
@@ -50,80 +59,137 @@
         /* Turbo progress bar styling */
         .turbo-progress-bar {
             height: 3px;
-            background: linear-gradient(90deg, #F59E0B, #D4AF37, #FDE047);
+            background: #007A29;
         }
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0B0B0C; }
-        ::-webkit-scrollbar-thumb { background: #2A2A30; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        ::-webkit-scrollbar-track { background: #F4F4F4; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #007A29; }
+
+        /* Mobile Drag Scrollbar (Thanh kéo trái) */
+        .category-swiper, .product-swiper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .category-swiper .swiper-slide, .product-swiper .swiper-slide {
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+        .category-scrollbar, .product-scrollbar {
+            height: 6px !important;
+            background: #E5E7EB !important;
+            border-radius: 9999px !important;
+            position: relative !important;
+            margin-top: 1.25rem !important;
+            width: 100% !important;
+        }
+        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag {
+            background: #007A29 !important;
+            border-radius: 9999px !important;
+            height: 100% !important;
+            cursor: grab;
+        }
+        .product-scrollbar .swiper-scrollbar-drag {
+            background: #B91C1C !important;
+        }
+        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
-<body class="bg-thaidark text-stone-100 font-sans antialiased selection:bg-amber-500 selection:text-stone-950 flex flex-col min-h-screen">
+<body class="bg-[#F4F4F4] text-[#222222] font-sans antialiased selection:bg-[#007A29] selection:text-white flex flex-col min-h-screen">
 
-    <!-- Top Notice Bar: Quy chuẩn uống có trách nhiệm -->
-    <div class="bg-amber-500/10 border-b border-amber-500/20 py-1.5 px-4 text-center text-xs text-amber-300 font-medium">
-        <span><i class="fa-solid fa-shield-halved mr-1"></i> Sản phẩm dành cho người trên 18 tuổi. Đã uống rượu bia - Không lái xe.</span>
-    </div>
-
-    <!-- Main Navigation Bar (Sticky Glassmorphism) -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-thaidark/90 border-b border-stone-800/80 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="/" class="flex items-center gap-3 group">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 flex items-center justify-center font-black text-stone-950 text-2xl shadow-lg shadow-amber-500/30 group-hover:scale-105 transition-transform duration-300">
-                    TB
-                </div>
-                <div>
-                    <span class="block text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 leading-none">
-                        THAIBEER
-                    </span>
-                    <span class="text-[10px] tracking-[0.25em] text-stone-400 font-bold uppercase block mt-1">Premium Royal Taste</span>
-                </div>
-            </a>
-
-            <!-- Desktop Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-                <a href="/" class="text-stone-300 hover:text-amber-400 transition-colors">Trang Chủ</a>
-                <a href="/san-pham" class="text-stone-300 hover:text-amber-400 transition-colors">Bộ Sưu Tập Sản Phẩm</a>
-                <a href="/tin-tuc" class="text-stone-300 hover:text-amber-400 transition-colors">Văn Hóa & Tin Tức</a>
-                <a href="/lien-he" class="text-stone-300 hover:text-amber-400 transition-colors">Hợp Tác Đại Lý</a>
-            </nav>
-
-            <!-- Call to Action & Hotline -->
-            <div class="hidden lg:flex items-center gap-4">
-                <a href="tel:19008888" class="flex items-center gap-2 text-xs font-semibold text-stone-400 hover:text-amber-400 transition">
-                    <span class="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center text-amber-400 border border-stone-700">
-                        <i class="fa-solid fa-phone-volume"></i>
-                    </span>
-                    <div>
-                        <span class="block text-[10px] text-stone-500">Hotline Đặt Hàng</span>
-                        <span class="font-bold text-amber-400 text-sm">1900 8888</span>
-                    </div>
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <!-- Desktop Header (Clean White Style) -->
+        <div class="hidden lg:block bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+                <!-- Brand Logo (Chuẩn ThaiBeer.vn to rõ nét) -->
+                <a href="/" class="flex items-center gap-3.5 group py-1">
+                    <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-20 lg:h-[84px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md shadow-sm" />
+                    <span class="font-['Montserrat'] text-2xl lg:text-3xl font-black text-[#B30D14] uppercase tracking-wider hidden sm:inline-block">THAI BEER</span>
                 </a>
-                <a href="/lien-he" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-stone-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition-all hover:scale-105">
-                    Đăng Ký Đại Lý
-                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="flex items-center text-sm font-semibold text-[#222222]">
+                    <a href="/" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Trang Chủ</a>
+                    <span class="text-gray-300 select-none">|</span>
+                    <a href="/san-pham" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Bộ Sưu Tập Sản Phẩm</a>
+                    <span class="text-gray-300 select-none">|</span>
+                    <a href="/tin-tuc" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Văn Hóa & Tin Tức</a>
+                    <span class="text-gray-300 select-none">|</span>
+                    <a href="/lien-he" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Hợp Tác Đại Lý</a>
+                </nav>
+
+                <!-- Call to Action & Hotline Pill -->
+                <div class="flex items-center gap-3">
+                    <a href="tel:0965156658" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B30D14] bg-[#FFF5F5] text-xs text-[#222222] hover:bg-[#B30D14] hover:text-white transition group shadow-sm">
+                        <span class="w-6 h-6 rounded-full bg-[#B30D14] text-white flex items-center justify-center group-hover:bg-white group-hover:text-[#B30D14] transition">
+                            <i class="fa-solid fa-phone text-[10px]"></i>
+                        </span>
+                        <div class="text-left">
+                            <span class="block text-[9px] text-[#666666] uppercase tracking-wider group-hover:text-white/80 leading-tight">Hotline</span>
+                            <span class="font-bold text-[#B30D14] group-hover:text-white text-xs leading-none">0965 156 658</span>
+                        </div>
+                    </a>
+                    <a href="/lien-he" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B30D14] hover:bg-[#8E090F] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-105">
+                        <span>Đăng Ký Đại Lý</span>
+                        <span class="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">→</span>
+                    </a>
+                </div>
             </div>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobileMenuBtn" type="button" class="md:hidden p-2.5 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 focus:outline-none" aria-label="Menu">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
-            </button>
         </div>
 
-        <!-- Mobile Drawer Menu -->
-        <div id="mobileDrawer" class="hidden md:hidden bg-thaicard border-b border-stone-800 px-6 py-6 space-y-4">
-            <a href="/" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Trang Chủ</a>
-            <a href="/san-pham" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Bộ Sưu Tập Sản Phẩm</a>
-            <a href="/tin-tuc" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Văn Hóa & Tin Tức</a>
-            <a href="/lien-he" class="block text-base font-bold text-stone-200 hover:text-amber-400 py-2 border-b border-stone-800">Hợp Tác Đại Lý</a>
+        <!-- Mobile Header (Chuẩn 100% ThaiBeer.vn: Nền Đỏ Hoàng Gia #900C13, Hamburger Trắng, Logo To Giữa, Kính Lúp Vàng) -->
+        <div class="lg:hidden bg-[#900C13] border-b border-[#73090F] shadow-md">
+            <div class="px-4 h-20 flex items-center justify-between relative">
+                <!-- Hamburger Menu Bên Trái -->
+                <button id="mobileMenuBtn" type="button" class="w-10 h-10 flex items-center justify-center text-white active:scale-95 transition" aria-label="Menu điều hướng">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+
+                <!-- Logo ThaiBeer Con Voi Nằm Chính Giữa To Rõ Nét Giống thaibeer.vn -->
+                <a href="/" class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center py-1">
+                    <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-16 w-auto object-contain rounded-md shadow-sm" />
+                </a>
+
+                <!-- Nút Tìm Kiếm Tròn Màu Vàng Bên Phải -->
+                <button id="mobileSearchToggleBtn" type="button" class="w-10 h-10 rounded-full bg-[#F5B400] hover:bg-[#E0A400] active:scale-95 text-white flex items-center justify-center shadow-md transition" aria-label="Mở tìm kiếm">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Dropdown Bar (Hiển thị khi click nút kính lúp vàng) -->
+        <div id="mobileSearchBar" class="hidden lg:hidden bg-white border-b border-gray-200 px-4 py-3.5 shadow-md">
+            <form action="/san-pham" method="get" class="flex items-center gap-2">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="mobileSearchInput" name="tuKhoa" placeholder="Tìm kiếm sản phẩm bia Thai..." class="w-full bg-gray-100 border border-gray-300 rounded-full pl-10 pr-4 py-2 text-xs text-gray-800 focus:outline-none focus:border-[#900C13] focus:bg-white transition" />
+                </div>
+                <button type="submit" class="px-4 py-2 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white text-xs font-bold shadow transition">
+                    Tìm
+                </button>
+            </form>
+        </div>
+
+        <!-- Mobile Drawer Menu (Slide Down) -->
+        <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-6 space-y-3 shadow-lg">
+            <a href="/" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Trang Chủ</a>
+            <a href="/san-pham" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Bộ Sưu Tập Sản Phẩm</a>
+            <a href="/tin-tuc" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Văn Hóa & Tin Tức</a>
+            <a href="/lien-he" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Hợp Tác Đại Lý</a>
             <div class="pt-4 flex flex-col gap-3">
-                <a href="/lien-he" class="w-full text-center py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-stone-950 font-bold text-sm">
+                <a href="/lien-he" class="w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
                     Đăng Ký Đại Lý Phân Phối
                 </a>
-                <a href="/quan-tri" class="w-full text-center py-2.5 rounded-xl bg-stone-800 text-stone-400 text-xs font-semibold">
-                    <i class="fa-solid fa-lock mr-1.5"></i> Cổng Quản Trị Hệ Thống
+                <a href="tel:0965156658" class="w-full text-center py-2.5 rounded-full bg-gray-100 text-[#900C13] text-xs font-bold border border-gray-200">
+                    <i class="fa-solid fa-phone mr-1.5"></i> Hotline: 0965 156 658
+                </a>
+                <a href="/quan-tri" class="w-full text-center py-2 rounded-lg text-gray-500 text-xs">
+                    <i class="fa-solid fa-lock mr-1"></i> Cổng Quản Trị Hệ Thống
                 </a>
             </div>
         </div>
@@ -134,82 +200,88 @@
         @RenderBody()
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-thaicard border-t border-stone-800/80 pt-16 pb-12 mt-20 text-stone-400 text-sm">
+    <!-- Footer (Chuẩn ThaiBeer.vn: Nền tối sang trọng #212121, Logo ThaiBeer to 85x100 kèm Text THAI BEER) -->
+    <footer class="bg-[#212121] border-t border-[#333333] pt-14 pb-10 mt-16 text-[#B0B0B0] text-sm font-['Montserrat',sans-serif]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
-                <!-- Column 1: Brand Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#333333]">
+                <!-- Column 1: Brand Info & Logo ThaiBeer To (Như ảnh mẫu từ thaibeer.vn) -->
                 <div class="lg:col-span-2 space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center font-black text-stone-950 text-xl">
-                            TB
+                    <div class="name-logo flex items-center gap-4">
+                        <div class="footer__logo">
+                            <a href="/" class="block group">
+                                <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="w-[85px] h-[100px] object-contain rounded-md shadow-md transition-transform duration-300 group-hover:scale-105" />
+                            </a>
                         </div>
-                        <span class="text-2xl font-black tracking-wider text-amber-400">THAIBEER</span>
+                        <h2 class="name-company text-3xl sm:text-4xl font-black text-white uppercase tracking-wider">THAI BEER</h2>
                     </div>
-                    <p class="text-xs text-stone-400 leading-relaxed pr-6">
-                        ThaiBeer tự hào mang đến trải nghiệm bia hoàng gia Thái Lan đỉnh cao với nguồn nguyên liệu hoa bia Saaz và mạch nha lúa mạch thượng hạng. Thiết kế đậm chất Đông Nam Á cùng chất lượng quốc tế.
+                    <p class="text-xs text-[#AAAAAA] leading-relaxed pr-6">
+                        Với đội ngũ cán bộ, công nhân viên có trình độ tay nghề cao, các thiết bị máy móc hiện đại, đã cập nhật các kiến thức mới nhằm mang đến trải nghiệm bia thượng hạng cho người tiêu dùng Việt Nam.
                     </p>
-                    <div class="flex items-center gap-3 pt-2">
-                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
-                            <i class="fa-brands fa-facebook-f"></i>
+                    <div class="flex items-center gap-3 pt-1">
+                        <span class="w-9 h-9 rounded-full bg-[#2E2E2E] border border-[#444444] flex items-center justify-center text-white hover:text-[#FFBA1D] hover:border-[#FFBA1D] transition cursor-pointer shadow-sm">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
                         </span>
-                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
-                            <i class="fa-brands fa-youtube"></i>
+                        <span class="w-9 h-9 rounded-full bg-[#2E2E2E] border border-[#444444] flex items-center justify-center text-white hover:text-[#FFBA1D] hover:border-[#FFBA1D] transition cursor-pointer shadow-sm">
+                            <i class="fa-brands fa-youtube text-sm"></i>
                         </span>
-                        <span class="w-9 h-9 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-400 hover:text-amber-400 hover:border-amber-500/40 transition cursor-pointer">
-                            <i class="fa-brands fa-tiktok"></i>
+                        <span class="w-9 h-9 rounded-full bg-[#2E2E2E] border border-[#444444] flex items-center justify-center text-white hover:text-[#FFBA1D] hover:border-[#FFBA1D] transition cursor-pointer shadow-sm">
+                            <i class="fa-brands fa-tiktok text-sm"></i>
                         </span>
                     </div>
                 </div>
 
                 <!-- Column 2: Quick Links -->
                 <div>
-                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Sản Phẩm</h4>
-                    <ul class="space-y-2.5 text-xs">
-                        <li><a href="/danh-muc/bia-chai-thai" class="hover:text-amber-400 transition">Bia Chai Thái Cao Cấp</a></li>
-                        <li><a href="/danh-muc/bia-lon-thai" class="hover:text-amber-400 transition">Bia Lon Tiện Lợi</a></li>
-                        <li><a href="/danh-muc/bia-tuoi-craft" class="hover:text-amber-400 transition">Bia Tươi & Craft Thủ Công</a></li>
-                        <li><a href="/danh-muc/hop-qua-phu-kien" class="hover:text-amber-400 transition">Hộp Quà & Phụ Kiện</a></li>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Sản Phẩm</h4>
+                    <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
+                        <li><a href="/danh-muc/bia-chai-thai" class="hover:text-[#FFBA1D] transition">Bia Chai Cao Cấp</a></li>
+                        <li><a href="/danh-muc/bia-lon-thai" class="hover:text-[#FFBA1D] transition">Bia Lon Tiện Lợi</a></li>
+                        <li><a href="/danh-muc/bia-tuoi-craft" class="hover:text-[#FFBA1D] transition">Bia Tươi & Craft Thủ Công</a></li>
+                        <li><a href="/danh-muc/hop-qua-phu-kien" class="hover:text-[#FFBA1D] transition">Hộp Quà & Phụ Kiện</a></li>
                     </ul>
                 </div>
 
                 <!-- Column 3: Corporate -->
                 <div>
-                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Về ThaiBeer</h4>
-                    <ul class="space-y-2.5 text-xs">
-                        <li><a href="/tin-tuc" class="hover:text-amber-400 transition">Văn Hóa Bia Thái</a></li>
-                        <li><a href="/tin-tuc" class="hover:text-amber-400 transition">Quy Trình Nấu Men Bia</a></li>
-                        <li><a href="/lien-he" class="hover:text-amber-400 transition">Chính Sách Nhà Phân Phối</a></li>
-                        <li><a href="/lien-he" class="hover:text-amber-400 transition">Hệ Thống Nhà Hàng & Bar</a></li>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Về Chúng Tôi</h4>
+                    <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
+                        <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Chặng Đường Phát Triển</a></li>
+                        <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Quy Trình Nấu Men Bia</a></li>
+                        <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Phát Triển Bền Vững</a></li>
+                        <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Chính Sách Nhà Phân Phối</a></li>
                     </ul>
                 </div>
 
                 <!-- Column 4: Contact & Hotlines -->
                 <div>
-                    <h4 class="text-stone-100 font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2">Hỗ Trợ & Liên Hệ</h4>
-                    <ul class="space-y-3 text-xs">
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Hỗ Trợ & Liên Hệ</h4>
+                    <ul class="space-y-3 text-xs text-[#B0B0B0]">
                         <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-location-dot text-amber-500 mt-1"></i>
+                            <i class="fa-solid fa-location-dot text-[#FFBA1D] mt-1"></i>
                             <span>Văn phòng đại diện: Tòa nhà Bitexco, Q.1, TP. Hồ Chí Minh</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-phone text-amber-500"></i>
-                            <span class="text-stone-200 font-bold">1900 8888 / 0909 123 456</span>
+                            <i class="fa-solid fa-phone text-[#FFBA1D]"></i>
+                            <a href="tel:0965156658" class="text-white font-bold hover:text-[#FFBA1D] transition">0965 156 658</a>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-envelope text-amber-500"></i>
-                            <span>contact@thaibeer.vn</span>
+                            <i class="fa-solid fa-envelope text-[#FFBA1D]"></i>
+                            <a href="mailto:nhuttrongchau@gmail.com" class="hover:text-[#FFBA1D] transition">nhuttrongchau@gmail.com</a>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <!-- Bottom Copyright & Legal -->
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-                <p>© @DateTime.Now.Year ThaiBeer Vietnam. All rights reserved. Vận hành ổn định trên nền tảng Windows IIS HOSTVN.</p>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777777]">
+                <p>© @DateTime.Now.Year ThaiBeer Vietnam. Uống có trách nhiệm. Vận hành ổn định trên nền tảng Windows IIS HOSTVN.</p>
                 <div class="flex items-center gap-4">
-                    <a href="/quan-tri" class="hover:text-amber-400 transition flex items-center gap-1.5 text-stone-400">
-                        <i class="fa-solid fa-lock text-[10px]"></i> Đăng Nhập Quản Trị
+                    <a href="#" class="hover:text-[#FFBA1D] transition">Điều khoản & Điều kiện</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-[#FFBA1D] transition">Quyền riêng tư</a>
+                    <span>•</span>
+                    <a href="/quan-tri" class="hover:text-[#FFBA1D] transition flex items-center gap-1">
+                        <i class="fa-solid fa-lock text-[10px]"></i> Quản Trị
                     </a>
                 </div>
             </div>
@@ -219,6 +291,20 @@
     <!-- Global Client Scripts: Turbo Reconnect & Swiper Initialization -->
     <script>
         function initializeThaiBeerUI() {
+            if (typeof Swiper === "undefined") {
+                setTimeout(initializeThaiBeerUI, 50);
+                return;
+            }
+
+            // 0. Tự động phát Video Banner Introbeer (nếu có)
+            const videoBanner = document.getElementById("videoId");
+            if (videoBanner) {
+                videoBanner.muted = true;
+                videoBanner.play().catch(function(e) {
+                    console.log("Video autoplay prevented:", e);
+                });
+            }
+
             // 1. Khởi tạo lại Swiper Hero Banner
             if (document.querySelector(".hero-swiper")) {
                 new Swiper(".hero-swiper", {
@@ -237,30 +323,73 @@
                 });
             }
 
-            // 2. Khởi tạo lại Swiper Sản phẩm nổi bật 60fps
-            if (document.querySelector(".product-swiper")) {
-                new Swiper(".product-swiper", {
-                    slidesPerView: 1.2,
+            // 2. Khởi tạo Swiper Bộ sưu tập trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            if (document.querySelector(".category-swiper")) {
+                const catSwiper = new Swiper(".category-swiper", {
+                    slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
-                    navigation: {
-                        nextEl: ".product-next",
-                        prevEl: ".product-prev",
+                    scrollbar: {
+                        el: ".category-scrollbar",
+                        draggable: true,
+                        dragSize: 70,
+                        hide: false,
                     },
-                    breakpoints: {
-                        640: { slidesPerView: 2.2, spaceBetween: 20 },
-                        1024: { slidesPerView: 3.5, spaceBetween: 24 },
-                        1280: { slidesPerView: 4, spaceBetween: 28 }
+                    on: {
+                        slideChange: function() {
+                            const counter = document.getElementById("categorySlideCounter");
+                            if (counter) {
+                                counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                            }
+                        }
                     }
                 });
             }
 
-            // 3. Xử lý nút Mobile Menu
+            // 3. Khởi tạo Swiper Sản phẩm nổi bật trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            if (document.querySelector(".product-swiper")) {
+                const prodSwiper = new Swiper(".product-swiper", {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                    grabCursor: true,
+                    scrollbar: {
+                        el: ".product-scrollbar",
+                        draggable: true,
+                        dragSize: 70,
+                        hide: false,
+                    },
+                    on: {
+                        slideChange: function() {
+                            const counter = document.getElementById("productSlideCounter");
+                            if (counter) {
+                                counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 4. Xử lý nút Mobile Menu & Mobile Search
             const btn = document.getElementById("mobileMenuBtn");
             const drawer = document.getElementById("mobileDrawer");
             if (btn && drawer) {
                 btn.onclick = function() {
                     drawer.classList.toggle("hidden");
+                    const searchBar = document.getElementById("mobileSearchBar");
+                    if (searchBar) searchBar.classList.add("hidden");
+                };
+            }
+
+            const searchBtn = document.getElementById("mobileSearchToggleBtn");
+            const searchBar = document.getElementById("mobileSearchBar");
+            const searchInput = document.getElementById("mobileSearchInput");
+            if (searchBtn && searchBar) {
+                searchBtn.onclick = function() {
+                    searchBar.classList.toggle("hidden");
+                    if (drawer) drawer.classList.add("hidden");
+                    if (!searchBar.classList.contains("hidden") && searchInput) {
+                        setTimeout(function() { searchInput.focus(); }, 100);
+                    }
                 };
             }
         }

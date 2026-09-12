@@ -17,7 +17,7 @@ public class SanPhamController : Controller
     [HttpGet("san-pham")]
     [HttpGet("danh-muc/{slug}")]
     [OutputCache(PolicyName = "SanPhamCatalogCache")]
-    public async Task<IActionResult> Index(string? slug, int trang = 1)
+    public async Task<IActionResult> Index(string? slug, string? tuKhoa, string? sapXep, int trang = 1)
     {
         if (trang < 1) trang = 1;
         const int soLuongMoiTrang = 12;
@@ -27,8 +27,8 @@ public class SanPhamController : Controller
             ? null
             : danhMucs.FirstOrDefault(d => d.DuongDanSlug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
-        var sanPhams = await _readRepo.LayDanhSachTheoDanhMucSlugAsync(slug ?? string.Empty, trang, soLuongMoiTrang);
-        var tongSo = await _readRepo.DemSoLuongTheoDanhMucSlugAsync(slug ?? string.Empty);
+        var sanPhams = await _readRepo.LayDanhSachTheoDanhMucSlugAsync(slug ?? string.Empty, trang, soLuongMoiTrang, tuKhoa, sapXep);
+        var tongSo = await _readRepo.DemSoLuongTheoDanhMucSlugAsync(slug ?? string.Empty, tuKhoa);
 
         var vm = new DanhMucSanPhamViewModel
         {
@@ -37,7 +37,9 @@ public class SanPhamController : Controller
             DanhSachSanPham = sanPhams,
             TongSoSanPham = tongSo,
             TrangHienTai = trang,
-            SoLuongMoiTrang = soLuongMoiTrang
+            SoLuongMoiTrang = soLuongMoiTrang,
+            TuKhoa = tuKhoa,
+            SapXep = sapXep
         };
 
         return View(vm);

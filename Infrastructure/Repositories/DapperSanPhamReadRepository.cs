@@ -41,12 +41,20 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
         return ketQua.ToList();
     }
 
-    public async Task<IReadOnlyList<SanPham>> LayDanhSachTheoDanhMucSlugAsync(string slug, int trang = 1, int soLuong = 12)
+    public async Task<IReadOnlyList<SanPham>> LayDanhSachTheoDanhMucSlugAsync(string slug, int trang = 1, int soLuong = 12, string? tuKhoa = null, string? sapXep = null)
     {
         using var connection = _connectionFactory.TaoKetNoi();
         var offset = (trang - 1) * soLuong;
 
-        const string sql = @"
+        string orderByClause = sapXep switch
+        {
+            "cu-nhat" => "p.Id ASC",
+            "ten-az" => "p.TenSanPham ASC",
+            "ten-za" => "p.TenSanPham DESC",
+            _ => "p.ThuTuHienThi ASC, p.Id DESC"
+        };
+
+        string sql = $@"
             SELECT 
                 p.Id, p.TenSanPham, p.DuongDanSlug, p.MoTaNgan, p.HinhAnhWebP,
                 p.NongDoCon, p.DungTichMl, p.XuatXu, p.QuyCachDongGoi,
@@ -56,8 +64,11 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
             INNER JOIN DanhMucs d WITH (NOLOCK) ON p.DanhMucId = d.Id
             WHERE p.TrangThaiHoatDong = 1 
               AND (@Slug IS NULL OR @Slug = '' OR d.DuongDanSlug = @Slug)
-            ORDER BY p.ThuTuHienThi ASC, p.Id DESC
+              AND (@TuKhoa IS NULL OR @TuKhoa = '' OR p.TenSanPham LIKE @TuKhoaPattern OR p.MoTaNgan LIKE @TuKhoaPattern)
+            ORDER BY {orderByClause}
             OFFSET @Offset ROWS FETCH NEXT @SoLuong ROWS ONLY;";
+
+        var tuKhoaPattern = string.IsNullOrWhiteSpace(tuKhoa) ? null : $"%{tuKhoa.Trim()}%";
 
         var ketQua = await connection.QueryAsync<SanPham, DanhMuc, SanPham>(
             sql,
@@ -66,13 +77,13 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
                 sp.DanhMuc = dm;
                 return sp;
             },
-            new { Slug = slug, Offset = offset, SoLuong = soLuong },
+            new { Slug = slug, Offset = offset, SoLuong = soLuong, TuKhoa = tuKhoa, TuKhoaPattern = tuKhoaPattern },
             splitOn: "Id");
 
         return ketQua.ToList();
     }
 
-    public async Task<int> DemSoLuongTheoDanhMucSlugAsync(string slug)
+    public async Task<int> DemSoLuongTheoDanhMucSlugAsync(string slug, string? tuKhoa = null)
     {
         using var connection = _connectionFactory.TaoKetNoi();
         const string sql = @"
@@ -80,9 +91,12 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
             FROM SanPhams p WITH (NOLOCK)
             INNER JOIN DanhMucs d WITH (NOLOCK) ON p.DanhMucId = d.Id
             WHERE p.TrangThaiHoatDong = 1 
-              AND (@Slug IS NULL OR @Slug = '' OR d.DuongDanSlug = @Slug);";
+              AND (@Slug IS NULL OR @Slug = '' OR d.DuongDanSlug = @Slug)
+              AND (@TuKhoa IS NULL OR @TuKhoa = '' OR p.TenSanPham LIKE @TuKhoaPattern OR p.MoTaNgan LIKE @TuKhoaPattern);";
 
-        return await connection.ExecuteScalarAsync<int>(sql, new { Slug = slug });
+        var tuKhoaPattern = string.IsNullOrWhiteSpace(tuKhoa) ? null : $"%{tuKhoa.Trim()}%";
+
+        return await connection.ExecuteScalarAsync<int>(sql, new { Slug = slug, TuKhoa = tuKhoa, TuKhoaPattern = tuKhoaPattern });
     }
 
     public async Task<SanPham?> LayChiTietTheoSlugAsync(string slug)
@@ -159,7 +173,7 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
         using var connection = _connectionFactory.TaoKetNoi();
         const string sql = @"
             SELECT 
-                Id, TenDanhMuc, DuongDanSlug, MoTa, HinhAnhWebP, ThuTuHienThi
+                Id, TenDanhMuc, DuongDanSlug, MoTa, HinhAnhWebP, ThuTuHienThi, ToneMau
             FROM DanhMucs WITH (NOLOCK)
             WHERE TrangThaiHoatDong = 1
             ORDER BY ThuTuHienThi ASC, Id ASC;";

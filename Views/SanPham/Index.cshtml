@@ -1,39 +1,74 @@
 @model ThaiBeer.ViewModels.DanhMucSanPhamViewModel
 @{
-    var title = Model.DanhMucHienTai != null ? Model.DanhMucHienTai.TenDanhMuc : "Tất Cả Sản Phẩm ThaiBeer";
+    var title = Model.DanhMucHienTai != null ? Model.DanhMucHienTai.TenDanhMuc : "Tất Cả Sản Phẩm";
     ViewData["Title"] = title;
-    ViewData["Description"] = Model.DanhMucHienTai?.MoTa ?? "Danh mục đầy đủ các dòng bia chai, lon và bia tươi hoàng gia Thái Lan chính hãng.";
+    ViewData["Description"] = Model.DanhMucHienTai?.MoTa ?? "Danh mục đầy đủ các dòng sản phẩm đồ uống cao cấp chuẩn mực quốc tế.";
 }
 
-<div class="bg-thaicard border-b border-stone-800 py-12">
+<!-- Breadcrumbs & Category Header (Heineken Light Sub-Header Tone) -->
+<div class="bg-[#E5E8E7] border-b border-gray-300 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center gap-2 text-xs text-stone-500 mb-4">
-            <a href="/" class="hover:text-amber-400 transition">Trang Chủ</a>
+        <nav class="flex items-center gap-2 text-xs text-[#666666] mb-3">
+            <a href="/" class="hover:text-[#007A29] transition">Trang Chủ</a>
             <span>/</span>
-            <span class="text-stone-300">Sản Phẩm</span>
+            <span class="text-[#222222] font-semibold">Sản Phẩm</span>
             @if (Model.DanhMucHienTai != null)
             {
                 <span>/</span>
-                <span class="text-amber-400 font-semibold">@Model.DanhMucHienTai.TenDanhMuc</span>
+                <span class="text-[#007A29] font-bold">@Model.DanhMucHienTai.TenDanhMuc</span>
             }
         </nav>
-        <h1 class="text-3xl sm:text-4xl font-black text-stone-100">@title</h1>
-        <p class="text-xs sm:text-sm text-stone-400 mt-2 max-w-2xl">
-            @(Model.DanhMucHienTai?.MoTa ?? "Khám phá bộ sưu tập bia Thái thượng hạng được sản xuất với tiêu chuẩn hoàng gia quốc tế.")
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#222222] uppercase tracking-tight">@title</h1>
+        <div class="w-16 h-1 bg-[#007A29] mt-3"></div>
+        <p class="text-xs sm:text-sm text-[#555555] mt-3 max-w-2xl">
+            @(Model.DanhMucHienTai?.MoTa ?? "Khám phá bộ sưu tập đồ uống thượng hạng được sản xuất với tiêu chuẩn quản lý chất lượng khắt khe nhất.")
         </p>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Category Tabs -->
-    <div class="flex items-center gap-3 overflow-x-auto pb-4 mb-10 border-b border-stone-800">
-        <a href="/san-pham" class="px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition @(Model.DanhMucHienTai == null ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20" : "bg-stone-900 text-stone-300 hover:bg-stone-800 hover:text-amber-400")">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Search & Sort Filter Bar (Phong cách chuẩn Ảnh 1) -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mb-8 shadow-sm">
+        <form action="@(Model.DanhMucHienTai != null ? $"/danh-muc/{Model.DanhMucHienTai.DuongDanSlug}" : "/san-pham")" method="get" class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="relative w-full sm:w-96">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" name="tuKhoa" value="@Model.TuKhoa" placeholder="Tìm kiếm tên sản phẩm bia..." class="w-full bg-gray-50 border border-gray-300 rounded-xl pl-10 pr-20 py-2.5 text-xs text-gray-800 focus:outline-none focus:border-[#900C13] focus:bg-white transition" />
+                @if (!string.IsNullOrWhiteSpace(Model.TuKhoa))
+                {
+                    <a href="@(Model.DanhMucHienTai != null ? $"/danh-muc/{Model.DanhMucHienTai.DuongDanSlug}" : "/san-pham")" class="absolute right-14 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                }
+                <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-[#900C13] text-white text-[11px] font-bold shadow transition">
+                    Tìm
+                </button>
+            </div>
+
+            <!-- Dropdown sắp xếp như Ảnh 1 -->
+            <div class="w-full sm:w-auto flex items-center justify-end gap-3">
+                <span class="text-xs text-gray-500 hidden sm:inline">Hiển thị: <strong>@Model.TongSoSanPham</strong> sản phẩm</span>
+                <div class="relative inline-block w-full sm:w-auto">
+                    <select name="sapXep" onchange="this.form.submit()" class="w-full sm:w-auto appearance-none bg-white border border-gray-300 rounded-md px-3.5 py-2 pr-8 text-xs font-medium text-gray-700 shadow-sm focus:outline-none focus:border-[#900C13]">
+                        <option value="moi-nhat" selected="@(Model.SapXep == "moi-nhat" || string.IsNullOrEmpty(Model.SapXep))">Sắp xếp: Mới nhất</option>
+                        <option value="cu-nhat" selected="@(Model.SapXep == "cu-nhat")">Sắp xếp: Cũ nhất</option>
+                        <option value="ten-az" selected="@(Model.SapXep == "ten-az")">Tên: A - Z</option>
+                        <option value="ten-za" selected="@(Model.SapXep == "ten-za")">Tên: Z - A</option>
+                    </select>
+                    <i class="fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500 pointer-events-none"></i>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Category Tabs (Heineken Pill Style) -->
+    <div class="flex items-center gap-3 overflow-x-auto pb-4 mb-8 border-b border-gray-200">
+        <a href="/san-pham" class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition shadow-sm @(Model.DanhMucHienTai == null ? "bg-[#007A29] text-white" : "bg-white text-[#222222] border border-gray-300 hover:border-[#007A29] hover:text-[#007A29]")">
             Tất Cả Sản Phẩm
         </a>
         @foreach (var dm in Model.TatCaDanhMuc)
         {
             var active = Model.DanhMucHienTai?.Id == dm.Id;
-            <a href="/danh-muc/@dm.DuongDanSlug" class="px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition @(active ? "bg-amber-500 text-stone-950 shadow-lg shadow-amber-500/20" : "bg-stone-900 text-stone-300 hover:bg-stone-800 hover:text-amber-400")">
+            <a href="/danh-muc/@dm.DuongDanSlug" class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition shadow-sm @(active ? "bg-[#007A29] text-white" : "bg-white text-[#222222] border border-gray-300 hover:border-[#007A29] hover:text-[#007A29]")">
                 @dm.TenDanhMuc
             </a>
         }
@@ -42,10 +77,10 @@
     <!-- Product Grid -->
     @if (!Model.DanhSachSanPham.Any())
     {
-        <div class="text-center py-20 bg-thaicard rounded-2xl border border-stone-800">
-            <i class="fa-solid fa-beer-mug-empty text-4xl text-stone-600 mb-3"></i>
-            <p class="text-sm font-semibold text-stone-400">Không có sản phẩm nào trong danh mục này.</p>
-            <a href="/san-pham" class="inline-block mt-4 text-xs text-amber-400 font-bold hover:underline">Quay lại xem tất cả</a>
+        <div class="text-center py-20 bg-white rounded-xl border border-gray-200 shadow-sm">
+            <i class="fa-solid fa-beer-mug-empty text-4xl text-gray-400 mb-3"></i>
+            <p class="text-sm font-semibold text-[#555555]">Không có sản phẩm nào trong danh mục này.</p>
+            <a href="/san-pham" class="inline-block mt-4 text-xs text-[#007A29] font-bold hover:underline">Quay lại xem tất cả</a>
         </div>
     }
     else
@@ -53,14 +88,14 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach (var sp in Model.DanhSachSanPham)
             {
-                <div class="bg-thaicard border border-stone-800 rounded-2xl overflow-hidden group hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl flex flex-col justify-between">
+                <div class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg flex flex-col justify-between">
                     <!-- Khối ảnh có link điều hướng -->
-                    <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-stone-900 aspect-square overflow-hidden p-4 flex items-center justify-center cursor-pointer group-hover:bg-stone-800/80 transition-colors">
+                    <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100">
                         <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                        <div class="absolute top-3 left-3 bg-stone-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-amber-500/30 text-[11px] font-bold text-amber-400">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
                             @sp.NongDoCon% ABV
                         </div>
-                        <div class="absolute top-3 right-3 bg-stone-950/80 backdrop-blur-md px-2 py-1 rounded-lg border border-stone-800 text-[11px] font-medium text-stone-400">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md border border-gray-200 text-[11px] font-medium text-[#666666] shadow-sm">
                             @sp.DungTichMl ml
                         </div>
                     </a>
@@ -68,21 +103,22 @@
                     <div class="p-5 flex-1 flex flex-col justify-between">
                         <!-- Khối text (Danh mục, Tiêu đề, Mô tả) có link điều hướng -->
                         <a href="/san-pham/@sp.DuongDanSlug" class="block group/text cursor-pointer">
-                            <span class="text-[11px] font-semibold text-amber-500 uppercase tracking-wider block mb-1">
+                            <span class="text-[11px] font-bold text-[#007A29] uppercase tracking-wider block mb-1">
                                 @sp.DanhMuc?.TenDanhMuc
                             </span>
-                            <h2 class="text-base font-bold text-stone-100 line-clamp-1 group-hover/text:text-amber-400 transition-colors">
+                            <h2 class="text-base font-bold text-[#222222] line-clamp-1 group-hover/text:text-[#007A29] transition-colors">
                                 @sp.TenSanPham
                             </h2>
-                            <p class="text-xs text-stone-400 mt-2 line-clamp-2 leading-relaxed">
+                            <p class="text-xs text-[#666666] mt-2 line-clamp-2 leading-relaxed">
                                 @sp.MoTaNgan
                             </p>
                         </a>
 
-                        <div class="pt-4 mt-4 border-t border-stone-800/80 flex items-center justify-between">
-                            <span class="text-xs text-stone-500">@sp.QuyCachDongGoi</span>
-                            <a href="/san-pham/@sp.DuongDanSlug" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs transition">
-                                Chi tiết
+                        <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-[#666666] font-medium">@sp.QuyCachDongGoi</span>
+                            <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs transition shadow-sm">
+                                <span>Chi tiết</span>
+                                <i class="fa-solid fa-chevron-right text-[9px]"></i>
                             </a>
                         </div>
                     </div>
@@ -97,11 +133,17 @@
                 @for (int i = 1; i <= Model.TongSoTrang; i++)
                 {
                     var isCurrent = i == Model.TrangHienTai;
-                    var url = Model.DanhMucHienTai != null
-                        ? $"/danh-muc/{Model.DanhMucHienTai.DuongDanSlug}?trang={i}"
-                        : $"/san-pham?trang={i}";
+                    var queryParams = new List<string> { $"trang={i}" };
+                    if (!string.IsNullOrWhiteSpace(Model.TuKhoa)) queryParams.Add($"tuKhoa={Uri.EscapeDataString(Model.TuKhoa)}");
+                    if (!string.IsNullOrWhiteSpace(Model.SapXep)) queryParams.Add($"sapXep={Uri.EscapeDataString(Model.SapXep)}");
+                    var qs = string.Join("&", queryParams);
 
-                    <a href="@url" class="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold transition @(isCurrent ? "bg-amber-500 text-stone-950" : "bg-stone-900 text-stone-300 hover:bg-stone-800 hover:text-amber-400 border border-stone-800")">
+                    var baseUrl = Model.DanhMucHienTai != null
+                        ? $"/danh-muc/{Model.DanhMucHienTai.DuongDanSlug}"
+                        : "/san-pham";
+                    var url = $"{baseUrl}?{qs}";
+
+                    <a href="@url" class="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition shadow-sm @(isCurrent ? "bg-[#007A29] text-white" : "bg-white text-[#222222] hover:bg-gray-100 border border-gray-300")">
                         @i
                     </a>
                 }
@@ -109,3 +151,4 @@
         }
     }
 </div>
+

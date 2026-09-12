@@ -67,7 +67,7 @@ builder.Services.AddOutputCache(options =>
     // Chính sách cho Danh mục sản phẩm (30 phút, thay đổi theo phân trang và slug)
     options.AddPolicy("SanPhamCatalogCache", policy => policy
         .Expire(TimeSpan.FromMinutes(30))
-        .SetVaryByQuery("trang")
+        .SetVaryByQuery("trang", "tuKhoa", "sapXep")
         .SetVaryByRouteValue("slug")
         .Tag("san_pham_tag"));
 
@@ -118,7 +118,7 @@ app.UseResponseCompression();
 // Phục vụ tệp tĩnh với Cache-Control 30 ngày trên client
 app.UseStaticFiles(new StaticFileOptions
 {
-    OnPrepareResponse = ctx =>
+    OnPrepareResponse = ctx => 
     {
         const int durationInSeconds = 60 * 60 * 24 * 30; // 30 ngày
         ctx.Context.Response.Headers.Append("Cache-Control", $"public,max-age={durationInSeconds}");

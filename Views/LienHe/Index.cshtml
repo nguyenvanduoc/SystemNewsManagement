@@ -1,65 +1,74 @@
 @model ThaiBeer.ViewModels.LienHeGuiYeuCauViewModel
 @{
     ViewData["Title"] = "Liên Hệ & Hợp Tác Phân Phối";
-    ViewData["Description"] = "Đăng ký trở thành đại lý phân phối, nhập sỉ bia thương hiệu ThaiBeer cho nhà hàng, quán bar và chuỗi bán lẻ.";
+    ViewData["Description"] = "Đăng ký trở thành đại lý phân phối, nhập sỉ đồ uống thượng hạng cho nhà hàng, quán bar và chuỗi bán lẻ.";
 }
 
-<div class="bg-thaicard border-b border-stone-800 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span class="text-xs text-amber-400 font-bold tracking-[0.25em] uppercase">Đồng Hành Phát Triển</span>
-        <h1 class="text-3xl sm:text-5xl font-black text-stone-100 mt-2">Hợp Tác Phân Phối ThaiBeer</h1>
-        <p class="text-xs sm:text-sm text-stone-400 mt-3 max-w-xl mx-auto">
-            Hưởng chính sách chiết khấu tốt nhất thị trường, hỗ trợ setup tủ bia, ly pha lê thương hiệu và marketing toàn diện.
+<!-- Header Banner (Heineken Style) -->
+<div class="bg-[#E5E8E7] border-b border-gray-300 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-xs text-[#666666] mb-3">
+            <a href="/" class="hover:text-[#007A29] transition">Trang Chủ</a>
+            <span>/</span>
+            <span class="text-[#222222] font-semibold">Liên Hệ</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#222222] uppercase tracking-tight">HỢP TÁC PHÂN PHỐI</h1>
+        <div class="w-16 h-1 bg-[#007A29] mt-3"></div>
+        <p class="text-xs sm:text-sm text-[#555555] mt-3 max-w-xl">
+            Hưởng chính sách chiết khấu tốt nhất, hỗ trợ nhận diện thương hiệu, vật phẩm POSM và marketing đồng hành cùng đối tác trên toàn quốc.
         </p>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <!-- Left: Contact Details & Benefits -->
-        <div class="lg:col-span-5 space-y-8">
-            <div class="bg-thaicard border border-stone-800 rounded-3xl p-8 space-y-6 shadow-xl">
-                <h2 class="text-xl font-bold text-stone-100 flex items-center gap-2.5">
-                    <i class="fa-solid fa-crown text-amber-400"></i>
-                    Đặc Quyền Dành Cho Đối Tác
-                </h2>
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-white border border-gray-200 rounded-2xl p-8 space-y-6 shadow-sm">
+                <div>
+                    <h2 class="text-lg font-extrabold text-[#222222] uppercase tracking-tight flex items-center gap-2.5">
+                        <i class="fa-solid fa-handshake text-[#007A29]"></i>
+                        Đặc Quyền Dành Cho Đối Tác
+                    </h2>
+                    <div class="w-12 h-1 bg-[#007A29] mt-2"></div>
+                </div>
                 
-                <ul class="space-y-4 text-xs sm:text-sm text-stone-300">
+                <ul class="space-y-4 text-xs sm:text-sm text-[#444444]">
                     <li class="flex items-start gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <span class="w-6 h-6 rounded-full bg-[#007A29]/10 text-[#007A29] flex items-center justify-center shrink-0 mt-0.5 font-bold">
                             <i class="fa-solid fa-check text-xs"></i>
                         </span>
-                        <span>Chiết khấu trực tiếp trên từng két/thùng hấp dẫn nhất phân khúc bia nhập khẩu.</span>
+                        <span>Chiết khấu trực tiếp trên từng đơn hàng hấp dẫn nhất thị trường.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <span class="w-6 h-6 rounded-full bg-[#007A29]/10 text-[#007A29] flex items-center justify-center shrink-0 mt-0.5 font-bold">
                             <i class="fa-solid fa-check text-xs"></i>
                         </span>
-                        <span>Trang bị trọn gói tủ mát trưng bày, menu để bàn, áo đồng phục PG và ly thủy tinh hoàng gia.</span>
+                        <span>Hỗ trợ trọn gói vật phẩm quảng cáo (POSM), áo đồng phục và bảng hiệu chuẩn nhận diện.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <span class="w-6 h-6 rounded-full bg-[#007A29]/10 text-[#007A29] flex items-center justify-center shrink-0 mt-0.5 font-bold">
                             <i class="fa-solid fa-check text-xs"></i>
                         </span>
-                        <span>Giao hàng thần tốc trong vòng 2 - 4 giờ tại các thành phố lớn.</span>
+                        <span>Giao hàng nhanh chóng và ổn định qua hệ thống kho vận chuyên nghiệp.</span>
                     </li>
                 </ul>
             </div>
 
-            <!-- Hotline Box -->
-            <div class="bg-gradient-to-br from-stone-900 to-stone-950 border border-amber-500/30 rounded-3xl p-8 shadow-xl">
-                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block mb-1">Đường Dây Nóng Tư Vấn</span>
-                <p class="text-3xl font-black text-stone-100 font-mono">1900 8888</p>
-                <p class="text-xs text-stone-400 mt-2">Hỗ trợ 24/7 giải đáp mọi thắc mắc về mở đại lý hoặc hợp đồng phân phối độc quyền theo khu vực.</p>
+            <!-- Hotline Box (Heineken Deep Emerald) -->
+            <div class="bg-[#003110] text-white rounded-2xl p-8 shadow-sm">
+                <span class="text-xs text-[#A7F3D0] font-bold uppercase tracking-wider block mb-1">Đường Dây Nóng Hỗ Trợ Đối Tác</span>
+                <a href="tel:0965156658" class="text-3xl font-black font-mono mt-2 block hover:underline">0965 156 658</a>
+                <p class="text-xs text-gray-300 mt-2 leading-relaxed">Đội ngũ chuyên viên tư vấn phân phối sẵn sàng phản hồi nhanh chóng mọi thắc mắc của Quý đối tác.</p>
             </div>
         </div>
 
         <!-- Right: Registration Form -->
-        <div class="lg:col-span-7 bg-thaicard border border-stone-800 rounded-3xl p-8 sm:p-10 shadow-2xl">
+        <div class="lg:col-span-7 bg-white border border-gray-200 rounded-2xl p-8 sm:p-10 shadow-sm">
             @if (TempData["GuiThanhCong"] != null)
             {
-                <div class="mb-8 p-6 rounded-2xl bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-sm space-y-2">
-                    <div class="flex items-center gap-2 font-bold text-base text-emerald-400">
+                <div class="mb-8 p-6 rounded-xl bg-emerald-50 border border-emerald-500 text-emerald-900 text-sm space-y-1">
+                    <div class="flex items-center gap-2 font-bold text-base text-[#007A29]">
                         <i class="fa-solid fa-circle-check text-xl"></i>
                         Đăng Ký Thành Công!
                     </div>
@@ -67,42 +76,45 @@
                 </div>
             }
 
-            <h2 class="text-xl font-bold text-stone-100 mb-2">Gửi Yêu Cầu Tư Vấn Mở Đại Lý</h2>
-            <p class="text-xs text-stone-400 mb-6">Vui lòng điền thông tin bên dưới, chuyên viên phân phối sẽ phản hồi ngay.</p>
+            <div>
+                <h2 class="text-xl font-extrabold text-[#222222] uppercase tracking-tight">Gửi Yêu Cầu Tư Vấn Mở Đại Lý</h2>
+                <div class="w-16 h-1 bg-[#007A29] mt-2 mb-2"></div>
+                <p class="text-xs text-[#666666] mb-6">Vui lòng điền thông tin bên dưới, chuyên viên phân phối sẽ phản hồi ngay.</p>
+            </div>
 
             <form method="post" action="/lien-he" class="space-y-5">
                 @Html.AntiForgeryToken()
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <label asp-for="HoTen" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                        <input asp-for="HoTen" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500" placeholder="Nguyễn Văn A" />
-                        <span asp-validation-for="HoTen" class="text-xs text-rose-400 mt-1 block"></span>
+                        <label asp-for="HoTen" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="HoTen" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]" placeholder="Nguyễn Văn A" />
+                        <span asp-validation-for="HoTen" class="text-xs text-rose-500 mt-1 block"></span>
                     </div>
 
                     <div>
-                        <label asp-for="SoDienThoai" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                        <input asp-for="SoDienThoai" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500" placeholder="0909 xxx xxx" />
-                        <span asp-validation-for="SoDienThoai" class="text-xs text-rose-400 mt-1 block"></span>
+                        <label asp-for="SoDienThoai" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="SoDienThoai" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]" placeholder="0965 xxx xxx" />
+                        <span asp-validation-for="SoDienThoai" class="text-xs text-rose-500 mt-1 block"></span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <label asp-for="Email" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                        <input asp-for="Email" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500" placeholder="partner@gmail.com" />
-                        <span asp-validation-for="Email" class="text-xs text-rose-400 mt-1 block"></span>
+                        <label asp-for="Email" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="Email" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]" placeholder="nhuttrongchau@gmail.com" />
+                        <span asp-validation-for="Email" class="text-xs text-rose-500 mt-1 block"></span>
                     </div>
 
                     <div>
-                        <label asp-for="DiaChiKhuVuc" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                        <input asp-for="DiaChiKhuVuc" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500" placeholder="VD: Hà Nội, TP.HCM, Đà Nẵng..." />
+                        <label asp-for="DiaChiKhuVuc" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="DiaChiKhuVuc" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]" placeholder="VD: Hà Nội, TP.HCM, Đà Nẵng..." />
                     </div>
                 </div>
 
                 <div>
-                    <label asp-for="LoaiHopTac" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                    <select asp-for="LoaiHopTac" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500">
+                    <label asp-for="LoaiHopTac" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                    <select asp-for="LoaiHopTac" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]">
                         <option value="Đại lý phân phối cấp 1 tỉnh/thành">Đại lý phân phối cấp 1 tỉnh/thành</option>
                         <option value="Nhà hàng, Quán ăn, Beer Club, Lounge">Nhà hàng, Quán ăn, Beer Club, Lounge</option>
                         <option value="Khách sạn, Resort cao cấp">Khách sạn, Resort cao cấp</option>
@@ -112,12 +124,12 @@
                 </div>
 
                 <div>
-                    <label asp-for="NoiDungGhiChu" class="block text-xs font-semibold text-stone-300 mb-1.5"></label>
-                    <textarea asp-for="NoiDungGhiChu" rows="4" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-amber-500" placeholder="Quy mô dự kiến, số lượng thùng hàng tháng hoặc địa điểm kinh doanh..."></textarea>
+                    <label asp-for="NoiDungGhiChu" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                    <textarea asp-for="NoiDungGhiChu" rows="4" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#007A29] focus:ring-1 focus:ring-[#007A29]" placeholder="Quy mô dự kiến, số lượng thùng hàng tháng hoặc địa điểm kinh doanh..."></textarea>
                 </div>
 
                 <div class="pt-2">
-                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-stone-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/20 transition hover:scale-[1.01]">
+                    <button type="submit" class="w-full py-3.5 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs uppercase tracking-wider shadow-md transition hover:scale-[1.01]">
                         <i class="fa-solid fa-paper-plane mr-2"></i> Gửi Yêu Cầu Hợp Tác Ngay
                     </button>
                 </div>
@@ -125,3 +137,4 @@
         </div>
     </div>
 </div>
+

@@ -34,6 +34,30 @@
             <textarea asp-for="MoTa" rows="3" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-100 focus:outline-none focus:border-amber-500"></textarea>
         </div>
 
+        <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1.5">Tone Màu Thẻ Bộ Sưu Tập (Mã màu HEX)</label>
+            <div class="flex items-center gap-3">
+                <input type="color" id="pickerToneMau" value="@(string.IsNullOrEmpty(Model.ToneMau) ? "#007A29" : Model.ToneMau)" class="w-11 h-11 rounded-xl bg-transparent border border-stone-800 cursor-pointer p-1" oninput="document.getElementById('inputToneMau').value = this.value" />
+                <input asp-for="ToneMau" id="inputToneMau" value="@(string.IsNullOrEmpty(Model.ToneMau) ? "#007A29" : Model.ToneMau)" class="flex-1 bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-sm text-stone-100 font-mono focus:outline-none focus:border-amber-500 uppercase" placeholder="#007A29" oninput="document.getElementById('pickerToneMau').value = this.value" />
+            </div>
+            <div class="flex items-center gap-2 mt-2 pt-1 flex-wrap">
+                <span class="text-xs text-stone-500">Màu gợi ý:</span>
+                <button type="button" onclick="chonTone('#007A29')" class="w-6 h-6 rounded-full bg-[#007A29] border border-white/20 hover:scale-110 transition shadow" title="Xanh Heineken"></button>
+                <button type="button" onclick="chonTone('#900C13')" class="w-6 h-6 rounded-full bg-[#900C13] border border-white/20 hover:scale-110 transition shadow" title="Đỏ Hoàng Gia ThaiBeer"></button>
+                <button type="button" onclick="chonTone('#D4AF37')" class="w-6 h-6 rounded-full bg-[#D4AF37] border border-white/20 hover:scale-110 transition shadow" title="Vàng Hổ Phách"></button>
+                <button type="button" onclick="chonTone('#D97706')" class="w-6 h-6 rounded-full bg-[#D97706] border border-white/20 hover:scale-110 transition shadow" title="Cam Đậm"></button>
+                <button type="button" onclick="chonTone('#1E3A8A')" class="w-6 h-6 rounded-full bg-[#1E3A8A] border border-white/20 hover:scale-110 transition shadow" title="Xanh Navy"></button>
+                <button type="button" onclick="chonTone('#0D9488')" class="w-6 h-6 rounded-full bg-[#0D9488] border border-white/20 hover:scale-110 transition shadow" title="Xanh Ngọc"></button>
+            </div>
+        </div>
+
+        <script>
+            function chonTone(hex) {
+                document.getElementById('inputToneMau').value = hex;
+                document.getElementById('pickerToneMau').value = hex;
+            }
+        </script>
+
         <div class="grid grid-cols-2 gap-4 pt-2">
             <div>
                 <label asp-for="ThuTuHienThi" class="block text-xs font-semibold text-stone-300 mb-1.5">Thứ tự hiển thị</label>

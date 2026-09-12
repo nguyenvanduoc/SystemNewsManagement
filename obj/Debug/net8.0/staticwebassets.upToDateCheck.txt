@@ -78,3 +78,5 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\videos\123zo.mp4
+wwwroot\videos\biathai.mp4

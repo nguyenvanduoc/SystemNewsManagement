@@ -68,16 +68,16 @@
         ::-webkit-scrollbar-thumb:hover { background: #007A29; }
 
         /* Mobile Drag Scrollbar (Thanh kéo trái) */
-        .category-swiper, .product-swiper {
+        .category-swiper, .product-swiper, .process-swiper {
             width: 100%;
             overflow: hidden;
             position: relative;
         }
-        .category-swiper .swiper-slide, .product-swiper .swiper-slide {
+        .category-swiper .swiper-slide, .product-swiper .swiper-slide, .process-swiper .swiper-slide {
             width: 100% !important;
             box-sizing: border-box;
         }
-        .category-scrollbar, .product-scrollbar {
+        .category-scrollbar, .product-scrollbar, .process-scrollbar {
             height: 6px !important;
             background: #E5E7EB !important;
             border-radius: 9999px !important;
@@ -85,17 +85,33 @@
             margin-top: 1.25rem !important;
             width: 100% !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag {
+        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag {
             background: #007A29 !important;
             border-radius: 9999px !important;
             height: 100% !important;
             cursor: grab;
         }
-        .product-scrollbar .swiper-scrollbar-drag {
+        .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag {
             background: #B91C1C !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active {
+        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active {
             cursor: grabbing;
+        }
+
+        /* Hiệu ứng gợn sóng bắt mắt cho nút Liên Hệ nổi */
+        @@keyframes contactPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(179, 13, 20, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 14px rgba(179, 13, 20, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(179, 13, 20, 0);
+            }
+        }
+        .contact-pulse-btn {
+            animation: contactPulse 2.2s infinite;
         }
     </style>
 </head>
@@ -107,20 +123,19 @@
         <div class="hidden lg:block bg-white border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
                 <!-- Brand Logo (Chuẩn ThaiBeer.vn to rõ nét) -->
-                <a href="/" class="flex items-center gap-3.5 group py-1">
+                <a href="/" class="flex items-center group py-1" title="ThaiBeer">
                     <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-20 lg:h-[84px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md shadow-sm" />
-                    <span class="font-['Montserrat'] text-2xl lg:text-3xl font-black text-[#B30D14] uppercase tracking-wider hidden sm:inline-block">THAI BEER</span>
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="flex items-center text-sm font-semibold text-[#222222]">
-                    <a href="/" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Trang Chủ</a>
+                <nav class="flex items-center text-[15px] font-bold text-[#222222]">
+                    <a href="/" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Trang Chủ</a>
                     <span class="text-gray-300 select-none">|</span>
-                    <a href="/san-pham" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Bộ Sưu Tập Sản Phẩm</a>
+                    <a href="/san-pham" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Bộ Sưu Tập Sản Phẩm</a>
                     <span class="text-gray-300 select-none">|</span>
-                    <a href="/tin-tuc" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Văn Hóa & Tin Tức</a>
+                    <a href="/tin-tuc" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Văn Hóa & Tin Tức</a>
                     <span class="text-gray-300 select-none">|</span>
-                    <a href="/lien-he" class="px-5 py-2 hover:text-[#B30D14] transition-colors">Hợp Tác Đại Lý</a>
+                    <a href="/#quy-trinh-san-xuat" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Quy Trình Sản Xuất</a>
                 </nav>
 
                 <!-- Call to Action & Hotline Pill -->
@@ -180,7 +195,7 @@
             <a href="/" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Trang Chủ</a>
             <a href="/san-pham" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Bộ Sưu Tập Sản Phẩm</a>
             <a href="/tin-tuc" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Văn Hóa & Tin Tức</a>
-            <a href="/lien-he" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Hợp Tác Đại Lý</a>
+            <a href="/#quy-trinh-san-xuat" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Quy Trình Sản Xuất</a>
             <div class="pt-4 flex flex-col gap-3">
                 <a href="/lien-he" class="w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
                     Đăng Ký Đại Lý Phân Phối
@@ -246,7 +261,7 @@
                     <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Về Chúng Tôi</h4>
                     <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
                         <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Chặng Đường Phát Triển</a></li>
-                        <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Quy Trình Nấu Men Bia</a></li>
+                        <li><a href="/#quy-trinh-san-xuat" class="hover:text-[#FFBA1D] transition">Quy Trình Nấu Men & Sản Xuất</a></li>
                         <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Phát Triển Bền Vững</a></li>
                         <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Chính Sách Nhà Phân Phối</a></li>
                     </ul>
@@ -287,6 +302,83 @@
             </div>
         </div>
     </footer>
+
+    <!-- Widget Nổi Liên Hệ & Gọi Điện / Zalo Đa Kênh (Chuẩn 100% Theo Ảnh Mẫu) -->
+    <div id="contactWidgetContainer" class="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-auto select-none">
+        <!-- Hộp Popup Tùy Chọn Liên Hệ (Ẩn theo mặc định, click nút tròn đỏ để mở) -->
+        <div id="contactPopupBox" class="hidden mb-3 w-[290px] sm:w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 transition-all duration-300 transform origin-bottom-right scale-95 opacity-0">
+            <!-- Header Màu Đỏ Hoàng Gia -->
+            <div class="bg-[#900C13] px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-headset text-white text-sm"></i>
+                    <h4 class="text-white font-bold text-sm tracking-wide">Liên hệ với chúng tôi</h4>
+                </div>
+                <button type="button" id="closeContactPopupBtn" class="text-white/80 hover:text-white transition w-6 h-6 flex items-center justify-center text-sm rounded-full hover:bg-white/10" aria-label="Đóng popup">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Danh Sách Lựa Chọn: Hotline, Zalo, Messenger, Địa Chỉ -->
+            <div class="p-3 divide-y divide-gray-100 space-y-1 bg-white">
+                <!-- 1. Hotline / Gọi Điện Trực Tiếp -->
+                <a href="tel:0965156658" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group">
+                    <div class="w-10 h-10 rounded-full bg-[#22C55E] flex items-center justify-center text-white text-base shadow-sm shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-bold text-[#111111] block group-hover:text-[#22C55E] transition-colors">Hotline:</span>
+                        <span class="text-xs text-[#555555] font-semibold">0965 156 658</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
+
+                <!-- 2. Zalo Chat -->
+                <a href="https://zalo.me/0965156658" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group">
+                    <div class="w-10 h-10 rounded-full bg-[#0068FF] flex items-center justify-center text-white text-[11px] font-black shadow-sm shrink-0 tracking-tighter group-hover:scale-110 transition-transform">
+                        Zalo
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-bold text-[#111111] block group-hover:text-[#0068FF] transition-colors">Zalo chat:</span>
+                        <span class="text-xs text-[#555555] truncate block">Tài khoản Zalo: 0965 156 658</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
+
+                <!-- 3. Messenger Chat -->
+                <a href="https://m.me/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#006AFF] to-[#00C6FF] flex items-center justify-center text-white text-base shadow-sm shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-facebook-messenger"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-bold text-[#111111] block group-hover:text-[#006AFF] transition-colors">Messenger:</span>
+                        <span class="text-xs text-[#555555] truncate block">Công Ty CP Bia Sài Gòn Cửu Long</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
+
+                <!-- 4. Xem Địa Chỉ Văn Phòng & Đăng Ký Đại Lý -->
+                <a href="/lien-he" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group">
+                    <div class="w-10 h-10 rounded-full bg-[#D9383A] flex items-center justify-center text-white text-base shadow-sm shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-xs font-bold text-[#111111] block group-hover:text-[#D9383A] transition-colors">Địa chỉ:</span>
+                        <span class="text-xs text-[#555555] block">Xem địa chỉ</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Nút Tròn Đỏ Nổi 'Liên Hệ' (Có hiệu ứng gợn sóng bắt mắt) -->
+        <button type="button" 
+                id="toggleContactWidgetBtn" 
+                class="contact-pulse-btn w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#B30D14] hover:bg-[#900C13] active:scale-95 text-white flex flex-col items-center justify-center shadow-2xl border-2 border-white transition-all duration-300 cursor-pointer"
+                title="Liên hệ tư vấn">
+            <i class="fa-solid fa-comments text-lg sm:text-xl leading-none"></i>
+            <span class="text-[10px] sm:text-[11px] font-bold leading-tight mt-0.5">Liên hệ</span>
+        </button>
+    </div>
 
     <!-- Global Client Scripts: Turbo Reconnect & Swiper Initialization -->
     <script>
@@ -369,7 +461,30 @@
                 });
             }
 
-            // 4. Xử lý nút Mobile Menu & Mobile Search
+            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            if (document.querySelector(".process-swiper")) {
+                const procSwiper = new Swiper(".process-swiper", {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                    grabCursor: true,
+                    scrollbar: {
+                        el: ".process-scrollbar",
+                        draggable: true,
+                        dragSize: 70,
+                        hide: false,
+                    },
+                    on: {
+                        slideChange: function() {
+                            const counter = document.getElementById("processSlideCounter");
+                            if (counter) {
+                                counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 5. Xử lý nút Mobile Menu & Mobile Search
             const btn = document.getElementById("mobileMenuBtn");
             const drawer = document.getElementById("mobileDrawer");
             if (btn && drawer) {
@@ -379,6 +494,22 @@
                     if (searchBar) searchBar.classList.add("hidden");
                 };
             }
+
+            // 6. Xử lý click chuyển đến #quy-trinh-san-xuat mượt mà
+            document.querySelectorAll('a[href*="#quy-trinh-san-xuat"]').forEach(function(anchor) {
+                anchor.onclick = function(e) {
+                    if (window.location.pathname === '/' || window.location.pathname === '') {
+                        const target = document.getElementById('quy-trinh-san-xuat');
+                        if (target) {
+                            e.preventDefault();
+                            target.scrollIntoView({ behavior: 'smooth' });
+                            if (drawer && !drawer.classList.contains("hidden")) {
+                                drawer.classList.add("hidden");
+                            }
+                        }
+                    }
+                };
+            });
 
             const searchBtn = document.getElementById("mobileSearchToggleBtn");
             const searchBar = document.getElementById("mobileSearchBar");
@@ -391,6 +522,111 @@
                         setTimeout(function() { searchInput.focus(); }, 100);
                     }
                 };
+            }
+
+            // 7. Xử lý popup Liên Hệ nổi (Đa kênh: Hotline, Zalo, Messenger, Địa chỉ)
+            const toggleContactBtn = document.getElementById("toggleContactWidgetBtn");
+            const contactPopup = document.getElementById("contactPopupBox");
+            const closeContactBtn = document.getElementById("closeContactPopupBtn");
+
+            if (toggleContactBtn && contactPopup) {
+                toggleContactBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    const isHidden = contactPopup.classList.contains("hidden");
+                    if (isHidden) {
+                        contactPopup.classList.remove("hidden");
+                        requestAnimationFrame(function() {
+                            contactPopup.classList.remove("scale-95", "opacity-0");
+                            contactPopup.classList.add("scale-100", "opacity-100");
+                        });
+                    } else {
+                        contactPopup.classList.remove("scale-100", "opacity-100");
+                        contactPopup.classList.add("scale-95", "opacity-0");
+                        setTimeout(function() { contactPopup.classList.add("hidden"); }, 200);
+                    }
+                };
+
+                if (closeContactBtn) {
+                    closeContactBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        contactPopup.classList.remove("scale-100", "opacity-100");
+                        contactPopup.classList.add("scale-95", "opacity-0");
+                        setTimeout(function() { contactPopup.classList.add("hidden"); }, 200);
+                    };
+                }
+
+                // Đóng popup khi click ra ngoài
+                document.addEventListener("click", function(e) {
+                    if (contactPopup && !contactPopup.classList.contains("hidden")) {
+                        if (!contactPopup.contains(e.target) && !toggleContactBtn.contains(e.target)) {
+                            contactPopup.classList.remove("scale-100", "opacity-100");
+                            contactPopup.classList.add("scale-95", "opacity-0");
+                            setTimeout(function() { contactPopup.classList.add("hidden"); }, 200);
+                        }
+                    }
+                });
+            }
+
+            // 8. Tự động chạy số (Count-up Animation) cho các con số thống kê trong 2 - 3 giây khi cuộn tới
+            const statCounters = document.querySelectorAll(".stat-counter");
+            if (statCounters.length > 0) {
+                if ("IntersectionObserver" in window) {
+                    const counterObserver = new IntersectionObserver(function(entries, observer) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                runCounterAnimation(entry.target);
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.2 });
+
+                    statCounters.forEach(function(el) {
+                        const suffix = el.getAttribute("data-suffix") || "";
+                        el.textContent = "0" + suffix;
+                        counterObserver.observe(el);
+                    });
+                } else {
+                    statCounters.forEach(function(el) {
+                        runCounterAnimation(el);
+                    });
+                }
+
+                function runCounterAnimation(el) {
+                    const target = parseInt(el.getAttribute("data-target"), 10) || 0;
+                    const suffix = el.getAttribute("data-suffix") || "";
+                    const useDot = el.getAttribute("data-dot") === "true";
+                    const duration = 2300; // Thời gian chạy số 2.3 giây (trong khoảng 2-3 giây theo yêu cầu)
+                    let startTime = null;
+
+                    function animationStep(timestamp) {
+                        if (!startTime) startTime = timestamp;
+                        const elapsed = timestamp - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+
+                        // Easing out cubic: mượt mà, ban đầu chạy nhanh rồi giảm tốc êm ái
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.floor(ease * target);
+
+                        let formatted = current.toString();
+                        if (useDot) {
+                            formatted = current.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                        }
+
+                        el.textContent = formatted + suffix;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animationStep);
+                        } else {
+                            let finalVal = target.toString();
+                            if (useDot) {
+                                finalVal = target.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                            }
+                            el.textContent = finalVal + suffix;
+                        }
+                    }
+
+                    requestAnimationFrame(animationStep);
+                }
             }
         }
 

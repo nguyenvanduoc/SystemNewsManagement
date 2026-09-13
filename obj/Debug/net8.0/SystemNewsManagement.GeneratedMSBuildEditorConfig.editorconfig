@@ -59,8 +59,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xUb25nUXVhblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xfVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Areas/QuanTri/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUXVhblRyaVxWaWV3c1xfVmlld1N0YXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/AdminThaiBeer/DangNhap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5UaGFpQmVlclxEYW5nTmhhcC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Working/website/SystemNewsManagement/SystemNewsManagement/Views/Home/Index.cshtml]

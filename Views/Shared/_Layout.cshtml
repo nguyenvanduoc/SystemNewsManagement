@@ -68,16 +68,16 @@
         ::-webkit-scrollbar-thumb:hover { background: #007A29; }
 
         /* Mobile Drag Scrollbar (Thanh kéo trái) */
-        .category-swiper, .product-swiper, .process-swiper {
+        .category-swiper, .product-swiper, .process-swiper, .news-swiper {
             width: 100%;
             overflow: hidden;
             position: relative;
         }
-        .category-swiper .swiper-slide, .product-swiper .swiper-slide, .process-swiper .swiper-slide {
+        .category-swiper .swiper-slide, .product-swiper .swiper-slide, .process-swiper .swiper-slide, .news-swiper .swiper-slide {
             width: 100% !important;
             box-sizing: border-box;
         }
-        .category-scrollbar, .product-scrollbar, .process-scrollbar {
+        .category-scrollbar, .product-scrollbar, .process-scrollbar, .news-scrollbar {
             height: 6px !important;
             background: #E5E7EB !important;
             border-radius: 9999px !important;
@@ -85,7 +85,7 @@
             margin-top: 1.25rem !important;
             width: 100% !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag {
+        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag, .news-scrollbar .swiper-scrollbar-drag {
             background: #007A29 !important;
             border-radius: 9999px !important;
             height: 100% !important;
@@ -94,7 +94,10 @@
         .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag {
             background: #B91C1C !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active {
+        .news-scrollbar .swiper-scrollbar-drag {
+            background: #007A29 !important;
+        }
+        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active, .news-scrollbar .swiper-scrollbar-drag:active {
             cursor: grabbing;
         }
 
@@ -476,6 +479,29 @@
                     on: {
                         slideChange: function() {
                             const counter = document.getElementById("processSlideCounter");
+                            if (counter) {
+                                counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 5. Khởi tạo Swiper Tin Tức & Sự Kiện trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            if (document.querySelector(".news-swiper")) {
+                const newsSwiper = new Swiper(".news-swiper", {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                    grabCursor: true,
+                    scrollbar: {
+                        el: ".news-scrollbar",
+                        draggable: true,
+                        dragSize: 70,
+                        hide: false,
+                    },
+                    on: {
+                        slideChange: function() {
+                            const counter = document.getElementById("newsSlideCounter");
                             if (counter) {
                                 counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
                             }

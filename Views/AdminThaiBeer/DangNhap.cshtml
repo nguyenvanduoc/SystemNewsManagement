@@ -1,0 +1,163 @@
+@model ThaiBeer.ViewModels.DangNhapAdminViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Đăng Nhập Quản Trị Hệ Thống - ThaiBeer";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Google Font & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0B0B0D radial-gradient(circle at 50% 15%, rgba(179, 13, 20, 0.18) 0%, rgba(11, 11, 13, 0.95) 70%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 text-stone-100 selection:bg-[#B30D14] selection:text-white">
+
+    <div class="w-full max-w-md">
+        <!-- Logo & Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center p-3 rounded-2xl bg-stone-900/90 border border-stone-800 shadow-2xl mb-4 backdrop-blur-md">
+                <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" class="h-20 w-auto object-contain" />
+            </div>
+            <h1 class="font-['Montserrat'] text-xl sm:text-2xl font-black tracking-wider uppercase text-white">
+                HỆ THỐNG QUẢN TRỊ
+            </h1>
+            <p class="text-xs sm:text-sm text-stone-400 mt-1.5 font-medium">
+                Vui lòng đăng nhập để truy cập trang quản lý ThaiBeer
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-stone-900/90 backdrop-blur-xl border border-stone-800/90 rounded-3xl p-7 sm:p-8 shadow-2xl relative overflow-hidden">
+            <!-- Dải sáng trang trí phía trên -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#B30D14] to-transparent"></div>
+
+            <form method="post" action="/adminthaibeer" class="space-y-5">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <!-- Thông báo lỗi nếu có -->
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="p-4 rounded-xl bg-rose-950/70 border border-rose-800/80 text-rose-300 text-xs space-y-1">
+                        <div class="flex items-center gap-2 font-bold">
+                            <i class="fa-solid fa-circle-exclamation text-rose-400"></i>
+                            <span>Thông báo đăng nhập:</span>
+                        </div>
+                        <div asp-validation-summary="All" class="text-rose-200"></div>
+                    </div>
+                }
+
+                <!-- Tên Đăng Nhập -->
+                <div>
+                    <label asp-for="TenDangNhap" class="block text-xs font-bold uppercase tracking-wider text-stone-300 mb-2">
+                        Tên Đăng Nhập
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-sm">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input asp-for="TenDangNhap" 
+                               class="w-full bg-stone-950/90 border border-stone-800 rounded-xl pl-10 pr-4 py-3 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-[#B30D14] focus:ring-1 focus:ring-[#B30D14] transition" 
+                               placeholder="admin" 
+                               required 
+                               autocomplete="username" 
+                               autofocus />
+                    </div>
+                    <span asp-validation-for="TenDangNhap" class="text-xs text-rose-400 mt-1 block"></span>
+                </div>
+
+                <!-- Mật Khẩu -->
+                <div>
+                    <label asp-for="MatKhau" class="block text-xs font-bold uppercase tracking-wider text-stone-300 mb-2">
+                        Mật Khẩu
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input asp-for="MatKhau" 
+                               id="passwordInput" 
+                               type="password" 
+                               class="w-full bg-stone-950/90 border border-stone-800 rounded-xl pl-10 pr-11 py-3 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-[#B30D14] focus:ring-1 focus:ring-[#B30D14] transition" 
+                               placeholder="••••••••" 
+                               required 
+                               autocomplete="current-password" />
+                        <button type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-200 transition" 
+                                aria-label="Hiện mật khẩu">
+                            <i id="passwordEyeIcon" class="fa-solid fa-eye text-sm"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="MatKhau" class="text-xs text-rose-400 mt-1 block"></span>
+                </div>
+
+                <!-- Ghi Nhớ & Gợi Ý -->
+                <div class="flex items-center justify-between pt-1">
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <input asp-for="GhiNhoDangNhap" 
+                               type="checkbox" 
+                               class="w-4 h-4 rounded text-[#B30D14] focus:ring-[#B30D14] bg-stone-950 border-stone-800" />
+                        <span class="text-xs text-stone-300 font-medium">Ghi nhớ đăng nhập</span>
+                    </label>
+                    <span class="text-[11px] text-amber-500/90 font-mono">ThaiBeer Admin Portal</span>
+                </div>
+
+                <!-- Nút Đăng Nhập -->
+                <div class="pt-2">
+                    <button type="submit" 
+                            class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#B30D14] to-[#8E090F] hover:from-[#9C0A10] hover:to-[#73070C] text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-950/40 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+                        <span>ĐĂNG NHẬP HỆ THỐNG</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Hướng Dẫn & Gợi Ý Nhẹ -->
+                <div class="pt-3 p-3 rounded-xl bg-stone-950/60 border border-stone-800/80 text-center">
+                    <p class="text-xs text-stone-400">
+                        <i class="fa-solid fa-shield-halved text-amber-500 mr-1"></i>
+                        Tài khoản mặc định: <span class="text-amber-400 font-bold font-mono">admin</span> / Mật khẩu: <span class="text-amber-400 font-bold font-mono">admin</span>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="text-center mt-6">
+            <a href="/" class="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-white transition">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                <span>Quay lại trang chủ ThaiBeer</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('passwordEyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

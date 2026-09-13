@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ThaiBeer.Infrastructure.Data;
 
 namespace ThaiBeer.Areas.QuanTri.Controllers;
 
+[Authorize]
 [Area("QuanTri")]
 [Route("quan-tri/san-pham")]
 public class SanPhamController : Controller
@@ -71,9 +73,9 @@ public class SanPhamController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ThemMoi(SanPhamUpsertViewModel vm)
     {
-        if (vm.TapTinHinhAnh == null || vm.TapTinHinhAnh.Length == 0)
+        if ((vm.TapTinHinhAnh == null || vm.TapTinHinhAnh.Length == 0) && string.IsNullOrWhiteSpace(vm.HinhAnhHienTai))
         {
-            ModelState.AddModelError(nameof(vm.TapTinHinhAnh), "Vui lòng tải lên ảnh đại diện cho sản phẩm.");
+            ModelState.AddModelError(nameof(vm.TapTinHinhAnh), "Vui lòng tải lên ảnh đại diện hoặc chọn ảnh cho sản phẩm.");
         }
 
         if (!ModelState.IsValid)
@@ -94,11 +96,15 @@ public class SanPhamController : Controller
             slug = $"{slug}-{DateTime.UtcNow.Ticks % 10000}";
         }
 
-        // Nén và lưu ảnh WebP
+        // Nén và lưu ảnh WebP hoặc dùng đường dẫn ảnh đã có
         string hinhAnhWebPUrl = string.Empty;
-        if (vm.TapTinHinhAnh != null)
+        if (vm.TapTinHinhAnh != null && vm.TapTinHinhAnh.Length > 0)
         {
             hinhAnhWebPUrl = await _imageOptimizer.ToiUuVaLuuWebPAsync(vm.TapTinHinhAnh, "san-pham", chieuRongToiDa: 1200, chatLuong: 82);
+        }
+        else if (!string.IsNullOrWhiteSpace(vm.HinhAnhHienTai))
+        {
+            hinhAnhWebPUrl = vm.HinhAnhHienTai.Trim();
         }
 
         var sanPham = new SanPham
@@ -200,6 +206,10 @@ public class SanPhamController : Controller
             var oldImage = sp.HinhAnhWebP;
             sp.HinhAnhWebP = await _imageOptimizer.ToiUuVaLuuWebPAsync(vm.TapTinHinhAnh, "san-pham", chieuRongToiDa: 1200, chatLuong: 82);
             _imageOptimizer.XoaHinhAnh(oldImage);
+        }
+        else if (!string.IsNullOrWhiteSpace(vm.HinhAnhHienTai) && vm.HinhAnhHienTai.Trim() != sp.HinhAnhWebP)
+        {
+            sp.HinhAnhWebP = vm.HinhAnhHienTai.Trim();
         }
 
         sp.TenSanPham = vm.TenSanPham.Trim();

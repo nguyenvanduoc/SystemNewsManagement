@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using ThaiBeer.Core.Interfaces;
@@ -84,7 +85,21 @@ builder.Services.AddOutputCache(options =>
         .Tag("tin_tuc_tag"));
 });
 
-// 4. Cấu hình MVC Controllers & Views
+// 4. Cấu hình Xác thực Quản trị Cookie (Đăng nhập tại /adminthaibeer)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/adminthaibeer";
+        options.LogoutPath = "/adminthaibeer/dang-xuat";
+        options.AccessDeniedPath = "/adminthaibeer";
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+        options.SlidingExpiration = true;
+        options.Cookie.Name = "ThaiBeer_Admin_Auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+    });
+
+// 5. Cấu hình MVC Controllers & Views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -105,7 +120,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 5. Cấu hình HTTP Request Pipeline
+// 6. Cấu hình HTTP Request Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -130,6 +145,7 @@ app.UseRouting();
 // Output Caching trên RAM
 app.UseOutputCache();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Routing: Phân hệ Quản trị (Areas/QuanTri)

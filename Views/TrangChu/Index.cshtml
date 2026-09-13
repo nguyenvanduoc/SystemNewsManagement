@@ -241,8 +241,52 @@
     </div>
 </section>
 
+<!-- 4. VỀ THAI BEER - CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG (Chuẩn 100% theo ảnh khách cung cấp: Full tràn viền & Dài hơn) -->
+<section class="relative bg-[#F8F9FA] border-y border-gray-200 overflow-hidden py-0">
+    <div class="w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 items-center min-h-[480px] lg:min-h-[540px] xl:min-h-[580px]">
+            <!-- Cột Trái: Ảnh banner du lịch tràn sát viền bên trái, hiển thị đầy đủ trọn vẹn toàn bộ người và tăng chiều dài -->
+            <div class="lg:col-span-7 xl:col-span-8 relative h-full flex items-center justify-start overflow-hidden">
+                <div class="relative w-full h-full min-h-[300px] sm:min-h-[420px] lg:min-h-[540px] xl:min-h-[580px] flex items-center">
+                    <img src="~/images/bannerdulich.webp.webp" 
+                         asp-append-version="true" 
+                         alt="Công ty Cổ phần Bia & Nước giải khát Sài Gòn Cửu Long tham quan nhà máy bia Vinaken" 
+                         class="w-full h-full object-cover object-left" 
+                         style="-webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to right, rgba(0,0,0,1) 88%, rgba(0,0,0,0) 100%);" 
+                         loading="lazy" />
+                    <!-- Lớp phủ Gradient mờ dần từ ảnh sang nền (Hiển thị mượt mà trên desktop) -->
+                    <div class="hidden lg:block absolute inset-y-0 right-0 w-20 xl:w-32 bg-gradient-to-r from-transparent to-[#F8F9FA] pointer-events-none"></div>
+                </div>
+            </div>
 
-<!-- 4. Nghệ Thuật Nấu Bia & Phát Triển Bền Vững (Heineken Corporate Heritage Style) -->
+            <!-- Cột Phải: Nội dung Giới thiệu chuẩn 100% theo ảnh của khách cung cấp -->
+            <div class="lg:col-span-5 xl:col-span-4 px-6 sm:px-10 lg:pl-6 lg:pr-12 xl:pr-16 2xl:pr-24 py-8 lg:py-12 space-y-4 xl:space-y-5">
+                <div>
+                    <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider block mb-2" style="color: #B30D14;">
+                        VỀ THAI BEER
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl xl:text-[34px] font-black text-[#111111] uppercase tracking-tight leading-tight sm:leading-tight">
+                        CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG
+                    </h2>
+                </div>
+
+                <p class="text-xs sm:text-sm xl:text-[14.5px] leading-relaxed sm:leading-[26px] text-[#333333] font-normal text-justify sm:text-left">
+                    Với đội ngũ cán bộ, công nhân viên có trình độ tay nghề cao, các thiết bị máy móc hiện đại, đã cập nhật các kiến thức mới, hiện đại, biết phát huy nguồn lực tri thức cao và nội lực sáng tạo Việt Nam, làm chủ được nhanh chóng công nghệ mới. Trong suốt quá trình kinh doanh, luôn lấy chất lượng và an toàn vệ sinh thực phẩm tạo nên sự uy tín và sự phát triển bền vững là tiêu chí hàng đầu để đến với khách hàng.
+                </p>
+
+                <div class="pt-2">
+                    <a href="/lien-he" class="inline-flex items-center gap-2 px-6 py-2.5 sm:px-7 sm:py-3 rounded-lg text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all" style="background-color: #B30D14;">
+                        <span>TÌM HIỂU THÊM</span>
+                        <i class="fa-solid fa-play text-[8px] sm:text-[9px] text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*
+<!-- 4b. Nghệ Thuật Nấu Bia & Phát Triển Bền Vững (Đã ẩn theo yêu cầu) -->
 <section class="py-20 bg-white border-y border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -293,23 +337,82 @@
         </div>
     </div>
 </section>
+*@
 
-<!-- 5. Tin Tức & Thông Cáo Báo Chí (Heineken News 3-Column Card Layout) -->
-<section class="py-16 sm:py-20 bg-[#F4F4F4]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between mb-12">
+<!-- 5. Tin Tức & Thông Cáo Báo Chí (Rộng bằng banner chuẩn max-w-[1700px]) -->
+<section class="py-14 sm:py-20 bg-[#F4F4F4]">
+    <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
+        <div class="flex items-end justify-between mb-8 sm:mb-12">
             <div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-[#222222] tracking-tight uppercase">
                     TIN TỨC & SỰ KIỆN
                 </h2>
                 <div class="w-16 h-1 bg-[#007A29] mt-3"></div>
             </div>
-            <a href="/tin-tuc" class="text-xs text-[#007A29] hover:underline font-bold hidden sm:inline-flex items-center gap-1">
-                Xem tất cả bài viết <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            <a href="/tin-tuc" class="text-xs sm:text-sm text-[#007A29] hover:underline font-bold hidden sm:inline-flex items-center gap-1.5">
+                <span>Xem tất cả bài viết</span>
+                <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 1. GIAO DIỆN MOBILE: Chỉ mặc định hiển thị 1 Card tin tức và kéo vuốt sang trái (Swiper 1 Slide + Draggable Scrollbar) -->
+        <div class="md:hidden">
+            <div class="swiper news-swiper overflow-hidden px-1 py-2">
+                <div class="swiper-wrapper">
+                    @foreach (var tin in Model.TinTucNoiBat)
+                    {
+                        <div class="swiper-slide h-auto">
+                            <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-md flex flex-col justify-between h-full">
+                                <div>
+                                    <div class="aspect-video overflow-hidden">
+                                        <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover" loading="lazy" />
+                                    </div>
+                                    <div class="p-5 bg-white">
+                                        <span class="text-[11px] text-[#666666] font-mono block mb-1.5">
+                                            <i class="fa-regular fa-calendar mr-1"></i> @tin.NgayTao.ToString("dd/MM/yyyy")
+                                        </span>
+                                        <h3 class="text-base font-bold text-[#222222] mt-1 line-clamp-2 leading-snug">
+                                            <a href="/tin-tuc/@tin.DuongDanSlug">@tin.TieuDe</a>
+                                        </h3>
+                                        <p class="text-xs text-[#666666] mt-2.5 line-clamp-3 leading-relaxed">
+                                            @tin.TomTat
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="px-5 pb-5 pt-1 bg-white">
+                                    <a href="/tin-tuc/@tin.DuongDanSlug" class="text-xs text-[#007A29] font-bold hover:underline inline-flex items-center gap-1.5">
+                                        Đọc chi tiết <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+
+                <!-- Thanh Kéo Trái (Draggable Scrollbar) -->
+                <div class="news-scrollbar swiper-scrollbar"></div>
+                
+                <!-- Gợi ý kéo trái mượt mà -->
+                <div class="flex items-center justify-between text-[11px] text-gray-400 mt-3 px-1">
+                    <span class="inline-flex items-center gap-1.5">
+                        <i class="fa-solid fa-hand-pointer text-gray-400"></i>
+                        Kéo thanh trượt hoặc vuốt sang trái
+                    </span>
+                    <span class="font-mono text-gray-400" id="newsSlideCounter">1 / @Model.TinTucNoiBat.Count</span>
+                </div>
+            </div>
+
+            <!-- Nút xem tất cả bài viết trên Mobile -->
+            <div class="text-center mt-6">
+                <a href="/tin-tuc" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-[#007A29] hover:text-white border border-gray-300 text-[#222222] text-xs font-bold tracking-wider uppercase transition shadow-sm">
+                    <span>Xem tất cả bài viết</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- 2. GIAO DIỆN DESKTOP / TABLET: 3 Cột Ngang Rộng Rãi Sang Trọng -->
+        <div class="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8">
             @foreach (var tin in Model.TinTucNoiBat)
             {
                 <article class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
@@ -554,24 +657,5 @@
     </div>
 </section>
 
-<!-- 8. Banner Đăng Ký Đại Lý Phân Phối (Heineken Deep Emerald Style) -->
-<section class="py-16 bg-[#003110] text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#007A29]/40 text-[#A7F3D0] text-xs font-bold uppercase tracking-widest border border-[#007A29]/60">
-            Cơ Hội Hợp Tác Chiến Lược
-        </span>
-        <h2 class="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight">
-            TRỞ THÀNH ĐỐI TÁC PHÂN PHỐI CHÍNH THỨC
-        </h2>
-        <p class="text-sm sm:text-base font-normal max-w-2xl mx-auto text-gray-300 leading-relaxed">
-            Chính sách chiết khấu cạnh tranh, hỗ trợ bảng hiệu, vật phẩm quảng cáo (POSM) và đồng hành chuyên nghiệp dành cho hệ thống đại lý, nhà hàng, khách sạn trên toàn quốc.
-        </p>
-        <div class="pt-2">
-            <a href="/lien-he" class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition hover:scale-105">
-                <span>Liên Hệ Nhận Chính Sách Chiết Khấu</span>
-                <span class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">→</span>
-            </a>
-        </div>
-    </div>
-</section>
+
 

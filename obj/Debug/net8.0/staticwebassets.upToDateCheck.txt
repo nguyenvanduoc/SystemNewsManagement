@@ -1,5 +1,7 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\bannerdulich.webp
+wwwroot\images\bannerdulich.webp.webp
 wwwroot\images\bg-system.webp
 wwwroot\images\logo\.gitkeep
 wwwroot\images\logo\123zolonlun.png

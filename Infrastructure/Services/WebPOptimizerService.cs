@@ -74,11 +74,15 @@ public class WebPOptimizerService : IImageOptimizerService
         if (string.IsNullOrWhiteSpace(duongDanTuongDoi))
             return;
 
+        // Chỉ xóa các ảnh do người dùng upload trong thư mục uploads/
+        var normalized = duongDanTuongDoi.Trim().Replace('\\', '/').TrimStart('/');
+        if (!normalized.StartsWith("uploads/", StringComparison.OrdinalIgnoreCase))
+            return;
+
         try
         {
-            var cleanPath = duongDanTuongDoi.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
             var webRoot = _environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            var duongDanVatLy = Path.Combine(webRoot, cleanPath);
+            var duongDanVatLy = Path.Combine(webRoot, normalized.Replace('/', Path.DirectorySeparatorChar));
 
             if (File.Exists(duongDanVatLy))
             {

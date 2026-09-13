@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ThaiBeer.Areas.QuanTri.ViewModels;
@@ -5,6 +6,7 @@ using ThaiBeer.Infrastructure.Data;
 
 namespace ThaiBeer.Areas.QuanTri.Controllers;
 
+[Authorize]
 [Area("QuanTri")]
 [Route("quan-tri")]
 public class TongQuanController : Controller

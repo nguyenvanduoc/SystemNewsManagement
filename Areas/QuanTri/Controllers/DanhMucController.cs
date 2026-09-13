@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ThaiBeer.Core.Common;
@@ -7,6 +8,7 @@ using ThaiBeer.Infrastructure.Data;
 
 namespace ThaiBeer.Areas.QuanTri.Controllers;
 
+[Authorize]
 [Area("QuanTri")]
 [Route("quan-tri/danh-muc")]
 public class DanhMucController : Controller

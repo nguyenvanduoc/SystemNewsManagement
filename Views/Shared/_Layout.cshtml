@@ -3,12 +3,58 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>@ViewData["Title"] - ThaiBeer | Bia Hoàng Gia Thái Lan Thượng Hạng</title>
-    <meta name="description" content="@(ViewData["Description"] ?? "ThaiBeer - Thương hiệu bia Thái hảo hạng, kế thừa công thức ủ men truyền thống kết hợp công nghệ hiện đại mang đến cảm giác sảng khoái bất tận.")" />
-    <meta name="keywords" content="thaibeer, bia thái, bia chai thái lan, bia lon thái, bia hoàng gia, đại lý bia thái" />
-    <meta property="og:title" content="@ViewData["Title"] - ThaiBeer" />
-    <meta property="og:description" content="@(ViewData["Description"] ?? "Khám phá thế giới bia Thái đẳng cấp với ThaiBeer.")" />
+    @{
+        var request = Context.Request;
+        var scheme = request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? request.Scheme;
+        var host = request.Headers["X-Forwarded-Host"].FirstOrDefault() ?? request.Host.Value;
+        var baseUrl = $"{scheme}://{host}";
+        
+        var defaultMetaTitle = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
+        var defaultMetaDesc = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
+        
+        var pageTitle = ViewData["Title"]?.ToString() ?? defaultMetaTitle;
+        if (!pageTitle.Contains("CÔNG TY CỔ PHẦN BIA", StringComparison.OrdinalIgnoreCase) && !pageTitle.Contains("ThaiBeer", StringComparison.OrdinalIgnoreCase))
+        {
+            pageTitle = $"{pageTitle} - ThaiBeer | Bia Hoàng Gia Thái Lan Thượng Hạng";
+        }
+
+        var pageDesc = ViewData["Description"]?.ToString() ?? defaultMetaDesc;
+        
+        var ogImageRelative = ViewData["OgImage"]?.ToString() ?? "/images/bia123zo.png";
+        var ogImageAbsolute = ogImageRelative.StartsWith("http", StringComparison.OrdinalIgnoreCase) 
+            ? ogImageRelative 
+            : $"{baseUrl}{ogImageRelative}";
+            
+        var currentUrl = $"{baseUrl}{request.Path}";
+    }
+    <title>@pageTitle</title>
+    <meta name="description" content="@pageDesc" />
+    <meta name="keywords" content="Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG, thaibeer, bia thái, bia chai thái lan, bia lon thái, bia hoàng gia, đại lý bia thái, bia 123 zo" />
+    <meta name="author" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long" />
+    <meta name="copyright" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long - [nhuttrongchau@gmail.com]" />
+    <meta name="robots" content="index,follow,noodp" />
+    <link rel="canonical" href="@currentUrl" />
+
+    <!-- Open Graph Meta Tags (Zalo, Facebook, Messenger, Telegram, Skype Preview) -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="@pageDesc" />
+    <meta property="og:url" content="@currentUrl" />
+    <meta property="og:image" content="@ogImageAbsolute" />
+    <meta property="og:image:secure_url" content="@ogImageAbsolute" />
+    <meta property="og:image:alt" content="@pageTitle" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="nhuttrongchau@gmail.com" />
+    <meta name="twitter:creator" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long" />
+    <meta name="twitter:title" content="@pageTitle" />
+    <meta name="twitter:description" content="@pageDesc" />
+    <meta name="twitter:image" content="@ogImageAbsolute" />
 
     <!-- Google Fonts: Plus Jakarta Sans & Montserrat (Chuẩn thaibeer.vn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +68,10 @@
     <!-- Swiper Slider CSS & JS - 60fps Mobile Swipe Touch -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Fancybox 5 Lightbox - Phóng to ảnh mượt mà chuẩn thaibeer.vn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -100,6 +150,43 @@
         .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active, .news-scrollbar .swiper-scrollbar-drag:active {
             cursor: grabbing;
         }
+
+        /* Moments Swiper (Khoảnh khắc của chúng tôi - Không bao giờ vỡ dòng) */
+        .moments-swiper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .moments-swiper .swiper-wrapper {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: stretch;
+            box-sizing: content-box;
+        }
+        .moments-swiper .swiper-slide {
+            flex-shrink: 0 !important;
+            height: auto !important;
+            box-sizing: border-box;
+        }
+
+       
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-150 { transition-delay: 150ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-250 { transition-delay: 250ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
 
         /* Hiệu ứng gợn sóng bắt mắt cho nút Liên Hệ nổi */
         @@keyframes contactPulse {
@@ -391,16 +478,43 @@
                 return;
             }
 
-            // 0. Tự động phát Video Banner Introbeer (nếu có)
+            // 0. Tự động phát Video Banner Introbeer trên mọi thiết bị (kể cả iPhone iOS và tiết kiệm pin)
             const videoBanner = document.getElementById("videoId");
             if (videoBanner) {
                 videoBanner.muted = true;
-                videoBanner.play().catch(function(e) {
-                    console.log("Video autoplay prevented:", e);
-                });
+                videoBanner.defaultMuted = true;
+                videoBanner.playsInline = true;
+                videoBanner.setAttribute("muted", "");
+                videoBanner.setAttribute("playsinline", "");
+                videoBanner.setAttribute("webkit-playsinline", "");
+
+                const playVideo = function() {
+                    const p = videoBanner.play();
+                    if (p !== undefined) {
+                        p.catch(function(e) {
+                            console.log("Autoplay waiting for touch gesture:", e);
+                            // Nếu iOS chế độ tiết kiệm pin chặn autoplay, kích hoạt ngay khi người dùng chạm hoặc cuộn
+                            const unlockGesture = function() {
+                                videoBanner.play().catch(function() {});
+                                window.removeEventListener("touchstart", unlockGesture);
+                                window.removeEventListener("touchend", unlockGesture);
+                                window.removeEventListener("scroll", unlockGesture);
+                                window.removeEventListener("click", unlockGesture);
+                            };
+                            window.addEventListener("touchstart", unlockGesture, { passive: true, once: true });
+                            window.addEventListener("touchend", unlockGesture, { passive: true, once: true });
+                            window.addEventListener("scroll", unlockGesture, { passive: true, once: true });
+                            window.addEventListener("click", unlockGesture, { passive: true, once: true });
+                        });
+                    }
+                };
+
+                playVideo();
+                videoBanner.addEventListener("loadedmetadata", playVideo, { once: true });
+                videoBanner.addEventListener("canplay", playVideo, { once: true });
             }
 
-            // 1. Khởi tạo lại Swiper Hero Banner
+            // 1. Khởi tạo lại Swiper Hero Banner (nếu dùng)
             if (document.querySelector(".hero-swiper")) {
                 new Swiper(".hero-swiper", {
                     loop: true,
@@ -418,12 +532,21 @@
                 });
             }
 
-            // 2. Khởi tạo Swiper Bộ sưu tập trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            // 2. Khởi tạo Swiper Bộ sưu tập trên Mobile (Tự động chuyển động + draggable)
             if (document.querySelector(".category-swiper")) {
                 const catSwiper = new Swiper(".category-swiper", {
                     slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
+                    rewind: true,
+                    observer: true,
+                    observeParents: true,
+                    resizeObserver: true,
+                    autoplay: {
+                        delay: 3500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true
+                    },
                     scrollbar: {
                         el: ".category-scrollbar",
                         draggable: true,
@@ -441,12 +564,21 @@
                 });
             }
 
-            // 3. Khởi tạo Swiper Sản phẩm nổi bật trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            // 3. Khởi tạo Swiper Sản phẩm nổi bật trên Mobile (Tự động chuyển động liên tục + draggable)
             if (document.querySelector(".product-swiper")) {
                 const prodSwiper = new Swiper(".product-swiper", {
                     slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
+                    rewind: true,
+                    observer: true,
+                    observeParents: true,
+                    resizeObserver: true,
+                    autoplay: {
+                        delay: 3200,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true
+                    },
                     scrollbar: {
                         el: ".product-scrollbar",
                         draggable: true,
@@ -464,12 +596,21 @@
                 });
             }
 
-            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Tự động chuyển động + draggable)
             if (document.querySelector(".process-swiper")) {
                 const procSwiper = new Swiper(".process-swiper", {
                     slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
+                    rewind: true,
+                    observer: true,
+                    observeParents: true,
+                    resizeObserver: true,
+                    autoplay: {
+                        delay: 4500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true
+                    },
                     scrollbar: {
                         el: ".process-scrollbar",
                         draggable: true,
@@ -487,12 +628,21 @@
                 });
             }
 
-            // 5. Khởi tạo Swiper Tin Tức & Sự Kiện trên Mobile (Chỉ 1 card, có thanh kéo trái draggable)
+            // 5. Khởi tạo Swiper Tin Tức & Sự Kiện trên Mobile (Tự động chuyển động + draggable)
             if (document.querySelector(".news-swiper")) {
                 const newsSwiper = new Swiper(".news-swiper", {
                     slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
+                    rewind: true,
+                    observer: true,
+                    observeParents: true,
+                    resizeObserver: true,
+                    autoplay: {
+                        delay: 3800,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true
+                    },
                     scrollbar: {
                         el: ".news-scrollbar",
                         draggable: true,
@@ -508,6 +658,56 @@
                         }
                     }
                 });
+            }
+
+            // 6. Khởi tạo Swiper Khoảnh Khắc Của Chúng Tôi (Chạy ảnh tự động, phóng to khi click)
+            if (document.querySelector(".moments-swiper") && typeof Swiper !== "undefined") {
+                try {
+                    new Swiper(".moments-swiper", {
+                        slidesPerView: 1.4,
+                        spaceBetween: 16,
+                        loop: true,
+                        speed: 600,
+                        autoplay: {
+                            delay: 1800,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true
+                        },
+                        navigation: {
+                            nextEl: ".moments-next",
+                            prevEl: ".moments-prev"
+                        },
+                        breakpoints: {
+                            480: { slidesPerView: 1.8, spaceBetween: 16 },
+                            640: { slidesPerView: 2.3, spaceBetween: 18 },
+                            768: { slidesPerView: 2.8, spaceBetween: 20 },
+                            1024: { slidesPerView: 3.4, spaceBetween: 22 },
+                            1280: { slidesPerView: 4, spaceBetween: 24 }
+                        }
+                    });
+                } catch (swiperErr) {
+                    console.error("Moments Swiper error:", swiperErr);
+                }
+            }
+
+            // 7. Khởi tạo Fancybox cho album ảnh Khoảnh khắc phóng to mượt mà chuẩn thaibeer.vn
+            if (typeof Fancybox !== "undefined") {
+                try {
+                    Fancybox.unbind("[data-fancybox='album-khoang-khac']");
+                    Fancybox.bind("[data-fancybox='album-khoang-khac']", {
+                        dragToClose: true,
+                        autoFocus: false,
+                        Toolbar: {
+                            display: {
+                                left: ["infobar"],
+                                middle: ["zoomIn", "zoomOut", "toggle1to1"],
+                                right: ["slideshow", "fullscreen", "close"]
+                            }
+                        }
+                    });
+                } catch (fancyErr) {
+                    console.error("Fancybox error:", fancyErr);
+                }
             }
 
             // 5. Xử lý nút Mobile Menu & Mobile Search
@@ -652,6 +852,41 @@
                     }
 
                     requestAnimationFrame(animationStep);
+                }
+            }
+
+            // 9. Hiệu ứng chuyển động xuất hiện nhẹ nhàng khi mở tab mới / vào web / cuộn trang (chuẩn ascvn.com.vn)
+            const reveals = document.querySelectorAll(".reveal-on-scroll");
+            if (reveals.length > 0) {
+                if ("IntersectionObserver" in window) {
+                    const revealObserver = new IntersectionObserver(function(entries, observer) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("is-visible");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, {
+                        root: null,
+                        rootMargin: "0px 0px -40px 0px",
+                        threshold: 0.08
+                    });
+
+                    reveals.forEach(function(el) {
+                        const rect = el.getBoundingClientRect();
+                        // Nếu phần tử đang ở trong viewport ngay khi tải trang
+                        if (rect.top < window.innerHeight && rect.bottom > 0) {
+                            setTimeout(function() {
+                                el.classList.add("is-visible");
+                            }, 50);
+                        } else {
+                            revealObserver.observe(el);
+                        }
+                    });
+                } else {
+                    reveals.forEach(function(el) {
+                        el.classList.add("is-visible");
+                    });
                 }
             }
         }

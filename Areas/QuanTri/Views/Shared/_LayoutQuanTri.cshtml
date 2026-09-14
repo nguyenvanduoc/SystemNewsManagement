@@ -24,7 +24,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Dark Theme cho CKEditor 5 trong Admin */
+        .ck-editor__editable_inline {
+            min-height: 280px;
+            background-color: #0c0a09 !important; /* stone-950 */
+            color: #f5f5f4 !important;
+            border-color: #44403c !important;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .ck.ck-toolbar {
+            background: #1c1917 !important; /* stone-900 */
+            border-color: #44403c !important;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+        }
+        .ck.ck-editor__main > .ck-editor__editable {
+            border-radius: 0 0 0.75rem 0.75rem !important;
+        }
+        .ck.ck-toolbar .ck-toolbar__items {
+            color: #f5f5f4 !important;
+        }
+        .ck.ck-button, .ck.ck-dropdown__button {
+            color: #d6d3d1 !important;
+            cursor: pointer;
+        }
+        .ck.ck-button:hover, .ck.ck-dropdown__button:hover {
+            background: #292524 !important;
+            color: #fbbf24 !important;
+        }
+        .ck.ck-button.ck-on {
+            background: #44403c !important;
+            color: #f59e0b !important;
+        }
+        .ck.ck-dropdown__panel {
+            background: #1c1917 !important;
+            border-color: #44403c !important;
+        }
+        .ck.ck-list__item, .ck.ck-list__item .ck-button {
+            color: #e7e5e4 !important;
+        }
+        .ck.ck-list__item:hover, .ck.ck-list__item .ck-button:hover {
+            background: #292524 !important;
+            color: #fbbf24 !important;
+        }
+        .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+            border-color: #44403c !important;
+        }
+        .ck.ck-editor__main > .ck-editor__editable.ck-focused {
+            border-color: #f59e0b !important; /* amber-500 */
+            box-shadow: 0 0 0 1px #f59e0b !important;
+        }
     </style>
+    <!-- CKEditor 4 Full CDN -->
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 </head>
 <body class="bg-stone-950 text-stone-100 flex min-h-screen">
 
@@ -114,6 +167,33 @@
         </main>
     </div>
 
+    <!-- Tự động kích hoạt CKEditor cho textarea có class 'ckeditor-editor' hoặc id 'NoiDungChiTiet' -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof CKEDITOR !== "undefined") {
+                document.querySelectorAll('textarea.ckeditor-editor, textarea#NoiDungChiTiet').forEach(function (textarea) {
+                    if (!textarea.id) {
+                        textarea.id = 'ckeditor_' + Math.random().toString(36).substring(2, 9);
+                    }
+                    if (!CKEDITOR.instances[textarea.id]) {
+                        CKEDITOR.replace(textarea.id, {
+                            language: 'vi',
+                            height: 380,
+                            versionCheck: false
+                        });
+                    }
+                });
+                // Đồng bộ dữ liệu CKEditor khi submit form
+                document.querySelectorAll('form').forEach(function (form) {
+                    form.addEventListener('submit', function () {
+                        for (var instance in CKEDITOR.instances) {
+                            CKEDITOR.instances[instance].updateElement();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

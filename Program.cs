@@ -9,9 +9,9 @@ using ThaiBeer.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Cấu hình Chuỗi kết nối SQL Server
+// 1. Cấu hình Chuỗi kết nối SQL Server (Quản lý duy nhất tại appsettings.json)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Server=localhost\\MSSQLSERVER01;Database=ThaiBeerDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+    ?? throw new InvalidOperationException("Không tìm thấy chuỗi kết nối 'DefaultConnection' trong appsettings.json.");
 
 // EF Core 8 (Phân hệ Quản trị & Schema Migration)
 builder.Services.AddDbContext<ThaiBeerDbContext>(options =>

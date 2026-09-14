@@ -897,24 +897,20 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
-      "SixLabors.ImageSharp/4.1.1": {
+      "SixLabors.ImageSharp/3.1.12": {
         "type": "package",
-        "dependencies": {
-          "System.IO.Hashing": "8.0.0"
-        },
         "compile": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "build/SixLabors.ImageSharp.props": {},
-          "build/SixLabors.ImageSharp.targets": {}
+          "build/SixLabors.ImageSharp.props": {}
         }
       },
       "System.ClientModel/1.0.0": {
@@ -1148,22 +1144,6 @@
           "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "System.IO.Hashing/8.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "System.IO.Pipelines/6.0.3": {
@@ -2317,24 +2297,20 @@
           "lib/netstandard1.3/System.Text.Encoding.dll": {}
         }
       },
-      "SixLabors.ImageSharp/4.1.1": {
+      "SixLabors.ImageSharp/3.1.12": {
         "type": "package",
-        "dependencies": {
-          "System.IO.Hashing": "8.0.0"
-        },
         "compile": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
             "related": ".xml"
           }
         },
         "build": {
-          "build/SixLabors.ImageSharp.props": {},
-          "build/SixLabors.ImageSharp.targets": {}
+          "build/SixLabors.ImageSharp.props": {}
         }
       },
       "System.ClientModel/1.0.0": {
@@ -2559,22 +2535,6 @@
           "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "System.IO.Hashing/8.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "System.IO.Pipelines/6.0.3": {
@@ -4280,22 +4240,19 @@
         "runtimes/aot/lib/netcore50/_._"
       ]
     },
-    "SixLabors.ImageSharp/4.1.1": {
-      "sha512": "yhsstOTxlEF3b7K7hz6tPC+3g5ll0ZAZMJV6J/miSTB1z/AFYFgcqvQrhX3RuEM4SgmlMhR9sJOzzqeUluIjCg==",
+    "SixLabors.ImageSharp/3.1.12": {
+      "sha512": "iAg6zifihXEFS/t7fiHhZBGAdCp3FavsF4i2ZIDp0JfeYeDVzvmlbY1CNhhIKimaIzrzSi5M/NBFcWvZT2rB/A==",
       "type": "package",
-      "path": "sixlabors.imagesharp/4.1.1",
+      "path": "sixlabors.imagesharp/3.1.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "build/SixLabors.ImageSharp.props",
-        "build/SixLabors.ImageSharp.targets",
-        "build/net472/SixLabors.Licensing.dll",
-        "build/net8.0/SixLabors.Licensing.dll",
-        "lib/net8.0/SixLabors.ImageSharp.dll",
-        "lib/net8.0/SixLabors.ImageSharp.xml",
+        "lib/net6.0/SixLabors.ImageSharp.dll",
+        "lib/net6.0/SixLabors.ImageSharp.xml",
         "sixlabors.imagesharp.128.png",
-        "sixlabors.imagesharp.4.1.1.nupkg.sha512",
+        "sixlabors.imagesharp.3.1.12.nupkg.sha512",
         "sixlabors.imagesharp.nuspec"
       ]
     },
@@ -4608,36 +4565,6 @@
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.xml",
         "system.identitymodel.tokens.jwt.6.35.0.nupkg.sha512",
         "system.identitymodel.tokens.jwt.nuspec"
-      ]
-    },
-    "System.IO.Hashing/8.0.0": {
-      "sha512": "ne1843evDugl0md7Fjzy6QjJrzsjh46ZKbhf8GwBXb5f/gw97J4bxMs0NQKifDuThh/f0bZ0e62NPl1jzTuRqA==",
-      "type": "package",
-      "path": "system.io.hashing/8.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/System.IO.Hashing.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/System.IO.Hashing.targets",
-        "lib/net462/System.IO.Hashing.dll",
-        "lib/net462/System.IO.Hashing.xml",
-        "lib/net6.0/System.IO.Hashing.dll",
-        "lib/net6.0/System.IO.Hashing.xml",
-        "lib/net7.0/System.IO.Hashing.dll",
-        "lib/net7.0/System.IO.Hashing.xml",
-        "lib/net8.0/System.IO.Hashing.dll",
-        "lib/net8.0/System.IO.Hashing.xml",
-        "lib/netstandard2.0/System.IO.Hashing.dll",
-        "lib/netstandard2.0/System.IO.Hashing.xml",
-        "system.io.hashing.8.0.0.nupkg.sha512",
-        "system.io.hashing.nuspec",
-        "useSharedDesignerContext.txt"
       ]
     },
     "System.IO.Pipelines/6.0.3": {
@@ -5331,7 +5258,7 @@
       "Microsoft.Data.SqlClient >= 5.2.2",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.8",
-      "SixLabors.ImageSharp >= 4.1.1"
+      "SixLabors.ImageSharp >= 3.1.12"
     ]
   },
   "packageFolders": {
@@ -5406,7 +5333,7 @@
           },
           "SixLabors.ImageSharp": {
             "target": "Package",
-            "version": "[4.1.1, )"
+            "version": "[3.1.12, )"
           }
         },
         "imports": [

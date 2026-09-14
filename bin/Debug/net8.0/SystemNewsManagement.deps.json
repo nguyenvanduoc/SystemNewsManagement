@@ -12,7 +12,7 @@
           "Microsoft.Data.SqlClient": "5.2.2",
           "Microsoft.EntityFrameworkCore.Design": "8.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.8",
-          "SixLabors.ImageSharp": "4.1.1"
+          "SixLabors.ImageSharp": "3.1.12"
         },
         "runtime": {
           "SystemNewsManagement.dll": {}
@@ -540,14 +540,11 @@
           }
         }
       },
-      "SixLabors.ImageSharp/4.1.1": {
-        "dependencies": {
-          "System.IO.Hashing": "8.0.0"
-        },
+      "SixLabors.ImageSharp/3.1.12": {
         "runtime": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.1.1.0"
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.1.12.0"
           }
         }
       },
@@ -650,14 +647,6 @@
           "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll": {
             "assemblyVersion": "6.35.0.0",
             "fileVersion": "6.35.0.41201"
-          }
-        }
-      },
-      "System.IO.Hashing/8.0.0": {
-        "runtime": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
           }
         }
       },
@@ -893,12 +882,12 @@
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
     },
-    "SixLabors.ImageSharp/4.1.1": {
+    "SixLabors.ImageSharp/3.1.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yhsstOTxlEF3b7K7hz6tPC+3g5ll0ZAZMJV6J/miSTB1z/AFYFgcqvQrhX3RuEM4SgmlMhR9sJOzzqeUluIjCg==",
-      "path": "sixlabors.imagesharp/4.1.1",
-      "hashPath": "sixlabors.imagesharp.4.1.1.nupkg.sha512"
+      "sha512": "sha512-iAg6zifihXEFS/t7fiHhZBGAdCp3FavsF4i2ZIDp0JfeYeDVzvmlbY1CNhhIKimaIzrzSi5M/NBFcWvZT2rB/A==",
+      "path": "sixlabors.imagesharp/3.1.12",
+      "hashPath": "sixlabors.imagesharp.3.1.12.nupkg.sha512"
     },
     "System.ClientModel/1.0.0": {
       "type": "package",
@@ -969,13 +958,6 @@
       "sha512": "sha512-yxGIQd3BFK7F6S62/7RdZk3C/mfwyVxvh6ngd1VYMBmbJ1YZZA9+Ku6suylVtso0FjI0wbElpJ0d27CdsyLpBQ==",
       "path": "system.identitymodel.tokens.jwt/6.35.0",
       "hashPath": "system.identitymodel.tokens.jwt.6.35.0.nupkg.sha512"
-    },
-    "System.IO.Hashing/8.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-ne1843evDugl0md7Fjzy6QjJrzsjh46ZKbhf8GwBXb5f/gw97J4bxMs0NQKifDuThh/f0bZ0e62NPl1jzTuRqA==",
-      "path": "system.io.hashing/8.0.0",
-      "hashPath": "system.io.hashing.8.0.0.nupkg.sha512"
     },
     "System.Memory.Data/1.0.2": {
       "type": "package",

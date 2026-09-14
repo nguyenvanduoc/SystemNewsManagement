@@ -1,14 +1,15 @@
 @model ThaiBeer.ViewModels.TrangChuViewModel
 @{
-    ViewData["Title"] = "Trang Chủ - Hương Vị Đẳng Cấp Thượng Hạng";
-    ViewData["Description"] = "Trải nghiệm dòng bia trứ danh với vị đắng êm dịu, bọt tuyết mịn màng và nguồn hoa bia Saaz quý tộc.";
+    ViewData["Title"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
+    ViewData["Description"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
+    ViewData["OgImage"] = "/images/bia123zo.png";
 }
 
-<!-- 1. Hero Banner Video (Chuẩn 100% ThaiBeer.vn - Phát video introbeer tĩnh) -->
 <section class="relative w-full bg-black overflow-hidden shadow-sm">
-    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center">
+    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center cursor-pointer" onclick="var v = document.getElementById('videoId'); if(v){ if(v.paused){ v.play(); } else { v.pause(); } }">
         <video id="videoId" 
                class="w-full h-full object-cover" 
+               src="~/images/logo/introbeer-6545-1782743922.mp4"
                autoplay 
                loop 
                muted 
@@ -125,7 +126,7 @@
 <section class="pt-5 pb-10 sm:pt-8 sm:pb-14 bg-white">
     <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
         <!-- Header Căn Giữa (Đã bỏ chữ THAI BEER và rút gọn khoảng cách) -->
-        <div class="text-center mb-4 sm:mb-6">
+        <div class="reveal-on-scroll text-center mb-4 sm:mb-6">
             <h2 class="text-2xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight">
                 SẢN PHẨM NỔI BẬT
             </h2>
@@ -133,7 +134,7 @@
 
         <!-- 1. GIAO DIỆN MOBILE: Chỉ hiển thị 1 Card sản phẩm và có thanh kéo trái (Swiper 1 Slide + Draggable Scrollbar) -->
         <div class="md:hidden">
-            <div class="swiper product-swiper overflow-hidden px-1 py-2">
+            <div class="reveal-on-scroll swiper product-swiper overflow-hidden px-1 py-2">
                 <div class="swiper-wrapper">
                     @for (int idx = 0; idx < Model.SanPhamNoiBat.Count; idx++)
                     {
@@ -198,8 +199,9 @@
                 var sp = Model.SanPhamNoiBat[idx];
                 var bgColors = new[] { "#007A29", "#900C13", "#D97706", "#005A1E" };
                 var cardBg = bgColors[idx % bgColors.Length];
+                var delayClass = "delay-" + ((idx % 4 + 1) * 100);
 
-                <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[275px]" style="background-color: @cardBg;">
+                <div class="reveal-on-scroll @delayClass rounded-3xl p-5 text-white relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[275px]" style="background-color: @cardBg;">
                     <!-- Hàng 1: Tiêu Đề Nằm Trên Cùng Trải Rộng -->
                     <div>
                         <h3 class="text-base sm:text-lg font-black tracking-tight leading-tight uppercase line-clamp-2 text-white">
@@ -233,7 +235,7 @@
             }
         </div>
 
-        <div class="text-center mt-10">
+        <div class="reveal-on-scroll delay-200 text-center mt-10">
             <a href="/san-pham" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white hover:bg-[#007A29] hover:text-white border border-gray-300 text-[#222222] text-xs font-bold tracking-wider uppercase transition shadow-sm">
                 Xem Toàn Bộ Sản Phẩm <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </a>
@@ -246,7 +248,7 @@
     <div class="w-full">
         <div class="grid grid-cols-1 lg:grid-cols-12 items-center min-h-[480px] lg:min-h-[540px] xl:min-h-[580px]">
             <!-- Cột Trái: Ảnh banner du lịch tràn sát viền bên trái, hiển thị đầy đủ trọn vẹn toàn bộ người và tăng chiều dài -->
-            <div class="lg:col-span-7 xl:col-span-8 relative h-full flex items-center justify-start overflow-hidden">
+            <div class="reveal-on-scroll lg:col-span-7 xl:col-span-8 relative h-full flex items-center justify-start overflow-hidden">
                 <div class="relative w-full h-full min-h-[300px] sm:min-h-[420px] lg:min-h-[540px] xl:min-h-[580px] flex items-center">
                     <img src="~/images/bannerdulich.webp.webp" 
                          asp-append-version="true" 
@@ -260,7 +262,7 @@
             </div>
 
             <!-- Cột Phải: Nội dung Giới thiệu chuẩn 100% theo ảnh của khách cung cấp -->
-            <div class="lg:col-span-5 xl:col-span-4 px-6 sm:px-10 lg:pl-6 lg:pr-12 xl:pr-16 2xl:pr-24 py-8 lg:py-12 space-y-4 xl:space-y-5">
+            <div class="reveal-on-scroll delay-150 lg:col-span-5 xl:col-span-4 px-6 sm:px-10 lg:pl-6 lg:pr-12 xl:pr-16 2xl:pr-24 py-8 lg:py-12 space-y-4 xl:space-y-5">
                 <div>
                     <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider block mb-2" style="color: #B30D14;">
                         VỀ THAI BEER
@@ -342,7 +344,7 @@
 <!-- 5. Tin Tức & Thông Cáo Báo Chí (Rộng bằng banner chuẩn max-w-[1700px]) -->
 <section class="py-14 sm:py-20 bg-[#F4F4F4]">
     <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
-        <div class="flex items-end justify-between mb-8 sm:mb-12">
+        <div class="reveal-on-scroll flex items-end justify-between mb-8 sm:mb-12">
             <div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-[#222222] tracking-tight uppercase">
                     TIN TỨC & SỰ KIỆN
@@ -357,7 +359,7 @@
 
         <!-- 1. GIAO DIỆN MOBILE: Chỉ mặc định hiển thị 1 Card tin tức và kéo vuốt sang trái (Swiper 1 Slide + Draggable Scrollbar) -->
         <div class="md:hidden">
-            <div class="swiper news-swiper overflow-hidden px-1 py-2">
+            <div class="reveal-on-scroll swiper news-swiper overflow-hidden px-1 py-2">
                 <div class="swiper-wrapper">
                     @foreach (var tin in Model.TinTucNoiBat)
                     {
@@ -413,9 +415,12 @@
 
         <!-- 2. GIAO DIỆN DESKTOP / TABLET: 3 Cột Ngang Rộng Rãi Sang Trọng -->
         <div class="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8">
-            @foreach (var tin in Model.TinTucNoiBat)
+            @for (int idx = 0; idx < Model.TinTucNoiBat.Count; idx++)
             {
-                <article class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+                var tin = Model.TinTucNoiBat[idx];
+                var delayClass = "delay-" + ((idx % 3 + 1) * 100);
+
+                <article class="reveal-on-scroll @delayClass bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
                     <div>
                         <div class="aspect-video overflow-hidden">
                             <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
@@ -448,7 +453,7 @@
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             <!-- Cột Trái: Tiêu Đề, Đoạn Giới Thiệu & Nút Tìm Hiểu Thêm (Căn giữa trên Mobile, Căn trái trên Desktop) -->
-            <div class="lg:col-span-5 space-y-4 sm:space-y-5 text-center lg:text-left">
+            <div class="reveal-on-scroll lg:col-span-5 space-y-4 sm:space-y-5 text-center lg:text-left">
                 <div>
                     <span class="text-sm sm:text-base font-bold tracking-widest uppercase block mb-2" style="color: #FFBA1D;">
                         HỆ THỐNG PHÂN PHỐI
@@ -471,14 +476,14 @@
             </div>
 
             <!-- Cột Giữa: Hình Ảnh Bản Đồ Việt Nam Màu Trắng Chuẩn Web thaibeer.vn -->
-            <div class="lg:col-span-4 flex items-center justify-center my-4 lg:my-0">
+            <div class="reveal-on-scroll delay-150 lg:col-span-4 flex items-center justify-center my-4 lg:my-0">
                 <div class="relative max-w-[280px] sm:max-w-[340px] lg:max-w-full">
                     <img src="~/images/map-viet-nam.webp" asp-append-version="true" alt="Bản đồ hệ thống phân phối ThaiBeer Việt Nam" class="w-auto max-h-[380px] sm:max-h-[460px] object-contain mx-auto filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]" loading="lazy" />
                 </div>
             </div>
 
             <!-- Cột Phải: 3 Card Thống Kê Số Liệu Cố Định -->
-            <div class="lg:col-span-3 flex flex-col justify-center">
+            <div class="reveal-on-scroll delay-250 lg:col-span-3 flex flex-col justify-center">
                 <!-- Trên Desktop: Xếp Dọc 3 Thẻ Nền Trắng / Trên Mobile: 3 Cột Ngang Gọn Gàng Đẹp Mắt -->
                 <div class="grid grid-cols-3 lg:grid-cols-1 gap-2.5 sm:gap-4">
                     <!-- Thẻ 1: 100+ Nhà Phân Phối -->
@@ -517,10 +522,10 @@
 </section>
 
 <!-- 7. QUY TRÌNH SẢN XUẤT (2 Video 123zo.mp4 & biathai.mp4 hiển thị kéo vuốt mượt mà như phần sản phẩm) -->
-<section id="quy-trinh-san-xuat" class="py-12 sm:py-16 bg-white border-t border-gray-200 scroll-mt-24">
+<section id="quy-trinh-san-xuat" class="pt-8 pb-6 sm:pt-10 sm:pb-8 bg-white border-t border-gray-200 scroll-mt-24">
     <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
         <!-- Header Căn Giữa Chuẩn ThaiBeer -->
-        <div class="text-center mb-6 sm:mb-10">
+        <div class="reveal-on-scroll text-center mb-6 sm:mb-10">
             <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#B30D14]/10 text-[#B30D14] text-xs font-bold uppercase tracking-wider mb-2.5">
                 <i class="fa-solid fa-industry text-[11px]"></i> Công Nghệ Sản Xuất Tiên Tiến
             </span>
@@ -535,7 +540,7 @@
 
         <!-- 1. GIAO DIỆN MOBILE: Chỉ hiển thị 1 Card video và có thanh kéo trái (Swiper 1 Slide + Draggable Scrollbar y hệt phần sản phẩm) -->
         <div class="md:hidden">
-            <div class="swiper process-swiper overflow-hidden px-1 py-2">
+            <div class="reveal-on-scroll swiper process-swiper overflow-hidden px-1 py-2">
                 <div class="swiper-wrapper">
                     <!-- Slide 1: Video Bia Thai -->
                     <div class="swiper-slide h-auto">
@@ -607,7 +612,7 @@
         <!-- 2. GIAO DIỆN DESKTOP / TABLET: 2 Cột Đẳng Cấp Sang Trọng -->
         <div class="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8">
             <!-- Card 1: Video Bia Thai -->
-            <div class="rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #900C13;">
+            <div class="reveal-on-scroll rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #900C13;">
                 <div>
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-sm">
@@ -631,7 +636,7 @@
             </div>
 
             <!-- Card 2: Video 123 Zô -->
-            <div class="rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #007A29;">
+            <div class="reveal-on-scroll delay-150 rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #007A29;">
                 <div>
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-sm">
@@ -652,6 +657,87 @@
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8. KHOẢNG KHẮC CỦA CHÚNG TÔI (Chạy ảnh tự động, phóng to khi click chuột chuẩn thaibeer.vn) -->
+<section class="pt-6 pb-6 sm:pt-8 sm:pb-8 bg-[#FAFAFA] border-t border-gray-200 overflow-hidden">
+    <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
+        <!-- Header Căn Giữa Chuẩn ThaiBeer -->
+        <div class="reveal-on-scroll text-center mb-4 sm:mb-6">
+            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider block mb-1.5" style="color: #B30D14;">
+                THAI BEER
+            </span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] uppercase tracking-tight">
+                KHOẢNG KHẮC CỦA CHÚNG TÔI
+            </h2>
+            <div class="w-16 h-1 bg-[#B30D14] mx-auto mt-2 rounded-full"></div>
+            <p class="text-xs sm:text-sm text-[#666666] mt-2 max-w-2xl mx-auto">
+                Những dấu ấn trải nghiệm, hội nghị và chuyến tham quan thực tế đầy ý nghĩa cùng quý khách hàng và nhà phân phối.
+            </p>
+        </div>
+
+        <!-- Slider Chạy Ảnh Tự Động (Swiper + Fancybox Phóng To Ảnh) -->
+        <div class="reveal-on-scroll delay-150 relative">
+            <div class="swiper moments-swiper overflow-hidden py-1">
+                <div class="swiper-wrapper">
+                    @{
+                        var danhSachKhoangKhac = new[]
+                        {
+                            new { Hinh = "/images/khoangkhac/hinhanh1.jpg", TieuDe = "Hội nghị họp mặt ban lãnh đạo & đối tác ThaiBeer" },
+                            new { Hinh = "/images/khoangkhac/hinhanh2.jpg", TieuDe = "Chuyến du lịch kết nối Tây Bắc - Sa Pa" },
+                            new { Hinh = "/images/khoangkhac/hinhanh3.jpg", TieuDe = "Check-in nhà ga Sapa Station huyền thoại" },
+                            new { Hinh = "/images/khoangkhac/hinhanh4.jpg", TieuDe = "Đoàn tham quan tại sân bay & nhà ga" },
+                            new { Hinh = "/images/khoangkhac/hinhanh5.jpg", TieuDe = "Đoàn tham quan tại nhà máy bia Vinaken" },
+                            new { Hinh = "/images/khoangkhac/hinhanh6.jpg", TieuDe = "Giao lưu đêm ấm áp thắt chặt tình thân" }
+                        };
+                        // Nhân đôi danh sách để Swiper Loop 12 slide chạy liên tục mượt mà 60fps không bị ngắt quãng
+                        var danhSachLoop = danhSachKhoangKhac.Concat(danhSachKhoangKhac).ToList();
+                    }
+
+                    @foreach (var item in danhSachLoop)
+                    {
+                        <div class="swiper-slide h-auto">
+                            <a href="@item.Hinh" 
+                               data-fancybox="album-khoang-khac" 
+                               data-caption="@item.TieuDe"
+                               title="@item.TieuDe"
+                               class="group block relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white border border-gray-200 aspect-[4/3] cursor-zoom-in">
+                                <!-- Hình ảnh hiển thị -->
+                                <img src="@item.Hinh" 
+                                     alt="@item.TieuDe" 
+                                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                                     loading="lazy" />
+                                
+                                <!-- Lớp phủ Overlay Gradient khi hover -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+                                    <span class="text-[10px] uppercase font-bold tracking-wider text-[#FFBA1D] mb-1 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-magnifying-glass-plus text-xs"></i> Nhấn để phóng to
+                                    </span>
+                                    <h4 class="text-xs sm:text-sm font-bold line-clamp-2 leading-snug">
+                                        @item.TieuDe
+                                    </h4>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Nút điều hướng Trái / Phải -->
+            <button type="button" class="moments-prev hidden sm:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/90 hover:bg-[#B30D14] text-gray-700 hover:text-white shadow-xl border border-gray-200 items-center justify-center transition-all duration-300 focus:outline-none" aria-label="Khoảnh khắc trước">
+                <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button type="button" class="moments-next hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/90 hover:bg-[#B30D14] text-gray-700 hover:text-white shadow-xl border border-gray-200 items-center justify-center transition-all duration-300 focus:outline-none" aria-label="Khoảnh khắc tiếp theo">
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+
+            <!-- Gợi ý kéo/vuốt và nhấn vào ảnh -->
+            <div class="flex items-center justify-center gap-2 text-xs text-gray-500 mt-2.5">
+                <i class="fa-solid fa-hand-pointer text-[#B30D14]"></i>
+                <span>Vuốt sang hai bên hoặc nhấp vào ảnh bất kỳ để phóng to toàn màn hình</span>
             </div>
         </div>
     </div>

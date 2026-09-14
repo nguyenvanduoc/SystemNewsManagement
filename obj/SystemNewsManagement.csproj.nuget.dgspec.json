@@ -72,7 +72,7 @@
             },
             "SixLabors.ImageSharp": {
               "target": "Package",
-              "version": "[4.1.1, )"
+              "version": "[3.1.12, )"
             }
           },
           "imports": [

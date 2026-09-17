@@ -169,7 +169,7 @@
                                     <!-- Cột Phải: Khung Hình Ảnh Thùng Bia Nền Trắng (Tăng Size To Rõ Hơn Nữa) -->
                                     <div class="relative shrink-0">
                                         <div class="w-44 h-44 sm:w-48 sm:h-48 rounded-2xl bg-white p-1.5 flex items-center justify-center overflow-hidden shadow-md">
-                                            <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="w-full h-full object-contain filter drop-shadow-sm scale-110" loading="lazy" />
+                                            <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="w-full h-full object-contain filter drop-shadow-sm scale-110" loading="lazy" />
                                         </div>
                                     </div>
                                 </div>
@@ -192,42 +192,42 @@
             </div>
         </div>
 
-        <!-- 2. GIAO DIỆN DESKTOP / TABLET: Chia Làm 4 Phần (Grid 4 Cột) Với Khung Hình Ảnh To Rõ Nét -->
-        <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        <!-- 2. GIAO DIỆN DESKTOP / TABLET: Chia Làm 3 Cột (Hệ Lưới 4-4-4) Với Khung Hình Ảnh To Rõ Nét -->
+        <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
             @for (int idx = 0; idx < Model.SanPhamNoiBat.Count; idx++)
             {
                 var sp = Model.SanPhamNoiBat[idx];
-                var bgColors = new[] { "#007A29", "#900C13", "#D97706", "#005A1E" };
+                var bgColors = new[] { "#007A29", "#900C13", "#D97706" };
                 var cardBg = bgColors[idx % bgColors.Length];
-                var delayClass = "delay-" + ((idx % 4 + 1) * 100);
+                var delayClass = "delay-" + ((idx % 3 + 1) * 100);
 
-                <div class="reveal-on-scroll @delayClass rounded-3xl p-5 text-white relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[275px]" style="background-color: @cardBg;">
+                <div class="reveal-on-scroll @delayClass rounded-3xl p-5 sm:p-6 text-white relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[285px]" style="background-color: @cardBg;">
                     <!-- Hàng 1: Tiêu Đề Nằm Trên Cùng Trải Rộng -->
                     <div>
-                        <h3 class="text-base sm:text-lg font-black tracking-tight leading-tight uppercase line-clamp-2 text-white">
+                        <h3 class="text-base sm:text-lg lg:text-xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white">
                             @sp.TenSanPham
                         </h3>
                     </div>
 
                     <!-- Hàng 2: Nội Dung Nằm Dưới Tiêu Đề (Trái: Mô Tả & Nút / Phải: Thùng Bia Nền Trắng To Đẹp) -->
-                    <div class="flex items-end justify-between gap-3 pt-3 flex-1">
+                    <div class="flex items-end justify-between gap-4 pt-4 flex-1">
                         <!-- Cột Trái: Mô Tả và Nút Xem Chi Tiết -->
-                        <div class="flex-1 flex flex-col justify-between h-full space-y-2.5">
-                            <p class="text-[11px] sm:text-xs text-white/90 font-medium leading-snug line-clamp-3">
+                        <div class="flex-1 flex flex-col justify-between h-full space-y-3">
+                            <p class="text-xs sm:text-[13px] text-white/90 font-medium leading-relaxed line-clamp-3">
                                 @(sp.MoTaNgan ?? "Mẫu lon: Thấp (Lùn) Thành phần: Nước, mạch nha đại mạch, hoa bia, men bia...")
                             </p>
-                            <div class="pt-1.5 mt-auto">
-                                <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/90 bg-transparent text-white text-[10px] sm:text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#007A29] transition-all shadow-sm" style="color: #ffffff !important; border-color: #ffffff !important;">
+                            <div class="pt-2 mt-auto">
+                                <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/90 bg-transparent text-white text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#007A29] transition-all shadow-sm" style="color: #ffffff !important; border-color: #ffffff !important;">
                                     <span style="color: #ffffff !important; font-weight: 800;">XEM CHI TIẾT</span>
                                     <i class="fa-solid fa-play text-[7px]" style="color: #ffffff !important;"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <!-- Cột Phải: Khung Hình Ảnh Thùng Bia Nền Trắng (Tăng Size Lên To Rõ) -->
+                        <!-- Cột Phải: Khung Hình Ảnh Thùng Bia Nền Trắng (Tăng Size Lên To Rõ Chuẩn 3 Cột) -->
                         <div class="relative shrink-0">
-                            <div class="w-32 h-32 sm:w-36 sm:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44 rounded-2xl bg-white p-2.5 flex items-center justify-center overflow-hidden shadow-md">
-                                <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="max-h-full max-w-full object-contain filter drop-shadow-sm" loading="lazy" />
+                            <div class="w-36 h-36 sm:w-40 sm:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 rounded-2xl bg-white p-2.5 flex items-center justify-center overflow-hidden shadow-md">
+                                <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain filter drop-shadow-sm" loading="lazy" />
                             </div>
                         </div>
                     </div>
@@ -444,6 +444,159 @@
                     </div>
                 </article>
             }
+        </div>
+    </div>
+</section>
+
+<!-- 5b. KHÁM PHÁ CÁC NHÃN HÀNG CỦA CHÚNG TÔI (Chuẩn Style Heineken Việt Nam & CSS Chuyển Động) -->
+<section class="py-12 sm:py-16 lg:py-20 bg-white border-b border-gray-200 overflow-hidden relative">
+    <div class="relative max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
+        <!-- Header Chuẩn Heineken Việt Nam: Tiêu Đề In Hoa, Nút 'Xem tất cả' & Thanh Line Kép Xanh Heineken / Xám -->
+        <div class="reveal-on-scroll mb-8 sm:mb-12">
+            <div class="flex items-end justify-between">
+                <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#222222] tracking-tight uppercase">
+                    KHÁM PHÁ CÁC NHÃN HÀNG CỦA CHÚNG TÔI
+                </h2>
+                <a href="/san-pham" class="text-xs sm:text-sm font-semibold text-[#555555] hover:text-[#007A29] transition-colors inline-flex items-center gap-1 group pb-1">
+                    <span>Xem tất cả</span>
+                    <i class="fa-solid fa-arrow-right text-[10px] transform group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+            <div class="relative w-full h-[3px] bg-gray-200 mt-3 rounded-full overflow-hidden">
+                <div class="absolute left-0 top-0 h-full w-48 sm:w-72 bg-[#007A29] rounded-full"></div>
+            </div>
+        </div>
+
+        @{
+            // Bộ sưu tập 8 sản phẩm sắp xếp hình cánh cung "Thấp - Cao - Thấp" chuẩn như Heineken Việt Nam:
+            // Tách nền 100% trong suốt (Transparent Cutouts), KHÔNG có khung viền hộp ảnh, KHÔNG bị đè chéo
+            var danhSachNhanHang = new[]
+            {
+                new { 
+                    Ma = "08_", 
+                    Ten = "123 ZÔ Lager - Lon Lùn 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/08_ZoLun.png", 
+                    ChieuCao = "h-[185px] sm:h-[195px] lg:h-[215px] xl:h-[225px]"
+                },
+                new { 
+                    Ma = "04_", 
+                    Ten = "Lux 65 Original - Lon Lùn 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/04_LuxLun.png", 
+                    ChieuCao = "h-[205px] sm:h-[215px] lg:h-[235px] xl:h-[245px]"
+                },
+                new { 
+                    Ma = "05_", 
+                    Ten = "Lux 65 Bộ 3 Mặt - Phiên Bản Đặc Biệt", 
+                    HinhAnh = "/images/nhanhang/cutouts/05_LuxLun3Mat.png", 
+                    ChieuCao = "h-[220px] sm:h-[230px] lg:h-[250px] xl:h-[260px]"
+                },
+                new { 
+                    Ma = "02_", 
+                    Ten = "Thai Beer Lager - Lon Lùn 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/02_Thai.png", 
+                    ChieuCao = "h-[245px] sm:h-[260px] lg:h-[285px] xl:h-[295px]"
+                },
+                new { 
+                    Ma = "07_", 
+                    Ten = "Thai Beer Special - Lon Cao 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/07_ThaiCao.png", 
+                    ChieuCao = "h-[290px] sm:h-[315px] lg:h-[345px] xl:h-[360px]"
+                },
+                new { 
+                    Ma = "03_", 
+                    Ten = "Thai Beer Premium - Lon Cao 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/03_ThaiCao.png", 
+                    ChieuCao = "h-[275px] sm:h-[295px] lg:h-[325px] xl:h-[338px]"
+                },
+                new { 
+                    Ma = "01_", 
+                    Ten = "Lux 65 Premium - Lon Cao 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/01_Lux.png", 
+                    ChieuCao = "h-[245px] sm:h-[265px] lg:h-[285px] xl:h-[295px]"
+                },
+                new { 
+                    Ma = "06_", 
+                    Ten = "123 ZÔ Premium - Lon Cao 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.png", 
+                    ChieuCao = "h-[210px] sm:h-[225px] lg:h-[245px] xl:h-[255px]"
+                }
+            };
+        }
+
+        <!-- 1. GIAO DIỆN DESKTOP & TABLET (>= 768px): Dàn Hàng Ngang 8 Sản Phẩm Thấp - Cao - Thấp Chuẩn Heineken -->
+        <div class="hidden md:block">
+            <div class="flex items-end justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 pt-6 pb-6 min-h-[440px]">
+                @for (int i = 0; i < danhSachNhanHang.Length; i++)
+                {
+                    var sp = danhSachNhanHang[i];
+
+                    <div class="heineken-brand-item group" data-brand="@sp.Ma">
+                        <a href="@sp.HinhAnh" 
+                           data-fancybox="nhan-hang-thaibeer" 
+                           data-caption="@sp.Ten"
+                           title="@sp.Ten (Nhấp để phóng to)"
+                           class="block w-full focus:outline-none">
+                            
+                            <!-- Lon bia đứng vững chắc trên mặt sàn (Thấp - Cao - Thấp) -->
+                            <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
+                                <img src="@sp.HinhAnh" 
+                                     alt="@sp.Ten" 
+                                     class="brand-img-element max-h-full max-w-full object-contain select-none" 
+                                     loading="lazy" />
+                            </div>
+
+                            <!-- Bóng sàn tiếp xúc mặt đất tự nhiên -->
+                            <div class="brand-floor-shadow w-12 sm:w-14 lg:w-16 h-2 bg-black/15 rounded-full blur-[2px] mt-1 mx-auto"></div>
+
+                            <!-- Bóng gương phản chiếu sàn mờ dần xuống nền trắng (Không có chữ đè lên) -->
+                            <div class="brand-reflection w-full h-10 lg:h-12 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
+                                 style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
+                                <img src="@sp.HinhAnh" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- 2. GIAO DIỆN MOBILE (< 768px): Swiper Cảm Ứng Vuốt Chạm 60fps & Draggable Scrollbar -->
+        <div class="md:hidden">
+            <div class="reveal-on-scroll swiper brands-swiper overflow-hidden px-1 py-4">
+                <div class="swiper-wrapper items-end">
+                    @foreach (var sp in danhSachNhanHang)
+                    {
+                        <div class="swiper-slide h-auto">
+                            <div class="heineken-brand-item group p-1 text-center w-full">
+                                <a href="@sp.HinhAnh" 
+                                   data-fancybox="nhan-hang-thaibeer" 
+                                   data-caption="@sp.Ten"
+                                   title="@sp.Ten"
+                                   class="block w-full focus:outline-none">
+                                    
+                                    <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
+                                        <img src="@sp.HinhAnh" 
+                                             alt="@sp.Ten" 
+                                             class="brand-img-element max-h-full max-w-full object-contain select-none" 
+                                             loading="lazy" />
+                                    </div>
+
+                                    <!-- Bóng sàn -->
+                                    <div class="brand-floor-shadow w-12 h-2 bg-black/15 rounded-full blur-[2px] mx-auto mt-1"></div>
+
+                                    <!-- Bóng gương phản chiếu sàn -->
+                                    <div class="brand-reflection w-full h-8 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
+                                         style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
+                                        <img src="@sp.HinhAnh" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Thanh kéo Scrollbar cho Mobile -->
+                <div class="brands-scrollbar swiper-scrollbar mt-4"></div>
+            </div>
         </div>
     </div>
 </section>

@@ -127,7 +127,7 @@
             width: 100% !important;
             box-sizing: border-box;
         }
-        .category-scrollbar, .product-scrollbar, .process-scrollbar, .news-scrollbar {
+        .category-scrollbar, .product-scrollbar, .process-scrollbar, .news-scrollbar, .brands-scrollbar {
             height: 6px !important;
             background: #E5E7EB !important;
             border-radius: 9999px !important;
@@ -135,7 +135,7 @@
             margin-top: 1.25rem !important;
             width: 100% !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag, .news-scrollbar .swiper-scrollbar-drag {
+        .category-scrollbar .swiper-scrollbar-drag, .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag, .news-scrollbar .swiper-scrollbar-drag, .brands-scrollbar .swiper-scrollbar-drag {
             background: #007A29 !important;
             border-radius: 9999px !important;
             height: 100% !important;
@@ -144,11 +144,63 @@
         .product-scrollbar .swiper-scrollbar-drag, .process-scrollbar .swiper-scrollbar-drag {
             background: #B91C1C !important;
         }
-        .news-scrollbar .swiper-scrollbar-drag {
+        .news-scrollbar .swiper-scrollbar-drag, .brands-scrollbar .swiper-scrollbar-drag {
             background: #007A29 !important;
         }
-        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active, .news-scrollbar .swiper-scrollbar-drag:active {
+        .category-scrollbar .swiper-scrollbar-drag:active, .product-scrollbar .swiper-scrollbar-drag:active, .process-scrollbar .swiper-scrollbar-drag:active, .news-scrollbar .swiper-scrollbar-drag:active, .brands-scrollbar .swiper-scrollbar-drag:active {
             cursor: grabbing;
+        }
+
+        /* ---------------------------------------------------- */
+        /* HEINEKEN VIETNAM STYLE BRAND SHOWCASE CSS            */
+        /* ---------------------------------------------------- */
+        .heineken-brand-item {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            text-align: center;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        /* Hover: Nhấc lon bia lên 12px mượt mà giống Heineken */
+        .heineken-brand-item:hover {
+            transform: translateY(-12px);
+            z-index: 30;
+        }
+
+        /* Đổ bóng tự nhiên khi nhấc lên */
+        .heineken-brand-item:hover .brand-img-element {
+            filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.18));
+        }
+
+        /* Bóng sàn tự co lại nhẹ khi lon bia nhấc lên */
+        .heineken-brand-item .brand-floor-shadow {
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+        .heineken-brand-item:hover .brand-floor-shadow {
+            transform: scale(0.85);
+            opacity: 0.5;
+        }
+
+        /* Bóng gương phản chiếu sàn */
+        .heineken-brand-item .brand-reflection {
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .heineken-brand-item:hover .brand-reflection {
+            opacity: 0.12;
+            transform: translateY(4px);
+        }
+
+        /* Sắc nét 100%, KHÔNG bao giờ làm mờ (NO blur, NO dimming) */
+        .heineken-brand-item img {
+            opacity: 1 !important;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+            transition: filter 0.35s ease;
         }
 
         /* Moments Swiper (Khoảnh khắc của chúng tôi - Không bao giờ vỡ dòng) */
@@ -169,7 +221,6 @@
             box-sizing: border-box;
         }
 
-       
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(28px);
@@ -362,8 +413,8 @@
                     <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Hỗ Trợ & Liên Hệ</h4>
                     <ul class="space-y-3 text-xs text-[#B0B0B0]">
                         <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-location-dot text-[#FFBA1D] mt-1"></i>
-                            <span>Văn phòng đại diện: Tòa nhà Bitexco, Q.1, TP. Hồ Chí Minh</span>
+                            <i class="fa-solid fa-location-dot text-[#FFBA1D] mt-1 shrink-0"></i>
+                            <span>Số 108/4/1, đường Cộng Hòa, phường 4, quận Tân Bình, thành phố Hồ Chí Minh, Việt Nam</span>
                         </li>
                         <li class="flex items-center gap-2.5">
                             <i class="fa-solid fa-phone text-[#FFBA1D]"></i>
@@ -379,15 +430,10 @@
 
             <!-- Bottom Copyright & Legal -->
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777777]">
-                <p>© @DateTime.Now.Year ThaiBeer Vietnam. Uống có trách nhiệm. Vận hành ổn định trên nền tảng Windows IIS HOSTVN.</p>
                 <div class="flex items-center gap-4">
                     <a href="#" class="hover:text-[#FFBA1D] transition">Điều khoản & Điều kiện</a>
                     <span>•</span>
-                    <a href="#" class="hover:text-[#FFBA1D] transition">Quyền riêng tư</a>
-                    <span>•</span>
-                    <a href="/quan-tri" class="hover:text-[#FFBA1D] transition flex items-center gap-1">
-                        <i class="fa-solid fa-lock text-[10px]"></i> Quản Trị
-                    </a>
+                
                 </div>
             </div>
         </div>
@@ -453,7 +499,7 @@
                     </div>
                     <div class="flex-1 min-w-0">
                         <span class="text-xs font-bold text-[#111111] block group-hover:text-[#D9383A] transition-colors">Địa chỉ:</span>
-                        <span class="text-xs text-[#555555] block">Xem địa chỉ</span>
+                        <span class="text-xs text-[#555555] block truncate" title="Số 108/4/1, đường Cộng Hòa, phường 4, quận Tân Bình, TP.HCM">108/4/1 Cộng Hòa, P. 4, Tân Bình</span>
                     </div>
                     <i class="fa-solid fa-chevron-right text-gray-300 text-[10px] group-hover:translate-x-0.5 transition-transform"></i>
                 </a>
@@ -660,7 +706,7 @@
                 });
             }
 
-            // 6. Khởi tạo Swiper Khoảnh Khắc Của Chúng Tôi (Chạy ảnh tự động, phóng to khi click)
+          
             if (document.querySelector(".moments-swiper") && typeof Swiper !== "undefined") {
                 try {
                     new Swiper(".moments-swiper", {
@@ -690,7 +736,7 @@
                 }
             }
 
-            // 7. Khởi tạo Fancybox cho album ảnh Khoảnh khắc phóng to mượt mà chuẩn thaibeer.vn
+        
             if (typeof Fancybox !== "undefined") {
                 try {
                     Fancybox.unbind("[data-fancybox='album-khoang-khac']");
@@ -705,8 +751,76 @@
                             }
                         }
                     });
+
+               
+                    Fancybox.unbind("[data-fancybox='nhan-hang-thaibeer']");
+                    Fancybox.bind("[data-fancybox='nhan-hang-thaibeer']", {
+                        dragToClose: true,
+                        autoFocus: false,
+                        Toolbar: {
+                            display: {
+                                left: ["infobar"],
+                                middle: ["zoomIn", "zoomOut", "toggle1to1"],
+                                right: ["slideshow", "fullscreen", "close"]
+                            }
+                        }
+                    });
+
+                 
+                    Fancybox.unbind("[data-fancybox='product_gallery']");
+                    Fancybox.bind("[data-fancybox='product_gallery']", {
+                        dragToClose: true,
+                        autoFocus: false,
+                        Toolbar: {
+                            display: {
+                                left: ["infobar"],
+                                middle: ["zoomIn", "zoomOut", "toggle1to1"],
+                                right: ["slideshow", "fullscreen", "close"]
+                            }
+                        }
+                    });
                 } catch (fancyErr) {
                     console.error("Fancybox error:", fancyErr);
+                }
+            }
+
+            // 7b. Khởi tạo Swiper Khám Phá Các Nhãn Hàng (Mobile & Tablet)
+            if (document.querySelector(".brands-swiper") && typeof Swiper !== "undefined") {
+                try {
+                    new Swiper(".brands-swiper", {
+                        slidesPerView: 2.2,
+                        spaceBetween: 16,
+                        grabCursor: true,
+                        observer: true,
+                        observeParents: true,
+                        resizeObserver: true,
+                        autoplay: {
+                            delay: 3500,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true
+                        },
+                        scrollbar: {
+                            el: ".brands-scrollbar",
+                            draggable: true,
+                            dragSize: 70,
+                            hide: false
+                        },
+                        breakpoints: {
+                            480: { slidesPerView: 2.6, spaceBetween: 18 },
+                            640: { slidesPerView: 3.4, spaceBetween: 20 },
+                            768: { slidesPerView: 4.2, spaceBetween: 24 }
+                        },
+                        on: {
+                            slideChange: function() {
+                                const counter = document.getElementById("brandsSlideCounter");
+                                if (counter) {
+                                    counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
+                                }
+                            }
+                        }
+                    });
+                } catch (brandsErr) {
+                    console.error("Brands Swiper error:", brandsErr);
                 }
             }
 

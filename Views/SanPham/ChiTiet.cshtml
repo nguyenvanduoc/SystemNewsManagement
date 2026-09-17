@@ -23,67 +23,91 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <!-- Main Product Detail Card -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 bg-white border border-gray-200 rounded-2xl p-6 sm:p-10 shadow-sm">
-        <!-- Left: Image Preview -->
-        <div class="lg:col-span-5 flex items-center justify-center bg-[#F8F9FA] rounded-xl p-8 border border-gray-200 relative">
-            <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="max-h-[440px] w-auto object-contain drop-shadow-md" />
-            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-md border border-gray-200 text-xs font-bold text-[#007A29] shadow-sm">
-                Đồ Uống Thượng Hạng
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Main Product Detail Layout (Chuẩn 100% Theo thaibeer.vn) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <!-- Cột Khung Hình Ảnh Chuẩn ThaiBeer.vn (Tự động phóng to full ngang viền trắng, zoom Fancybox) -->
+        <div class="lg:col-span-6 xl:col-span-5">
+            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm relative group">
+                <a href="@sp.HinhAnhWebP" 
+                   data-fancybox="product_gallery" 
+                   data-caption="@sp.TenSanPham"
+                   title="Nhấp để xem ảnh phóng to"
+                   class="block w-full cursor-zoom-in">
+                    <img src="@sp.HinhAnhWebP" 
+                         alt="@sp.TenSanPham" 
+                         onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';"
+                         class="w-full h-auto block transition-transform duration-300 group-hover:scale-105 select-none" />
+                </a>
+                <div class="absolute bottom-4 right-4 bg-black/40 hover:bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm backdrop-blur-sm pointer-events-none transition shadow">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                </div>
             </div>
         </div>
 
-        <!-- Right: Specifications & Info -->
-        <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
-            <div>
-                <div class="inline-block px-3 py-1 rounded-full bg-[#007A29]/10 text-[#007A29] text-xs font-bold uppercase tracking-wider mb-2 border border-[#007A29]/20">
-                    @(sp.DanhMuc?.TenDanhMuc ?? "Dòng Sản Phẩm")
-                </div>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#222222] leading-tight uppercase tracking-tight">
-                    @sp.TenSanPham
-                </h1>
-                <div class="w-16 h-1 bg-[#007A29] mt-3 mb-2"></div>
-                <p class="text-xs text-[#666666] font-mono">Mã sản phẩm: TB-@sp.Id | Lượt xem: @(sp.LuotXem + 1) lần</p>
+        <!-- Cột Thông Tin Sản Phẩm Chuẩn 100% ThaiBeer.vn -->
+        <div class="lg:col-span-6 xl:col-span-7 space-y-4">
+            <!-- Tiêu đề sản phẩm (không viết hoa toàn bộ chuẩn thaibeer.vn) -->
+            <h1 class="text-2xl sm:text-[28px] lg:text-3xl font-bold text-[#111111] leading-tight font-['Montserrat',sans-serif]">
+                @sp.TenSanPham
+            </h1>
 
-                <p class="text-sm text-[#555555] mt-4 leading-relaxed">
+            <!-- Mã sản phẩm & Lượt xem -->
+            <div class="flex items-center gap-3 text-xs text-[#555555]">
+                <span>Mã sản phẩm: <strong class="text-[#B30D14] font-semibold">123 ZO Premium Lon Thấp - 01</strong></span>
+                <span class="text-gray-300">|</span>
+                <span>Lượt xem: <strong class="text-[#B30D14] font-semibold">@(sp.LuotXem + 1)</strong></span>
+            </div>
+
+            <!-- Giá: Liên hệ chuẩn thaibeer.vn -->
+            <div class="text-2xl sm:text-[26px] font-bold text-[#B30D14]">
+                Liên hệ
+            </div>
+
+            <!-- Khung Mô Tả Màu Đỏ Chuẩn ThaiBeer.vn (Tăng lên 1 size) -->
+            <div class="bg-[#B30D14] text-white p-5 sm:p-6 rounded-xl text-sm sm:text-base leading-relaxed sm:leading-loose shadow-sm font-normal">
+                @if (!string.IsNullOrWhiteSpace(sp.MoTaNgan))
+                {
                     @sp.MoTaNgan
-                </p>
+                }
+                else
+                {
+                    <span>Mẫu lon: Thấp (Lùn) Thành phần: Nước, mạch nha đại mạch, hoa bia, men bia. Hướng dẫn sử dụng và bảo quản: Ngon hơn khi uống lạnh tốt nhất ở 10°C-15°C. Bảo quản ở nơi khô ráo và thoáng mát. NSX-HSD: Xem ở đáy lon.</span>
+                }
+            </div>
 
-                <!-- Technical Specs Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-                    <div class="bg-[#F8F9FA] border border-gray-200 rounded-xl p-3.5 text-center">
-                        <span class="text-[11px] text-[#666666] uppercase font-semibold block">Nồng Độ Cồn</span>
-                        <span class="text-lg font-black text-[#007A29] mt-0.5 block">@sp.NongDoCon% ABV</span>
-                    </div>
-                    <div class="bg-[#F8F9FA] border border-gray-200 rounded-xl p-3.5 text-center">
-                        <span class="text-[11px] text-[#666666] uppercase font-semibold block">Dung Tích</span>
-                        <span class="text-lg font-black text-[#222222] mt-0.5 block">@sp.DungTichMl ml</span>
-                    </div>
-                    <div class="bg-[#F8F9FA] border border-gray-200 rounded-xl p-3.5 text-center">
-                        <span class="text-[11px] text-[#666666] uppercase font-semibold block">Xuất Xứ</span>
-                        <span class="text-lg font-black text-[#222222] mt-0.5 block">@sp.XuatXu</span>
-                    </div>
-                    <div class="bg-[#F8F9FA] border border-gray-200 rounded-xl p-3.5 text-center">
-                        <span class="text-[11px] text-[#666666] uppercase font-semibold block">Quy Cách</span>
-                        <span class="text-xs font-bold text-[#444444] mt-1.5 block line-clamp-1">@sp.QuyCachDongGoi</span>
-                    </div>
+            <!-- Thông số kỹ thuật -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-center">
+                    <span class="text-[11px] text-gray-500 uppercase font-semibold block">Nồng Độ Cồn</span>
+                    <span class="text-base font-black text-[#007A29] block mt-0.5">@sp.NongDoCon% ABV</span>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-center">
+                    <span class="text-[11px] text-gray-500 uppercase font-semibold block">Dung Tích</span>
+                    <span class="text-base font-black text-[#222222] block mt-0.5">@sp.DungTichMl ml</span>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-center">
+                    <span class="text-[11px] text-gray-500 uppercase font-semibold block">Xuất Xứ</span>
+                    <span class="text-base font-black text-[#222222] block mt-0.5">@sp.XuatXu</span>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 text-center">
+                    <span class="text-[11px] text-gray-500 uppercase font-semibold block">Quy Cách</span>
+                    <span class="text-xs font-bold text-[#444444] block mt-1 truncate">@sp.QuyCachDongGoi</span>
                 </div>
             </div>
 
-            <!-- CTA Actions -->
-            <div class="pt-6 border-t border-gray-200 space-y-4">
+            <!-- CTA Actions (Liên Hệ Đại Lý / Đặt Hàng Chuẩn B2B) -->
+            <div class="pt-4 border-t border-gray-100 space-y-3">
                 <div class="flex flex-wrap items-center gap-4">
-                    <a href="/lien-he" class="flex-1 text-center py-3.5 px-6 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs uppercase tracking-wider shadow-md transition hover:scale-105">
-                        <i class="fa-solid fa-handshake mr-2"></i> Liên Hệ Mua Đại Lý / Đặt Hàng
+                    <a href="/lien-he" class="flex-1 text-center py-3.5 px-6 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs uppercase tracking-wider shadow-md transition hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>LIÊN HỆ MUA ĐẠI LÝ / ĐẶT HÀNG</span>
                     </a>
-                    <a href="tel:0965156658" class="py-3.5 px-6 rounded-full bg-white hover:bg-gray-100 text-[#222222] font-bold text-xs border border-gray-300 transition shadow-sm">
-                        <i class="fa-solid fa-phone mr-1.5 text-[#007A29]"></i> Hotline: 0965 156 658
+                    <a href="tel:0965156658" class="py-3.5 px-6 rounded-full bg-white hover:bg-gray-100 text-[#222222] font-bold text-xs border border-gray-300 transition shadow-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-phone text-[#007A29]"></i>
+                        <span>Hotline: 0965 156 658</span>
                     </a>
                 </div>
-                <p class="text-[11px] text-[#666666] flex items-center gap-1.5">
-                    <i class="fa-solid fa-truck-fast text-[#007A29]"></i> Hỗ trợ vận chuyển tận nơi cho nhà hàng, quán bar và đại lý phân phối trên toàn quốc.
-                </p>
             </div>
         </div>
     </div>
@@ -101,18 +125,6 @@
         </div>
     }
 
-    <!-- Rich HTML Content -->
-    @if (!string.IsNullOrWhiteSpace(sp.NoiDungChiTiet))
-    {
-        <div class="mt-12 bg-white border border-gray-200 rounded-2xl p-6 sm:p-10 shadow-sm">
-            <h2 class="text-lg font-extrabold text-[#222222] mb-6 border-b border-gray-200 pb-4 flex items-center gap-2 uppercase">
-                <i class="fa-solid fa-circle-info text-[#007A29]"></i> Thông Tin Chi Tiết & Hướng Dẫn Thưởng Thức
-            </h2>
-            <div class="prose max-w-none text-sm text-[#444444] leading-relaxed space-y-4">
-                @Html.Raw(sp.NoiDungChiTiet)
-            </div>
-        </div>
-    }
 
     <!-- Related Products -->
     @if (Model.SanPhamLienQuan.Any())
@@ -133,7 +145,7 @@
                 {
                     <div class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
                         <a href="/san-pham/@lq.DuongDanSlug" class="block relative bg-white aspect-square p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100">
-                            <img src="@lq.HinhAnhWebP" alt="@lq.TenSanPham" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform" loading="lazy" />
+                            <img src="@lq.HinhAnhWebP" alt="@lq.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform" loading="lazy" />
                             <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-bold text-[#007A29] border border-gray-200 shadow-sm">
                                 @lq.NongDoCon% ABV
                             </div>

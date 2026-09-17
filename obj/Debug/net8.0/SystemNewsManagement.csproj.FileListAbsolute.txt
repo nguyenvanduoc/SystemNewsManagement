@@ -137,10 +137,10 @@ C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\st
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\staticwebassets.development.json
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\swae.build.ex.cache
-C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNe.67A5E14C.Up2Date
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNewsManagement.dll
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\refint\SystemNewsManagement.dll
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNewsManagement.pdb
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNewsManagement.genruntimeconfig.cache
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\ref\SystemNewsManagement.dll
+C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

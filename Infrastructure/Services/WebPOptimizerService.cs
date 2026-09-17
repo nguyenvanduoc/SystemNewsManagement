@@ -30,7 +30,10 @@ public class WebPOptimizerService : IImageOptimizerService
         // Định dạng thư mục theo năm/tháng để tránh quá tải số file trong 1 folder
         var now = DateTime.UtcNow;
         var subPath = Path.Combine("uploads", thuMucCon, now.Year.ToString(), now.Month.ToString("D2"));
-        var thuMucVatLy = Path.Combine(_environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), subPath);
+        var webRoot = !string.IsNullOrWhiteSpace(_environment.WebRootPath) 
+            ? _environment.WebRootPath 
+            : Path.Combine(_environment.ContentRootPath, "wwwroot");
+        var thuMucVatLy = Path.Combine(webRoot, subPath);
 
         if (!Directory.Exists(thuMucVatLy))
         {
@@ -81,7 +84,9 @@ public class WebPOptimizerService : IImageOptimizerService
 
         try
         {
-            var webRoot = _environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            var webRoot = !string.IsNullOrWhiteSpace(_environment.WebRootPath) 
+                ? _environment.WebRootPath 
+                : Path.Combine(_environment.ContentRootPath, "wwwroot");
             var duongDanVatLy = Path.Combine(webRoot, normalized.Replace('/', Path.DirectorySeparatorChar));
 
             if (File.Exists(duongDanVatLy))

@@ -1,3 +1,4 @@
+@inject ThaiBeer.Core.Interfaces.ISanPhamReadRepository SanPhamReadRepo
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -26,6 +27,20 @@
             : $"{baseUrl}{ogImageRelative}";
             
         var currentUrl = $"{baseUrl}{request.Path}";
+    }
+    @functions {
+        private bool IsActiveMenu(string menu)
+        {
+            var path = Context.Request.Path.Value?.ToLower() ?? "";
+            return menu switch
+            {
+                "home" => path == "/" || string.IsNullOrEmpty(path),
+                "san-pham" => path.StartsWith("/san-pham") || path.StartsWith("/danh-muc"),
+                "tin-tuc" => path.StartsWith("/tin-tuc"),
+                "quy-trinh" => path.Contains("quy-trinh"),
+                _ => false
+            };
+        }
     }
     <title>@pageTitle</title>
     <meta name="description" content="@pageDesc" />
@@ -268,15 +283,20 @@
                     <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-20 lg:h-[84px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md shadow-sm" />
                 </a>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="flex items-center text-[15px] font-bold text-[#222222]">
-                    <a href="/" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Trang Chủ</a>
-                    <span class="text-gray-300 select-none">|</span>
-                    <a href="/san-pham" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Bộ Sưu Tập Sản Phẩm</a>
-                    <span class="text-gray-300 select-none">|</span>
-                    <a href="/tin-tuc" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Văn Hóa & Tin Tức</a>
-                    <span class="text-gray-300 select-none">|</span>
-                    <a href="/#quy-trinh-san-xuat" class="px-4 xl:px-5 py-2 hover:text-[#B30D14] transition-colors">Quy Trình Sản Xuất</a>
+                <!-- Desktop Navigation Links (Chuẩn 100% màu sắc & hiệu ứng hover/active theo uneed.vn) -->
+                <nav class="flex items-center gap-6 xl:gap-8">
+                    <a href="/" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("home") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                        Trang Chủ
+                    </a>
+                    <a href="/san-pham" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("san-pham") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                        Bộ Sưu Tập Sản Phẩm
+                    </a>
+                    <a href="/tin-tuc" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tin-tuc") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                        Văn Hóa & Tin Tức
+                    </a>
+                    <a href="/#quy-trinh-san-xuat" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                        Quy Trình Sản Xuất
+                    </a>
                 </nav>
 
                 <!-- Call to Action & Hotline Pill -->
@@ -333,10 +353,10 @@
 
         <!-- Mobile Drawer Menu (Slide Down) -->
         <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-6 space-y-3 shadow-lg">
-            <a href="/" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Trang Chủ</a>
-            <a href="/san-pham" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Bộ Sưu Tập Sản Phẩm</a>
-            <a href="/tin-tuc" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Văn Hóa & Tin Tức</a>
-            <a href="/#quy-trinh-san-xuat" class="block text-base font-bold text-[#222222] hover:text-[#900C13] py-2 border-b border-gray-100">Quy Trình Sản Xuất</a>
+            <a href="/" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("home") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Trang Chủ</a>
+            <a href="/san-pham" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("san-pham") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Bộ Sưu Tập Sản Phẩm</a>
+            <a href="/tin-tuc" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tin-tuc") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Văn Hóa & Tin Tức</a>
+            <a href="/#quy-trinh-san-xuat" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Quy Trình Sản Xuất</a>
             <div class="pt-4 flex flex-col gap-3">
                 <a href="/lien-he" class="w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
                     Đăng Ký Đại Lý Phân Phối
@@ -359,7 +379,7 @@
     <!-- Footer (Chuẩn ThaiBeer.vn: Nền tối sang trọng #212121, Logo ThaiBeer to 85x100 kèm Text THAI BEER) -->
     <footer class="bg-[#212121] border-t border-[#333333] pt-14 pb-10 mt-16 text-[#B0B0B0] text-sm font-['Montserrat',sans-serif]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#333333]">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
                 <!-- Column 1: Brand Info & Logo ThaiBeer To (Như ảnh mẫu từ thaibeer.vn) -->
                 <div class="lg:col-span-2 space-y-4">
                     <div class="name-logo flex items-center gap-4">
@@ -390,10 +410,30 @@
                 <div>
                     <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Sản Phẩm</h4>
                     <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
-                        <li><a href="/danh-muc/bia-chai-thai" class="hover:text-[#FFBA1D] transition">Bia Chai Cao Cấp</a></li>
-                        <li><a href="/danh-muc/bia-lon-thai" class="hover:text-[#FFBA1D] transition">Bia Lon Tiện Lợi</a></li>
-                        <li><a href="/danh-muc/bia-tuoi-craft" class="hover:text-[#FFBA1D] transition">Bia Tươi & Craft Thủ Công</a></li>
-                        <li><a href="/danh-muc/hop-qua-phu-kien" class="hover:text-[#FFBA1D] transition">Hộp Quà & Phụ Kiện</a></li>
+                        @{
+                            IReadOnlyList<DanhMuc> danhMucsFooter = new List<DanhMuc>();
+                            try
+                            {
+                                danhMucsFooter = await SanPhamReadRepo.LayDanhSachDanhMucHoatDongAsync();
+                            }
+                            catch
+                            {
+                                // Graceful fallback
+                            }
+                        }
+                        @if (danhMucsFooter != null && danhMucsFooter.Any())
+                        {
+                            @foreach (var dm in danhMucsFooter)
+                            {
+                                <li>
+                                    <a href="/danh-muc/@dm.DuongDanSlug" class="hover:text-[#FFBA1D] transition">@dm.TenDanhMuc</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li><a href="/san-pham" class="hover:text-[#FFBA1D] transition">Tất Cả Sản Phẩm</a></li>
+                        }
                     </ul>
                 </div>
 
@@ -410,7 +450,7 @@
 
                 <!-- Column 4: Contact & Hotlines -->
                 <div>
-                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Hỗ Trợ & Liên Hệ</h4>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">CÔNG TY CỔ PHẦN BIA – NGK SÀI GÒN CỬU LONG</h4>
                     <ul class="space-y-3 text-xs text-[#B0B0B0]">
                         <li class="flex items-start gap-2.5">
                             <i class="fa-solid fa-location-dot text-[#FFBA1D] mt-1 shrink-0"></i>
@@ -425,15 +465,6 @@
                             <a href="mailto:nhuttrongchau@gmail.com" class="hover:text-[#FFBA1D] transition">nhuttrongchau@gmail.com</a>
                         </li>
                     </ul>
-                </div>
-            </div>
-
-            <!-- Bottom Copyright & Legal -->
-            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777777]">
-                <div class="flex items-center gap-4">
-                    <a href="#" class="hover:text-[#FFBA1D] transition">Điều khoản & Điều kiện</a>
-                    <span>•</span>
-                
                 </div>
             </div>
         </div>

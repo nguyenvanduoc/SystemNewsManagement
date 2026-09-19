@@ -20,7 +20,7 @@ public class TrangChuController : Controller
     {
         var banners = await _readRepo.LayBannerTrangChuAsync();
         var danhMucs = await _readRepo.LayDanhSachDanhMucHoatDongAsync();
-        var sanPhams = await _readRepo.LayDanhSachTrangChuAsync(8);
+        var sanPhams = await _readRepo.LayDanhSachTrangChuAsync(10);
         var tinTuc = await _readRepo.LayTinTucNoiBatAsync(3);
 
         var viewModel = new TrangChuViewModel

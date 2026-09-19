@@ -49,6 +49,7 @@
                     <th class="py-3.5 px-4">Tên Sản Phẩm</th>
                     <th class="py-3.5 px-4">Danh Mục</th>
                     <th class="py-3.5 px-4">Quy Cách & Cồn</th>
+                    <th class="py-3.5 px-4 text-center">Lượt Xem</th>
                     <th class="py-3.5 px-4 text-center">Trang Chủ</th>
                     <th class="py-3.5 px-4 text-center">Trạng Thái</th>
                     <th class="py-3.5 px-4 text-right">Thao Tác</th>
@@ -58,7 +59,7 @@
                 @if (!Model.Any())
                 {
                     <tr>
-                        <td colspan="7" class="py-8 text-center text-stone-500">Không tìm thấy sản phẩm nào phù hợp.</td>
+                        <td colspan="8" class="py-8 text-center text-stone-500">Không tìm thấy sản phẩm nào phù hợp.</td>
                     </tr>
                 }
                 else
@@ -84,6 +85,11 @@
                                     <span class="text-amber-400 font-semibold">@item.NongDoCon% ABV</span>
                                 </div>
                                 <span class="text-[11px] text-stone-500">@item.QuyCachDongGoi</span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="inline-flex items-center gap-1 text-xs text-stone-300 font-medium">
+                                    <i class="fa-regular fa-eye text-[11px] text-stone-400"></i> @item.LuotXem
+                                </span>
                             </td>
                             <td class="py-3 px-4 text-center">
                                 @if (item.HienThiTrangChu)

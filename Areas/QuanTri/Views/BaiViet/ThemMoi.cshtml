@@ -1,0 +1,189 @@
+@model ThaiBeer.Areas.QuanTri.ViewModels.BaiVietUpsertViewModel
+@{
+    ViewData["Title"] = "Thêm Mới Bài Viết";
+}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-stone-800">
+        <div>
+            <h1 class="text-2xl font-bold text-stone-100">Thêm Mới Bài Viết & Tin Tức</h1>
+            <p class="text-xs text-stone-400 mt-1">Nội dung hỗ trợ trình soạn thảo văn bản và ảnh sẽ tự động nén sang WebP</p>
+        </div>
+        <a href="/quan-tri/bai-viet" class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-semibold transition">
+            <i class="fa-solid fa-arrow-left mr-1.5"></i> Quay lại
+        </a>
+    </div>
+
+    <form method="post" action="/quan-tri/bai-viet/them-moi" enctype="multipart/form-data" class="space-y-6">
+        @Html.AntiForgeryToken()
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div asp-validation-summary="ModelOnly" class="p-4 rounded-xl bg-rose-950/80 border border-rose-600 text-rose-200 text-sm mb-6 shadow-lg"></div>
+        }
+
+        <!-- Thông Tin Bài Viết -->
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-5">
+            <h2 class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Nội Dung Bài Viết</h2>
+
+            <div>
+                <label asp-for="TieuDe" class="block text-xs font-semibold text-stone-300 mb-1.5">Tiêu đề bài viết <span class="text-rose-400">*</span></label>
+                <input asp-for="TieuDe" id="inputTieuDe" class="w-full bg-stone-950 border border-stone-700 hover:border-stone-600 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-100 placeholder-stone-500 transition" placeholder="VD: Nghệ Thuật Thưởng Thức Bia Chuẩn Hoàng Gia Thái Lan..." />
+                <span asp-validation-for="TieuDe" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label asp-for="DuongDanSlug" class="block text-xs font-semibold text-stone-300 mb-1.5">
+                        Đường dẫn thân thiện (Slug) <span class="text-stone-500 font-normal">(tự sinh nếu để trống)</span>
+                    </label>
+                    <div class="flex gap-2">
+                        <input asp-for="DuongDanSlug" id="inputSlug" class="flex-1 bg-stone-950 border border-stone-700 hover:border-stone-600 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-100 font-mono transition" placeholder="nghe-thuat-thuong-thuc-bia" />
+                        <button type="button" onclick="autoGenerateSlug()" class="px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-xs text-amber-400 border border-stone-700 rounded-xl font-semibold transition shrink-0">
+                            Tự động
+                        </button>
+                    </div>
+                    <span asp-validation-for="DuongDanSlug" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+                </div>
+
+                <div>
+                    <label asp-for="TacGia" class="block text-xs font-semibold text-stone-300 mb-1.5">Tác giả / Nguồn tin</label>
+                    <input asp-for="TacGia" class="w-full bg-stone-950 border border-stone-700 hover:border-stone-600 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-100 transition" placeholder="VD: ThaiBeer Ban Biên Tập" />
+                    <span asp-validation-for="TacGia" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="TomTat" class="block text-xs font-semibold text-stone-300 mb-1.5">Tóm tắt ngắn (Hiển thị ở danh sách bài viết)</label>
+                <textarea asp-for="TomTat" rows="3" class="w-full bg-stone-950 border border-stone-700 hover:border-stone-600 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-100 transition" placeholder="Đoạn mở đầu ngắn gọn khoảng 2-3 câu giới thiệu nội dung chính của bài viết..."></textarea>
+                <span asp-validation-for="TomTat" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+            </div>
+
+            <div>
+                <label asp-for="NoiDungHtml" class="block text-xs font-semibold text-stone-300 mb-1.5">Nội dung chi tiết (Soạn thảo văn bản đầy đủ)</label>
+                <textarea asp-for="NoiDungHtml" id="NoiDungHtml" class="ckeditor-editor w-full bg-stone-950 border border-stone-700 rounded-xl px-4 py-2.5 text-sm text-stone-100"></textarea>
+                <span asp-validation-for="NoiDungHtml" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+            </div>
+        </div>
+
+        <!-- Ảnh Bìa Bài Viết -->
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-5">
+            <h2 class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Ảnh Bìa Đại Diện</h2>
+
+            <div>
+                <label asp-for="TapTinHinhAnh" class="block text-xs font-semibold text-stone-300 mb-1.5">Chọn ảnh bìa bài viết <span class="text-rose-400">*</span></label>
+                <div class="border-2 border-dashed border-stone-800 hover:border-amber-500/50 rounded-2xl p-6 text-center transition bg-stone-950">
+                    <input asp-for="TapTinHinhAnh" type="file" accept="image/*" id="fileImageInput" class="hidden" onchange="previewUploadImage(event)" />
+                    
+                    <div id="uploadPlaceholder" class="space-y-3 cursor-pointer" onclick="document.getElementById('fileImageInput').click()">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-stone-900 flex items-center justify-center text-amber-500 text-xl border border-stone-800">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-stone-200">Nhấp vào đây để chọn ảnh từ máy tính</p>
+                            <p class="text-xs text-stone-500 mt-1">Hỗ trợ JPG, PNG, WEBP. Ảnh sẽ tự động tối ưu chuẩn WebP.</p>
+                        </div>
+                    </div>
+
+                    <div id="imagePreviewContainer" class="hidden mt-4 text-center">
+                        <img id="imagePreview" src="#" alt="Xem trước ảnh" class="max-h-60 mx-auto rounded-xl shadow-lg border border-stone-700 object-cover" />
+                        <div class="mt-3 flex items-center justify-center gap-3">
+                            <button type="button" onclick="document.getElementById('fileImageInput').click()" class="px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-xs text-amber-400 font-semibold transition border border-stone-700">
+                                Đổi ảnh khác
+                            </button>
+                            <button type="button" onclick="removeSelectedImage()" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-xs text-rose-400 font-semibold transition border border-rose-500/20">
+                                Xóa ảnh đã chọn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <span asp-validation-for="TapTinHinhAnh" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+            </div>
+        </div>
+
+        <!-- Cài Đặt Hiển Thị -->
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-4">
+            <h2 class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Cài Đặt Hiển Thị</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <label class="flex items-center gap-3 p-4 rounded-xl bg-stone-950 border border-stone-800 cursor-pointer hover:border-stone-700 transition">
+                    <input asp-for="NoiBat" type="checkbox" class="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 bg-stone-900 border-stone-700" />
+                    <div>
+                        <span class="text-sm font-semibold text-stone-200 block">Đánh dấu bài viết nổi bật</span>
+                        <span class="text-xs text-stone-400">Xuất hiện ưu tiên tại trang chủ và đầu mục tin tức</span>
+                    </div>
+                </label>
+
+                <label class="flex items-center gap-3 p-4 rounded-xl bg-stone-950 border border-stone-800 cursor-pointer hover:border-stone-700 transition">
+                    <input asp-for="TrangThaiHoatDong" type="checkbox" class="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 bg-stone-900 border-stone-700" />
+                    <div>
+                        <span class="text-sm font-semibold text-stone-200 block">Công khai bài viết</span>
+                        <span class="text-xs text-stone-400">Hiển thị trực tiếp cho độc giả trên website</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-end gap-3 pt-4">
+            <a href="/quan-tri/bai-viet" class="px-6 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-semibold transition">
+                Hủy bỏ
+            </a>
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition flex items-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Lưu Bài Viết
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            return str;
+        }
+
+        function autoGenerateSlug() {
+            var title = document.getElementById('inputTieuDe').value;
+            if (!title) return;
+            var clean = removeVietnameseTones(title).toLowerCase();
+            var slug = clean.replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+            document.getElementById('inputSlug').value = slug;
+        }
+
+        function previewUploadImage(event) {
+            var input = event.target;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('uploadPlaceholder').classList.add('hidden');
+                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function removeSelectedImage() {
+            var input = document.getElementById('fileImageInput');
+            input.value = "";
+            document.getElementById('imagePreview').src = "#";
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            document.getElementById('uploadPlaceholder').classList.remove('hidden');
+        }
+    </script>
+}

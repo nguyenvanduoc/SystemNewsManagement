@@ -2,98 +2,164 @@
 @{
     ViewData["Title"] = Model.TieuDe;
     ViewData["Description"] = Model.TomTat ?? Model.TieuDe;
+    ViewData["OgImage"] = Model.HinhAnhWebP;
     var tinLienQuan = (List<ThaiBeer.Core.Domain.Entities.BaiViet>?)ViewBag.TinLienQuan;
 }
 
-<div class="bg-[#E5E8E7] border-b border-gray-300 py-4">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center gap-2 text-xs text-[#666666]">
-            <a href="/" class="hover:text-[#007A29] transition">Trang Chủ</a>
-            <span>/</span>
-            <a href="/tin-tuc" class="hover:text-[#007A29] transition">Tin Tức</a>
-            <span>/</span>
-            <span class="text-[#007A29] font-bold truncate">@Model.TieuDe</span>
-        </nav>
+<div class="bg-[#F4F5F6] min-h-screen pb-16 font-['Montserrat',sans-serif]">
+    <!-- Breadcrumb -->
+    <div class="border-b border-gray-200/80 bg-white/70 backdrop-blur-sm sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav class="flex items-center gap-2 text-xs text-gray-500 overflow-hidden">
+                <a href="/" class="hover:text-[#007A29] transition shrink-0">Trang Chủ</a>
+                <span class="text-gray-400">/</span>
+                <a href="/tin-tuc" class="hover:text-[#007A29] transition shrink-0">Tin Tức</a>
+                <span class="text-gray-400">/</span>
+                <span class="text-[#007A29] font-semibold truncate">@Model.TieuDe</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content Container: 2 Cột (Trái bài viết chính, Phải tin tức liên quan) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- CỘT BÊN TRÁI: Nội Dung Bài Viết Chính (8 Cột) -->
+            <article class="lg:col-span-8 bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm">
+                <!-- Tag / Danh Mục -->
+                <div class="mb-4">
+                    <span class="inline-block px-3.5 py-1 rounded-full bg-[#EBF7EE] text-[#007A29] text-[11px] font-bold uppercase tracking-wider border border-[#007A29]/20">
+                        Thông Cáo Báo Chí & Tin Tức
+                    </span>
+                </div>
+
+                <!-- Tiêu Đề Bài Viết -->
+                <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-black text-[#1A1A1A] leading-tight mb-5">
+                    @Model.TieuDe
+                </h1>
+
+                <!-- Thông Tin Tác Giả & Thời Gian & Lượt Xem (Font giống như sản phẩm) -->
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[#555555] font-['Montserrat',sans-serif] pb-5 border-b border-gray-100">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-user text-gray-400"></i>
+                        <span>Tác giả: <strong class="text-[#222222] font-semibold">@(string.IsNullOrWhiteSpace(Model.TacGia) ? "Tin tức" : Model.TacGia)</strong></span>
+                    </span>
+                    <span class="text-gray-300">•</span>
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-calendar text-gray-400"></i>
+                        <span>@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</span>
+                    </span>
+                    <span class="text-gray-300">•</span>
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-regular fa-eye text-gray-400"></i>
+                        <span><strong class="text-[#222222] font-semibold">@(Model.LuotXem + 1)</strong> lượt đọc</span>
+                    </span>
+                </div>
+
+                <!-- Hình Ảnh Đại Diện (Nếu có) -->
+                @if (!string.IsNullOrWhiteSpace(Model.HinhAnhWebP))
+                {
+                    <div class="my-6 rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
+                        <img src="@Model.HinhAnhWebP" alt="@Model.TieuDe" class="w-full max-h-[520px] object-cover" />
+                    </div>
+                }
+
+                <!-- Đoạn Tóm Tắt Lead -->
+                @if (!string.IsNullOrWhiteSpace(Model.TomTat))
+                {
+                    <div class="p-5 sm:p-6 rounded-xl bg-[#F8FAF9] border-l-4 border-[#007A29] my-6 text-sm sm:text-base font-semibold text-gray-700 leading-relaxed italic shadow-inner">
+                        @Model.TomTat
+                    </div>
+                }
+
+                <!-- Nội Dung Chi Tiết (HTML) -->
+                <div class="prose max-w-none text-[#2C2C2C] text-sm sm:text-base leading-relaxed space-y-5 pt-2">
+                    @Html.Raw(Model.NoiDungHtml)
+                </div>
+
+                <!-- Footer Bài Viết & Nút Chia Sẻ -->
+                <div class="mt-12 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/tin-tuc" class="text-xs text-[#007A29] font-bold hover:underline inline-flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bài viết
+                    </a>
+                    <div class="flex items-center gap-3 text-xs text-gray-500">
+                        <span>Chia sẻ:</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-[#007A29] hover:text-white flex items-center justify-center transition shadow-sm" title="Chia sẻ Facebook">
+                            <i class="fa-brands fa-facebook-f text-xs"></i>
+                        </a>
+                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Đã sao chép liên kết bài viết!');" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-[#900C13] hover:text-white flex items-center justify-center transition shadow-sm" title="Sao chép link">
+                            <i class="fa-solid fa-link text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- CỘT BÊN PHẢI: Góc Nhỏ Hiển Thị Tin Tức Liên Quan (4 Cột) -->
+            <aside class="lg:col-span-4 space-y-6 sticky top-20">
+                
+                <!-- Widget Tin Tức Liên Quan -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-5 sm:p-6 shadow-sm">
+                    <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-gray-100">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-1.5 h-5 bg-[#007A29] rounded-full inline-block"></span>
+                            <h2 class="text-sm font-extrabold text-[#1A1A1A] uppercase tracking-wider">Tin tức liên quan</h2>
+                        </div>
+                        <a href="/tin-tuc" class="text-[11px] text-[#007A29] hover:underline font-semibold">Xem tất cả</a>
+                    </div>
+
+                    @if (tinLienQuan != null && tinLienQuan.Any())
+                    {
+                        <div class="divide-y divide-gray-100">
+                            @foreach (var r in tinLienQuan)
+                            {
+                                <a href="/tin-tuc/@r.DuongDanSlug" class="group flex items-start gap-3.5 py-3.5 first:pt-0 last:pb-0 hover:bg-gray-50/80 -mx-2 px-2 rounded-xl transition duration-200">
+                                    <div class="w-24 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
+                                        <img src="@r.HinhAnhWebP" alt="@r.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-xs sm:text-sm font-bold text-gray-800 line-clamp-2 group-hover:text-[#007A29] transition-colors leading-snug">
+                                            @r.TieuDe
+                                        </h3>
+                                        <div class="flex items-center gap-1.5 text-[11px] text-[#777777] mt-2 font-['Montserrat',sans-serif]">
+                                            <i class="fa-regular fa-calendar text-[10px] text-gray-400"></i>
+                                            <span>@r.NgayTao.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-xs text-gray-400 italic py-4 text-center">Chưa có bài viết liên quan khác.</p>
+                    }
+                </div>
+
+                <!-- Widget Banner Kêu Gọi Hợp Tác Phân Phối Chuẩn ThaiBeer -->
+                <div class="bg-gradient-to-br from-[#900C13] to-[#5A070C] rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#FFBA1D] text-[#900C13] text-[10px] font-black uppercase tracking-wider mb-3">
+                        HỢP TÁC KINH DOANH
+                    </span>
+                    <h3 class="text-base font-extrabold text-white leading-snug mb-2">
+                        Đăng Ký Làm Nhà Phân Phối ThaiBeer
+                    </h3>
+                    <p class="text-xs text-gray-200 leading-relaxed mb-4">
+                        Chính sách chiết khấu đại lý hấp dẫn, nguồn hàng ổn định, hỗ trợ quảng bá thương hiệu mạnh mẽ.
+                    </p>
+                    <div class="space-y-2.5">
+                        <a href="tel:0965156658" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white text-[#900C13] font-bold text-xs shadow hover:bg-gray-100 transition">
+                            <i class="fa-solid fa-phone"></i> Hotline: 0965 156 658
+                        </a>
+                        <a href="/lien-he" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs transition">
+                            Gửi yêu cầu đại lý
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
     </div>
 </div>
 
-<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-10 shadow-sm">
-        <header class="space-y-4 mb-8">
-            <span class="inline-block px-3 py-1 rounded-full bg-[#007A29]/10 text-[#007A29] text-xs font-bold uppercase tracking-wider border border-[#007A29]/20">
-                Thông Cáo Báo Chí & Tin Tức
-            </span>
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#222222] leading-tight">
-                @Model.TieuDe
-            </h1>
-            <div class="w-16 h-1 bg-[#007A29] mt-3"></div>
-            <div class="flex items-center gap-4 text-xs text-[#666666] font-mono pt-3 border-t border-gray-100">
-                <span><i class="fa-regular fa-user mr-1"></i> Tác giả: @Model.TacGia</span>
-                <span>•</span>
-                <span><i class="fa-regular fa-calendar mr-1"></i> @Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</span>
-                <span>•</span>
-                <span><i class="fa-regular fa-eye mr-1"></i> @Model.LuotXem lượt đọc</span>
-            </div>
-        </header>
-
-        @if (!string.IsNullOrWhiteSpace(Model.HinhAnhWebP))
-        {
-            <div class="rounded-xl overflow-hidden mb-8 border border-gray-200 shadow-sm">
-                <img src="@Model.HinhAnhWebP" alt="@Model.TieuDe" class="w-full max-h-[500px] object-cover" />
-            </div>
-        }
-
-        @if (!string.IsNullOrWhiteSpace(Model.TomTat))
-        {
-            <div class="p-6 rounded-xl bg-[#F8F9FA] border-l-4 border-[#007A29] mb-8 text-sm sm:text-base font-semibold text-[#333333] leading-relaxed italic">
-                @Model.TomTat
-            </div>
-        }
-
-        <div class="prose max-w-none text-[#333333] text-sm sm:text-base leading-relaxed space-y-5">
-            @Html.Raw(Model.NoiDungHtml)
-        </div>
-
-        <!-- Share & Footer -->
-        <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <a href="/tin-tuc" class="text-xs text-[#007A29] font-bold hover:underline inline-flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bài viết
-            </a>
-            <div class="flex items-center gap-3 text-xs text-[#666666]">
-                <span>Chia sẻ:</span>
-                <button class="w-8 h-8 rounded-full bg-gray-100 text-[#444444] hover:bg-[#007A29] hover:text-white flex items-center justify-center transition shadow-sm">
-                    <i class="fa-brands fa-facebook-f text-xs"></i>
-                </button>
-                <button class="w-8 h-8 rounded-full bg-gray-100 text-[#444444] hover:bg-[#007A29] hover:text-white flex items-center justify-center transition shadow-sm">
-                    <i class="fa-brands fa-linkedin-in text-xs"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Related Articles -->
-    @if (tinLienQuan != null && tinLienQuan.Any())
-    {
-        <div class="mt-12 pt-8 border-t border-gray-200">
-            <div class="mb-6">
-                <h2 class="text-xl font-extrabold text-[#222222] uppercase tracking-tight">Tin Tức Liên Quan</h2>
-                <div class="w-16 h-1 bg-[#007A29] mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                @foreach (var r in tinLienQuan)
-                {
-                    <a href="/tin-tuc/@r.DuongDanSlug" class="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-[#007A29] transition shadow-sm hover:shadow-md">
-                        <img src="@r.HinhAnhWebP" alt="@r.TieuDe" class="w-full h-36 object-cover" loading="lazy" />
-                        <div class="p-4">
-                            <h3 class="text-xs font-bold text-[#222222] line-clamp-2 group-hover:text-[#007A29] transition-colors leading-snug">
-                                @r.TieuDe
-                            </h3>
-                            <span class="text-[10px] text-[#666666] font-mono mt-2 block">@r.NgayTao.ToString("dd/MM/yyyy")</span>
-                        </div>
-                    </a>
-                }
-            </div>
-        </div>
-    }
-</article>
 

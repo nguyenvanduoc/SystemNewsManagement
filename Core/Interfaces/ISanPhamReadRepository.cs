@@ -14,4 +14,5 @@ public interface ISanPhamReadRepository
     Task<IReadOnlyList<BaiViet>> LayTinTucNoiBatAsync(int soLuong = 3);
     Task<BaiViet?> LayChiTietBaiVietAsync(string slug);
     Task TangLuotXemSanPhamAsync(int id);
+    Task TangLuotXemBaiVietAsync(int id);
 }

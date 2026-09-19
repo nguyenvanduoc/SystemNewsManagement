@@ -92,20 +92,32 @@
                 </div>
             </div>
 
+            @{
+                var currentPath = Context.Request.Path.Value ?? "";
+                var isTongQuan = currentPath == "/quan-tri" || currentPath == "/quan-tri/tong-quan";
+                var isSanPham = currentPath.StartsWith("/quan-tri/san-pham");
+                var isDanhMuc = currentPath.StartsWith("/quan-tri/danh-muc");
+                var isBaiViet = currentPath.StartsWith("/quan-tri/bai-viet");
+                var isLienHe = currentPath.StartsWith("/quan-tri/lien-he");
+            }
             <nav class="p-4 space-y-1.5 text-sm font-medium">
-                <a href="/quan-tri" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                <a href="/quan-tri" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isTongQuan ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
                     <i class="fa-solid fa-chart-pie w-5 text-center text-amber-500"></i>
                     <span>Tổng quan</span>
                 </a>
-                <a href="/quan-tri/san-pham" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                <a href="/quan-tri/san-pham" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isSanPham ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
                     <i class="fa-solid fa-beer-mug-empty w-5 text-center text-amber-500"></i>
                     <span>Quản lý sản phẩm</span>
                 </a>
-                <a href="/quan-tri/danh-muc" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                <a href="/quan-tri/danh-muc" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isDanhMuc ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
                     <i class="fa-solid fa-tags w-5 text-center text-amber-500"></i>
                     <span>Danh mục sản phẩm</span>
                 </a>
-                <a href="/quan-tri/lien-he" class="flex items-center gap-3 px-4 py-3 rounded-xl transition hover:bg-stone-800 hover:text-amber-400 text-stone-300">
+                <a href="/quan-tri/bai-viet" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isBaiViet ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
+                    <i class="fa-solid fa-newspaper w-5 text-center text-amber-500"></i>
+                    <span>Quản lý bài viết</span>
+                </a>
+                <a href="/quan-tri/lien-he" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isLienHe ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
                     <i class="fa-solid fa-handshake w-5 text-center text-amber-500"></i>
                     <span>Liên hệ & Hợp tác</span>
                 </a>

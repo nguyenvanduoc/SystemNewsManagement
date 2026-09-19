@@ -123,6 +123,9 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\uploads\bai-viet\2026\09\29bb9284de89401083e1a1031c0831b8.webp
+wwwroot\uploads\bai-viet\2026\09\b9a5efcc088649a3a2c342bcf56ef9d3.webp
+wwwroot\uploads\bai-viet\2026\09\e67894a4b97e47c183c7562679eb44e7.webp
 wwwroot\uploads\san-pham\2026\09\010b0254d7e54011ac2d7f88fc318a75.webp
 wwwroot\uploads\san-pham\2026\09\0213718a8e024b98b7fd79c20389dd46.webp
 wwwroot\uploads\san-pham\2026\09\1222ca967a114cbb8f20d907795076cd.webp

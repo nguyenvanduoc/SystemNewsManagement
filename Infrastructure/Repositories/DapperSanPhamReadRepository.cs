@@ -214,4 +214,11 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
         const string sql = "UPDATE SanPhams SET LuotXem = LuotXem + 1 WHERE Id = @Id;";
         await connection.ExecuteAsync(sql, new { Id = id });
     }
+
+    public async Task TangLuotXemBaiVietAsync(int id)
+    {
+        using var connection = _connectionFactory.TaoKetNoi();
+        const string sql = "UPDATE BaiViets SET LuotXem = LuotXem + 1 WHERE Id = @Id;";
+        await connection.ExecuteAsync(sql, new { Id = id });
+    }
 }

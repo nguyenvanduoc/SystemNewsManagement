@@ -28,7 +28,7 @@ public static class DbInitializer
                     UPDATE SanPhams 
                     SET TenSanPham = 'THAIBEER SLEEK', 
                         MoTaNgan = N'Thái bạc lon cao', 
-                        HinhAnhWebP = '/images/logo/BiaThai.png'
+                        HinhAnhWebP = '/images/logo/thailoncao.png'
                     WHERE ThuTuHienThi = 1;
                 END
             ");

@@ -122,122 +122,73 @@
 </section>
 *@
 
-<!-- 3. SẢN PHẨM NỔI BẬT (Dạng card nhỏ có màu sắc và hình ảnh thu gọn chuẩn 100% theo ảnh của khách) -->
-<section class="pt-5 pb-10 sm:pt-8 sm:pb-14 bg-white">
-    <div class="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-14">
-        <!-- Header Căn Giữa (Đã bỏ chữ THAI BEER và rút gọn khoảng cách) -->
-        <div class="reveal-on-scroll text-center mb-4 sm:mb-6">
-            <h2 class="text-2xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight">
-                SẢN PHẨM NỔI BẬT
+<!-- 3. BỘ SƯU TẬP SẢN PHẨM (Đồng bộ 100% size, viền card và chi tiết như trang danh mục sản phẩm) -->
+<section class="py-12 sm:py-16 bg-[#FAF9F6] border-b border-gray-200 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Căn Giữa Bộ Sưu Tập -->
+        <div class="reveal-on-scroll text-center mb-8 sm:mb-12">
+            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-widest block mb-1.5 text-[#007A29]">
+                THAI BEER
+            </span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] uppercase tracking-tight">
+                BỘ SƯU TẬP SẢN PHẨM
             </h2>
+            <div class="w-16 h-1 bg-[#007A29] mx-auto mt-2.5 rounded-full"></div>
+            <p class="text-xs sm:text-sm text-[#666666] mt-2.5 max-w-2xl mx-auto">
+                Khám phá các dòng sản phẩm bia thượng hạng được sản xuất với tiêu chuẩn quản lý chất lượng khắt khe nhất
+            </p>
         </div>
 
-        <!-- 1. GIAO DIỆN MOBILE: Chỉ hiển thị 1 Card sản phẩm và có thanh kéo trái (Swiper 1 Slide + Draggable Scrollbar) -->
-        <div class="md:hidden">
-            <div class="reveal-on-scroll swiper product-swiper overflow-hidden px-1 py-2">
-                <div class="swiper-wrapper">
-                    @for (int idx = 0; idx < Model.SanPhamNoiBat.Count; idx++)
-                    {
-                        var sp = Model.SanPhamNoiBat[idx];
-                        var bgColors = new[] { "#007A29", "#900C13", "#D97706", "#005A1E" };
-                        var cardBg = bgColors[idx % bgColors.Length];
-
-                        <div class="swiper-slide h-auto">
-                            <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between min-h-[290px] h-full" style="background-color: @cardBg;">
-                                <!-- Hàng 1: Tiêu Đề Nằm Trên Cùng Trải Rộng -->
-                                <div>
-                                    <h3 class="text-lg sm:text-xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white">
-                                        @sp.TenSanPham
-                                    </h3>
-                                </div>
-
-                                <!-- Hàng 2: Nội Dung Nằm Dưới Tiêu Đề (Trái: Mô Tả & Nút / Phải: Thùng Bia Nền Trắng) -->
-                                <div class="flex items-end justify-between gap-3 pt-3 flex-1">
-                                    <!-- Cột Trái: Mô Tả và Nút Xem Chi Tiết -->
-                                    <div class="flex-1 flex flex-col justify-between h-full space-y-2.5">
-                                        <p class="text-xs text-white/90 font-medium leading-relaxed line-clamp-3 sm:line-clamp-4">
-                                            @(sp.MoTaNgan ?? "Mẫu lon: Thấp (Lùn) Thành phần: Nước, mạch nha đại mạch, hoa bia, men bia. Hướng dẫn sử dụng...")
-                                        </p>
-                                        <div class="pt-1.5 mt-auto">
-                                            <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/90 bg-transparent text-white text-[11px] font-black uppercase tracking-wider transition-all shadow-sm active:scale-95" style="color: #ffffff !important; border-color: #ffffff !important;">
-                                                <span style="color: #ffffff !important; font-weight: 800;">XEM CHI TIẾT</span>
-                                                <i class="fa-solid fa-play text-[7px]" style="color: #ffffff !important;"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <!-- Cột Phải: Khung Hình Ảnh Thùng Bia Nền Trắng (Tăng Size To Rõ Hơn Nữa) -->
-                                    <div class="relative shrink-0">
-                                        <div class="w-44 h-44 sm:w-48 sm:h-48 rounded-2xl bg-white p-1.5 flex items-center justify-center overflow-hidden shadow-md">
-                                            <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="w-full h-full object-contain filter drop-shadow-sm scale-110" loading="lazy" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <!-- Thanh Kéo Trái (Draggable Scrollbar) -->
-                <div class="product-scrollbar swiper-scrollbar"></div>
-                
-                <!-- Gợi ý kéo trái mượt mà -->
-                <div class="flex items-center justify-between text-[11px] text-gray-400 mt-3 px-1">
-                    <span class="inline-flex items-center gap-1.5">
-                        <i class="fa-solid fa-hand-pointer text-gray-400"></i>
-                        Kéo thanh trượt hoặc vuốt sang trái
-                    </span>
-                    <span class="font-mono text-gray-400" id="productSlideCounter">1 / @Model.SanPhamNoiBat.Count</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. GIAO DIỆN DESKTOP / TABLET: Chia Làm 3 Cột (Hệ Lưới 4-4-4) Với Khung Hình Ảnh To Rõ Nét -->
-        <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+        <!-- Product Grid: 100% đồng bộ size, viền card, padding, aspect-square chuẩn trang danh mục -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             @for (int idx = 0; idx < Model.SanPhamNoiBat.Count; idx++)
             {
                 var sp = Model.SanPhamNoiBat[idx];
-                var bgColors = new[] { "#007A29", "#900C13", "#D97706" };
-                var cardBg = bgColors[idx % bgColors.Length];
                 var delayClass = "delay-" + ((idx % 3 + 1) * 100);
 
-                <div class="reveal-on-scroll @delayClass rounded-3xl p-5 sm:p-6 text-white relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between min-h-[285px]" style="background-color: @cardBg;">
-                    <!-- Hàng 1: Tiêu Đề Nằm Trên Cùng Trải Rộng -->
-                    <div>
-                        <h3 class="text-base sm:text-lg lg:text-xl font-black tracking-tight leading-tight uppercase line-clamp-2 text-white">
-                            @sp.TenSanPham
-                        </h3>
-                    </div>
-
-                    <!-- Hàng 2: Nội Dung Nằm Dưới Tiêu Đề (Trái: Mô Tả & Nút / Phải: Thùng Bia Nền Trắng To Đẹp) -->
-                    <div class="flex items-end justify-between gap-4 pt-4 flex-1">
-                        <!-- Cột Trái: Mô Tả và Nút Xem Chi Tiết -->
-                        <div class="flex-1 flex flex-col justify-between h-full space-y-3">
-                            <p class="text-xs sm:text-[13px] text-white/90 font-medium leading-relaxed line-clamp-3">
-                                @(sp.MoTaNgan ?? "Mẫu lon: Thấp (Lùn) Thành phần: Nước, mạch nha đại mạch, hoa bia, men bia...")
-                            </p>
-                            <div class="pt-2 mt-auto">
-                                <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/90 bg-transparent text-white text-[11px] font-black uppercase tracking-wider hover:bg-white hover:text-[#007A29] transition-all shadow-sm" style="color: #ffffff !important; border-color: #ffffff !important;">
-                                    <span style="color: #ffffff !important; font-weight: 800;">XEM CHI TIẾT</span>
-                                    <i class="fa-solid fa-play text-[7px]" style="color: #ffffff !important;"></i>
-                                </a>
-                            </div>
+                <div class="reveal-on-scroll @delayClass bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg flex flex-col justify-between">
+                    <!-- Khối ảnh có link điều hướng -->
+                    <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100">
+                        <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
+                            @sp.NongDoCon% ABV
                         </div>
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md border border-gray-200 text-[11px] font-medium text-[#666666] shadow-sm">
+                            @sp.DungTichMl ml
+                        </div>
+                    </a>
 
-                        <!-- Cột Phải: Khung Hình Ảnh Thùng Bia Nền Trắng (Tăng Size Lên To Rõ Chuẩn 3 Cột) -->
-                        <div class="relative shrink-0">
-                            <div class="w-36 h-36 sm:w-40 sm:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 rounded-2xl bg-white p-2.5 flex items-center justify-center overflow-hidden shadow-md">
-                                <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain filter drop-shadow-sm" loading="lazy" />
-                            </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <!-- Khối text (Danh mục, Tiêu đề, Mô tả) có link điều hướng -->
+                        <a href="/san-pham/@sp.DuongDanSlug" class="block group/text cursor-pointer">
+                            <span class="text-[11px] font-bold text-[#007A29] uppercase tracking-wider block mb-1">
+                                @(sp.DanhMuc?.TenDanhMuc ?? "BIA THÁI")
+                            </span>
+                            <h2 class="text-base font-bold text-[#222222] line-clamp-1 group-hover/text:text-[#007A29] transition-colors">
+                                @sp.TenSanPham
+                            </h2>
+                            <p class="text-xs text-[#666666] mt-2 line-clamp-2 leading-relaxed">
+                                @sp.MoTaNgan
+                            </p>
+                        </a>
+
+                        <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-[#666666] font-medium">@sp.QuyCachDongGoi</span>
+                            <a href="/san-pham/@sp.DuongDanSlug" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#007A29] hover:bg-[#006020] text-white font-bold text-xs transition shadow-sm">
+                                <span>Chi tiết</span>
+                                <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             }
         </div>
 
-        <div class="reveal-on-scroll delay-200 text-center mt-10">
-            <a href="/san-pham" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white hover:bg-[#007A29] hover:text-white border border-gray-300 text-[#222222] text-xs font-bold tracking-wider uppercase transition shadow-sm">
-                Xem Toàn Bộ Sản Phẩm <i class="fa-solid fa-arrow-right text-[11px]"></i>
+        <!-- Nút Xem Toàn Bộ Sản Phẩm -->
+        <div class="reveal-on-scroll delay-200 text-center mt-12">
+            <a href="/san-pham" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white hover:bg-[#007A29] hover:text-white border border-gray-300 hover:border-[#007A29] text-[#222222] text-xs font-bold tracking-wider uppercase transition shadow-sm hover:shadow-md">
+                <span>Xem Toàn Bộ Sản Phẩm</span>
+                <i class="fa-solid fa-arrow-right text-[11px]"></i>
             </a>
         </div>
     </div>
@@ -474,7 +425,7 @@
             {
                 new { 
                     Ma = "08_", 
-                    Ten = "123 ZÔ Lager - Lon Lùn 330ml", 
+                    Ten = "123 ZO Lager - Lon Lùn 330ml", 
                     HinhAnh = "/images/nhanhang/cutouts/08_ZoLun.png", 
                     ChieuCao = "h-[185px] sm:h-[195px] lg:h-[215px] xl:h-[225px]"
                 },
@@ -510,7 +461,7 @@
                 },
                 new { 
                     Ma = "06_", 
-                    Ten = "123 ZÔ Premium - Lon Cao 330ml", 
+                    Ten = "123 ZO Premium - Lon Cao 330ml", 
                     HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.png", 
                     ChieuCao = "h-[210px] sm:h-[225px] lg:h-[245px] xl:h-[255px]"
                 }
@@ -689,15 +640,15 @@
         <div class="md:hidden">
             <div class="reveal-on-scroll swiper process-swiper overflow-hidden px-1 py-2">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1: Video 123 Zô -->
+                    <!-- Slide 1: Video 123 ZO -->
                     <div class="swiper-slide h-auto">
                         <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between h-full min-h-[380px]" style="background-color: #007A29;">
                             <div>
                                 <div class="flex items-center justify-between gap-3 mb-2.5">
-                                    <span class="text-xs text-white/90 font-bold tracking-wide">123 ZÔ Special</span>
+                                    <span class="text-xs text-white/90 font-bold tracking-wide">123 ZO</span>
                                 </div>
                                 <h3 class="text-lg font-black tracking-tight leading-snug uppercase text-white mb-2">
-                                    Dây Chuyền Sản Xuất Bia 123 ZÔ Thượng Hạng
+                                    Dây Chuyền Sản Xuất Bia 123 ZO Thượng Hạng
                                 </h3>
                                 <p class="text-xs text-white/90 font-normal leading-relaxed mb-3">
                                     Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
@@ -752,14 +703,14 @@
 
         <!-- 2. GIAO DIỆN DESKTOP / TABLET: 2 Cột Đẳng Cấp Sang Trọng -->
         <div class="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8">
-            <!-- Card 1: Video 123 Zô -->
+            <!-- Card 1: Video 123 ZO -->
             <div class="reveal-on-scroll rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #007A29;">
                 <div>
                     <div class="flex items-center justify-between gap-3 mb-3">
-                        <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">123 ZÔ Special</span>
+                        <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">123 ZO</span>
                     </div>
                     <h3 class="text-xl sm:text-2xl font-black tracking-tight leading-tight uppercase text-white mb-2.5">
-                        Dây Chuyền Sản Xuất Bia 123 ZÔ Thượng Hạng
+                        Dây Chuyền Sản Xuất Bia 123 ZO Thượng Hạng
                     </h3>
                     <p class="text-xs sm:text-sm text-white/90 font-medium leading-relaxed mb-5">
                         Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.

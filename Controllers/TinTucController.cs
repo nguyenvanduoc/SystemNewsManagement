@@ -30,8 +30,11 @@ public class TinTucController : Controller
         var baiViet = await _readRepo.LayChiTietBaiVietAsync(slug);
         if (baiViet == null) return NotFound();
 
-        var tinMoi = await _readRepo.LayTinTucNoiBatAsync(4);
-        ViewBag.TinLienQuan = tinMoi.Where(t => t.Id != baiViet.Id).ToList();
+        // Tăng lượt xem bài viết (chạy ngầm tương tự sản phẩm)
+        _ = _readRepo.TangLuotXemBaiVietAsync(baiViet.Id);
+
+        var tinMoi = await _readRepo.LayTinTucNoiBatAsync(8);
+        ViewBag.TinLienQuan = tinMoi.Where(t => t.Id != baiViet.Id).Take(5).ToList();
 
         return View(baiViet);
     }

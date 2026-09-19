@@ -1,0 +1,150 @@
+@model IEnumerable<ThaiBeer.Core.Domain.Entities.BaiViet>
+@{
+    ViewData["Title"] = "Quản Lý Bài Viết & Tin Tức";
+}
+
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-stone-100">Danh Sách Bài Viết & Tin Tức</h1>
+        <p class="text-xs text-stone-400 mt-1">Quản lý các bài viết tin tức, thông cáo báo chí và kiến thức văn hóa bia</p>
+    </div>
+    <a href="/quan-tri/bai-viet/them-moi" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition">
+        <i class="fa-solid fa-plus"></i>
+        Thêm Bài Viết Mới
+    </a>
+</div>
+
+<!-- Filter Bar -->
+<div class="bg-stone-900 border border-stone-800 rounded-2xl p-4 mb-6">
+    <form method="get" action="/quan-tri/bai-viet" class="flex flex-wrap items-center gap-4">
+        <div class="flex-1 min-w-[240px]">
+            <input type="text" name="tuKhoa" value="@ViewBag.TuKhoa" placeholder="Tìm kiếm theo tiêu đề hoặc tóm tắt..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="w-44">
+            <select name="noiBat" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+                <option value="">-- Tất cả loại tin --</option>
+                <option value="true" selected="@(ViewBag.NoiBat == true ? "selected" : null)">Tin nổi bật</option>
+                <option value="false" selected="@(ViewBag.NoiBat == false ? "selected" : null)">Tin thông thường</option>
+            </select>
+        </div>
+        <div class="w-44">
+            <select name="trangThai" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500">
+                <option value="">-- Trạng thái --</option>
+                <option value="true" selected="@(ViewBag.TrangThai == true ? "selected" : null)">Đang hiển thị</option>
+                <option value="false" selected="@(ViewBag.TrangThai == false ? "selected" : null)">Tạm ẩn</option>
+            </select>
+        </div>
+        <button type="submit" class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-sm font-semibold transition">
+            <i class="fa-solid fa-filter mr-1.5 text-amber-500"></i> Lọc
+        </button>
+        @if (ViewBag.NoiBat != null || ViewBag.TrangThai != null || !string.IsNullOrWhiteSpace(ViewBag.TuKhoa))
+        {
+            <a href="/quan-tri/bai-viet" class="text-xs text-stone-400 hover:text-amber-400 self-center">Xóa bộ lọc</a>
+        }
+    </form>
+</div>
+
+<!-- Article Table -->
+<div class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-stone-300">
+            <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-b border-stone-800">
+                <tr>
+                    <th class="py-3.5 px-4">Ảnh Bìa</th>
+                    <th class="py-3.5 px-4">Tiêu Đề Bài Viết</th>
+                    <th class="py-3.5 px-4">Tác Giả & Ngày</th>
+                    <th class="py-3.5 px-4 text-center">Lượt Xem</th>
+                    <th class="py-3.5 px-4 text-center">Nổi Bật</th>
+                    <th class="py-3.5 px-4 text-center">Trạng Thái</th>
+                    <th class="py-3.5 px-4 text-right">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800/80">
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-stone-500">
+                            <i class="fa-solid fa-newspaper text-3xl mb-3 block text-stone-600"></i>
+                            Chưa có bài viết nào phù hợp.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-stone-800/50 transition">
+                            <td class="py-3 px-4">
+                                <div class="w-16 h-12 rounded-xl overflow-hidden bg-stone-800 border border-stone-700 shadow-sm shrink-0">
+                                    <img src="@item.HinhAnhWebP" alt="@item.TieuDe" onerror="this.onerror=null;this.src='/images/bia123zo.png';" class="w-full h-full object-cover" loading="lazy" />
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 max-w-md">
+                                <a href="/tin-tuc/@item.DuongDanSlug" target="_blank" class="font-bold text-stone-100 hover:text-amber-400 line-clamp-1 transition" title="@item.TieuDe">
+                                    @item.TieuDe
+                                </a>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-xs text-stone-500 font-mono">/@item.DuongDanSlug</span>
+                                    <a href="/tin-tuc/@item.DuongDanSlug" target="_blank" class="text-[11px] text-amber-500 hover:underline inline-flex items-center gap-0.5">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Xem
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 whitespace-nowrap">
+                                <p class="text-xs text-stone-300 font-medium">@item.TacGia</p>
+                                <span class="text-[11px] text-stone-500">@item.NgayTao.ToString("dd/MM/yyyy HH:mm")</span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="inline-flex items-center gap-1 text-xs text-stone-400 font-mono">
+                                    <i class="fa-regular fa-eye text-[11px] text-stone-500"></i> @item.LuotXem
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                @if (item.NoiBat)
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
+                                        <i class="fa-solid fa-star text-[10px]"></i> Nổi bật
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-[11px] text-stone-600">-</span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                @if (item.TrangThaiHoatDong)
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Hiển thị
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-stone-700/30 text-stone-400 border border-stone-700 font-medium">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span> Tạm ẩn
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 text-right whitespace-nowrap">
+                                <div class="inline-flex items-center gap-1.5">
+                                    <a href="/tin-tuc/@item.DuongDanSlug" target="_blank" class="p-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-amber-400 transition" title="Xem trên website">
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </a>
+                                    <a href="/quan-tri/bai-viet/chinh-sua/@item.Id" class="p-2 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-amber-400 transition" title="Chỉnh sửa">
+                                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+                                    </a>
+                                    <form method="post" action="/quan-tri/bai-viet/xoa/@item.Id" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết \'@item.TieuDe\' này không?')" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition" title="Xóa bài viết">
+                                            <i class="fa-solid fa-trash-can text-xs"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

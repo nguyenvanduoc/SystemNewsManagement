@@ -33,9 +33,9 @@ public class SanPhamUpsertViewModel
     [Display(Name = "Video giới thiệu URL (YouTube / CDN)")]
     public string? VideoGioiThieuUrl { get; set; }
 
-    [Required(ErrorMessage = "Vui lòng nhập nồng độ cồn (% ABV)")]
-    [Range(0.0, 100.0, ErrorMessage = "Nồng độ cồn từ 0 đến 100%")]
-    [Display(Name = "Nồng độ cồn (% ABV)")]
+    [Required(ErrorMessage = "Vui lòng nhập độ cồn (%)")]
+    [Range(0, 100, ErrorMessage = "Độ cồn không hợp lệ")]
+    [Display(Name = "Độ cồn (%)")]
     public decimal NongDoCon { get; set; } = 5.0m;
 
     [Required(ErrorMessage = "Vui lòng nhập dung tích")]

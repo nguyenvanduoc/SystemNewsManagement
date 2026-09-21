@@ -133,4 +133,6 @@ wwwroot\uploads\san-pham\2026\09\190e0df56c2c414eb2ecac4e68cc3f0e.webp
 wwwroot\uploads\san-pham\2026\09\68623a8ef2024dac962efc831d4dc554.webp
 wwwroot\uploads\san-pham\2026\09\ef39603816bf4380983964958069d606.webp
 wwwroot\videos\123zo.mp4
+wwwroot\videos\123zo_original_vp9.mp4
+wwwroot\videos\123zo_vp9_backup.mp4
 wwwroot\videos\biathai.mp4

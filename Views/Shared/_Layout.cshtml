@@ -673,21 +673,17 @@
                 });
             }
 
-            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Tự động chuyển động + draggable)
+            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Không tự động trượt, chỉ chuyển khi người dùng lướt/kéo)
             if (document.querySelector(".process-swiper")) {
                 const procSwiper = new Swiper(".process-swiper", {
                     slidesPerView: 1,
                     spaceBetween: 16,
                     grabCursor: true,
-                    rewind: true,
+                    rewind: false,
                     observer: true,
                     observeParents: true,
                     resizeObserver: true,
-                    autoplay: {
-                        delay: 4500,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: true
-                    },
+                    autoplay: false,
                     scrollbar: {
                         el: ".process-scrollbar",
                         draggable: true,
@@ -700,6 +696,10 @@
                             if (counter) {
                                 counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
                             }
+                            // Tạm dừng video nếu đang phát khi người dùng lướt sang slide khác
+                            document.querySelectorAll(".process-swiper video").forEach(v => {
+                                try { v.pause(); } catch(e) {}
+                            });
                         }
                     }
                 });

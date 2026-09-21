@@ -122,7 +122,7 @@ public static class DbInitializer
                 TenSanPham = "ThaiBeer Original Premium Lager 330ml (Chai)",
                 DuongDanSlug = "thaibeer-original-premium-lager-330ml-chai",
                 MoTaNgan = "Dòng bia chai hoàng gia biểu tượng với sắc vàng óng ánh, lớp bọt tuyết dày mịn và hậu vị mạch nha êm dịu.",
-                NoiDungChiTiet = "<p>ThaiBeer Original Lager là sự kết tinh của tinh hoa nấu bia truyền thống Thái Lan. Nguồn nước ngầm tinh khiết hòa quyện cùng mạch nha lúa mạch châu Âu tạo nên sắc vàng hổ phách cuốn hút. Vị đắng thanh thoát từ hoa bia quý tộc lưu lại hậu vị ngọt ngào bền lâu.</p><ul><li>Độ cồn: 5.0% ABV</li><li>Dung tích: 330ml</li><li>Nhiệt độ thưởng thức lý tưởng: 4°C - 6°C</li></ul>",
+                NoiDungChiTiet = "<p>ThaiBeer Original Lager là sự kết tinh của tinh hoa nấu bia truyền thống Thái Lan. Nguồn nước ngầm tinh khiết hòa quyện cùng mạch nha lúa mạch châu Âu tạo nên sắc vàng hổ phách cuốn hút. Vị đắng thanh thoát từ hoa bia quý tộc lưu lại hậu vị ngọt ngào bền lâu.</p><ul><li>Độ cồn: 5.0%</li><li>Dung tích: 330ml</li><li>Nhiệt độ thưởng thức lý tưởng: 4°C - 6°C</li></ul>",
                 HinhAnhWebP = "https://images.unsplash.com/photo-1608270177770-9831a2a46618?q=80&w=800&auto=format&fit=crop",
                 NongDoCon = 5.0m,
                 DungTichMl = 330,

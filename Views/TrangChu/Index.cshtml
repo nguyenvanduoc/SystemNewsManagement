@@ -134,9 +134,6 @@
                 BỘ SƯU TẬP SẢN PHẨM
             </h2>
             <div class="w-16 h-1 bg-[#007A29] mx-auto mt-2.5 rounded-full"></div>
-            <p class="text-xs sm:text-sm text-[#666666] mt-2.5 max-w-2xl mx-auto">
-                Khám phá các dòng sản phẩm bia thượng hạng được sản xuất với tiêu chuẩn quản lý chất lượng khắt khe nhất
-            </p>
         </div>
 
         <!-- Product Grid: 100% đồng bộ size, viền card, padding, aspect-square chuẩn trang danh mục -->
@@ -151,7 +148,7 @@
                     <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100">
                         <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
-                            @sp.NongDoCon% ABV
+                            @sp.NongDoCon% Độ cồn
                         </div>
                         <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md border border-gray-200 text-[11px] font-medium text-[#666666] shadow-sm">
                             @sp.DungTichMl ml
@@ -655,8 +652,8 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline>
-                                    <source src="~/videos/123zo.mp4" type="video/mp4" />
+                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/bia123zo.png">
+                                    <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                             </div>
@@ -678,8 +675,8 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline>
-                                    <source src="~/videos/biathai.mp4" type="video/mp4" />
+                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/logo/BiaThai.png">
+                                    <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                             </div>
@@ -717,8 +714,8 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline>
-                        <source src="~/videos/123zo.mp4" type="video/mp4" />
+                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/bia123zo.png">
+                        <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                 </div>
@@ -738,8 +735,8 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline>
-                        <source src="~/videos/biathai.mp4" type="video/mp4" />
+                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/logo/BiaThai.png">
+                        <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                 </div>

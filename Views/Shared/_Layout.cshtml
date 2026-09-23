@@ -130,7 +130,95 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #F4F4F4; }
         ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #007A29; }
+        /* Chống tràn chiều ngang toàn trang trên Mobile */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* BÀI VIẾT & TIN TỨC: RESPONSIVE CONTENT & HIỂN THỊ VIỀN BẢNG (TABLE)*/
+        /* ------------------------------------------------------------------ */
+        .article-content {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+        .article-content img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 0.75rem;
+            margin: 1rem auto;
+            display: block;
+        }
+        .article-content iframe,
+        .article-content video {
+            max-width: 100% !important;
+            border-radius: 0.75rem;
+        }
+
+        /* Hiển thị viền BẢNG BIỂU (Table) rõ ràng khi copy từ Word/Excel/Web khác vào */
+        .article-content table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+            margin: 1.25rem 0 !important;
+            font-size: 0.875rem !important;
+            line-height: 1.5 !important;
+            border: 1px solid #CBD5E1 !important;
+            background-color: #FFFFFF;
+        }
+        .article-content table th,
+        .article-content table td {
+            border: 1px solid #CBD5E1 !important;
+            padding: 0.65rem 0.85rem !important;
+            text-align: left;
+            vertical-align: middle;
+        }
+        .article-content table th {
+            background-color: #F1F5F9 !important;
+            font-weight: 700 !important;
+            color: #0F172A !important;
+        }
+        .article-content table tr:nth-child(even) td {
+            background-color: #F8FAFC;
+        }
+        .article-content table tr:hover td {
+            background-color: #F0FDF4;
+        }
+
+        /* Khung cuộn ngang mượt mà cho Bảng dài trên Mobile (Chống vỡ giao diện) */
+        .table-responsive-wrapper {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            margin: 1.25rem 0 !important;
+            border-radius: 0.75rem !important;
+            border: 1px solid #E2E8F0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+            background: #FFFFFF !important;
+        }
+        .table-responsive-wrapper table {
+            margin: 0 !important;
+            border: none !important;
+            min-width: 580px; /* Giữ kích thước tối thiểu để số liệu không bị dồn ép */
+        }
+        @@media (min-width: 768px) {
+            .table-responsive-wrapper table {
+                min-width: 100%;
+            }
+        }
+        .table-scroll-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: #6B7280;
+            margin-top: -0.75rem;
+            margin-bottom: 1.25rem;
+            font-style: italic;
+        }
 
         /* Mobile Drag Scrollbar (Thanh kéo trái) */
         .category-swiper, .product-swiper, .process-swiper, .news-swiper {
@@ -364,9 +452,6 @@
                 <a href="tel:0965156658" class="w-full text-center py-2.5 rounded-full bg-gray-100 text-[#900C13] text-xs font-bold border border-gray-200">
                     <i class="fa-solid fa-phone mr-1.5"></i> Hotline: 0965 156 658
                 </a>
-                <a href="/quan-tri" class="w-full text-center py-2 rounded-lg text-gray-500 text-xs">
-                    <i class="fa-solid fa-lock mr-1"></i> Cổng Quản Trị Hệ Thống
-                </a>
             </div>
         </div>
     </header>
@@ -550,6 +635,21 @@
     <!-- Global Client Scripts: Turbo Reconnect & Swiper Initialization -->
     <script>
         function initializeThaiBeerUI() {
+            // Tự động bọc bảng biểu trong bài viết để chống tràn màn hình mobile và cho phép cuộn ngang
+            document.querySelectorAll('.article-content table').forEach(function (table) {
+                if (!table.parentElement.classList.contains('table-responsive-wrapper')) {
+                    var wrapper = document.createElement('div');
+                    wrapper.className = 'table-responsive-wrapper';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+
+                    var hint = document.createElement('div');
+                    hint.className = 'table-scroll-hint sm:hidden';
+                    hint.innerHTML = '<i class="fa-solid fa-arrows-left-right text-[#007A29]"></i> <span>Vuốt sang hai bên để xem toàn bộ bảng số liệu</span>';
+                    wrapper.parentNode.insertBefore(hint, wrapper.nextSibling);
+                }
+            });
+
             if (typeof Swiper === "undefined") {
                 setTimeout(initializeThaiBeerUI, 50);
                 return;

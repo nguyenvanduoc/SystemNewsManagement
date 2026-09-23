@@ -143,4 +143,3 @@ C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\re
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNewsManagement.pdb
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\SystemNewsManagement.genruntimeconfig.cache
 C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\ref\SystemNewsManagement.dll
-C:\Working\website\SystemNewsManagement\SystemNewsManagement\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

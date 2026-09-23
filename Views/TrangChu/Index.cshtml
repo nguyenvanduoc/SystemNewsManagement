@@ -426,12 +426,14 @@
                     HinhAnh = "/images/nhanhang/cutouts/08_ZoLun.png", 
                     ChieuCao = "h-[185px] sm:h-[195px] lg:h-[215px] xl:h-[225px]"
                 },
+                
                 new { 
-                    Ma = "04_", 
-                    Ten = "Lux 65 Original - Lon Lùn 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/04_LuxLun.png", 
-                    ChieuCao = "h-[205px] sm:h-[215px] lg:h-[235px] xl:h-[245px]"
+                    Ma = "06_", 
+                    Ten = "123 ZO Premium - Lon Cao 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.png", 
+                    ChieuCao = "h-[210px] sm:h-[225px] lg:h-[245px] xl:h-[255px]"
                 },
+               
                 new { 
                     Ma = "02_", 
                     Ten = "Thai Beer Lager - Lon Lùn 330ml", 
@@ -451,16 +453,16 @@
                     ChieuCao = "h-[275px] sm:h-[295px] lg:h-[325px] xl:h-[338px]"
                 },
                 new { 
+                    Ma = "04_",     
+                    Ten = "Lux 65 Original - Lon Lùn 330ml", 
+                    HinhAnh = "/images/nhanhang/cutouts/04_LuxLun.png", 
+                    ChieuCao = "h-[205px] sm:h-[215px] lg:h-[235px] xl:h-[245px]"
+                },
+                new { 
                     Ma = "01_", 
                     Ten = "Lux 65 Premium - Lon Cao 330ml", 
                     HinhAnh = "/images/nhanhang/cutouts/01_Lux.png", 
                     ChieuCao = "h-[245px] sm:h-[265px] lg:h-[285px] xl:h-[295px]"
-                },
-                new { 
-                    Ma = "06_", 
-                    Ten = "123 ZO Premium - Lon Cao 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.png", 
-                    ChieuCao = "h-[210px] sm:h-[225px] lg:h-[245px] xl:h-[255px]"
                 }
             };
         }
@@ -637,30 +639,7 @@
         <div class="md:hidden">
             <div class="reveal-on-scroll swiper process-swiper overflow-hidden px-1 py-2">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1: Video 123 ZO -->
-                    <div class="swiper-slide h-auto">
-                        <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between h-full min-h-[380px]" style="background-color: #007A29;">
-                            <div>
-                                <div class="flex items-center justify-between gap-3 mb-2.5">
-                                    <span class="text-xs text-white/90 font-bold tracking-wide">123 ZO</span>
-                                </div>
-                                <h3 class="text-lg font-black tracking-tight leading-snug uppercase text-white mb-2">
-                                    Dây Chuyền Sản Xuất Bia 123 ZO Thượng Hạng
-                                </h3>
-                                <p class="text-xs text-white/90 font-normal leading-relaxed mb-3">
-                                    Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
-                                </p>
-                            </div>
-                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/bia123zo.png">
-                                    <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
-                                    Trình duyệt không hỗ trợ phát video này.
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Video Bia Thai -->
+                    <!-- Slide 1: Video Bia Thai -->
                     <div class="swiper-slide h-auto">
                         <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between h-full min-h-[380px]" style="background-color: #900C13;">
                             <div>
@@ -675,8 +654,54 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/logo/BiaThai.png">
+                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_biathai.jpg">
                                     <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                                    Trình duyệt không hỗ trợ phát video này.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Video ThaiBeer Lon Cao -->
+                    <div class="swiper-slide h-auto">
+                        <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between h-full min-h-[380px]" style="background-color: #B45309;">
+                            <div>
+                                <div class="flex items-center justify-between gap-3 mb-2.5">
+                                    <span class="text-xs text-white/90 font-bold tracking-wide">ThaiBeer Lon Cao</span>
+                                </div>
+                                <h3 class="text-lg font-black tracking-tight leading-snug uppercase text-white mb-2">
+                                    ThaiBeer Mẫu Lon Cao
+                                </h3>
+                                <p class="text-xs text-white/90 font-normal leading-relaxed mb-3">
+                                    Dây chuyền chiết rót và đóng lon cao tự động công nghệ tiên tiến, đảm bảo hương vị bia thượng hạng và giữ trọn độ tươi mát.
+                                </p>
+                            </div>
+                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
+                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_thaibeerloncao.jpg">
+                                    <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                                    Trình duyệt không hỗ trợ phát video này.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Video 123 ZO -->
+                    <div class="swiper-slide h-auto">
+                        <div class="rounded-3xl p-5 text-white relative overflow-hidden shadow-xl flex flex-col justify-between h-full min-h-[380px]" style="background-color: #007A29;">
+                            <div>
+                                <div class="flex items-center justify-between gap-3 mb-2.5">
+                                    <span class="text-xs text-white/90 font-bold tracking-wide">123 ZO</span>
+                                </div>
+                                <h3 class="text-lg font-black tracking-tight leading-snug uppercase text-white mb-2">
+                                    Dây Chuyền Sản Xuất Bia 123 ZO
+                                </h3>
+                                <p class="text-xs text-white/90 font-normal leading-relaxed mb-3">
+                                    Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
+                                </p>
+                            </div>
+                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
+                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_123zo.jpg">
+                                    <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                             </div>
@@ -693,36 +718,15 @@
                         <i class="fa-solid fa-hand-pointer text-gray-400"></i>
                         Kéo thanh trượt hoặc vuốt sang trái
                     </span>
-                    <span class="font-mono text-gray-400" id="processSlideCounter">1 / 2</span>
+                    <span class="font-mono text-gray-400" id="processSlideCounter">1 / 3</span>
                 </div>
             </div>
         </div>
 
-        <!-- 2. GIAO DIỆN DESKTOP / TABLET: 2 Cột Đẳng Cấp Sang Trọng -->
-        <div class="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8">
-            <!-- Card 1: Video 123 ZO -->
-            <div class="reveal-on-scroll rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #007A29;">
-                <div>
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">123 ZO</span>
-                    </div>
-                    <h3 class="text-xl sm:text-2xl font-black tracking-tight leading-tight uppercase text-white mb-2.5">
-                        Dây Chuyền Sản Xuất Bia 123 ZO Thượng Hạng
-                    </h3>
-                    <p class="text-xs sm:text-sm text-white/90 font-medium leading-relaxed mb-5">
-                        Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
-                    </p>
-                </div>
-                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/bia123zo.png">
-                        <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
-                        Trình duyệt không hỗ trợ xem video.
-                    </video>
-                </div>
-            </div>
-
-            <!-- Card 2: Video Bia Thai -->
-            <div class="reveal-on-scroll delay-150 rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #900C13;">
+        <!-- 2. GIAO DIỆN DESKTOP / TABLET: 3 Cột Đẳng Cấp Sang Trọng -->
+        <div class="hidden md:grid md:grid-cols-3 gap-5 lg:gap-8">
+            <!-- Card 1: Video Bia Thai -->
+            <div class="reveal-on-scroll rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #900C13;">
                 <div>
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">ThaiBeer Special</span>
@@ -735,8 +739,50 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/logo/BiaThai.png">
+                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_biathai.jpg">
                         <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                        Trình duyệt không hỗ trợ xem video.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Card 2: Video ThaiBeer Lon Cao -->
+            <div class="reveal-on-scroll delay-100 rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #B45309;">
+                <div>
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                        <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">ThaiBeer Lon Cao</span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-black tracking-tight leading-tight uppercase text-white mb-2.5">
+                        ThaiBeer Mẫu Lon Cao
+                    </h3>
+                    <p class="text-xs sm:text-sm text-white/90 font-medium leading-relaxed mb-5">
+                        Dây chuyền chiết rót và đóng lon cao tự động công nghệ tiên tiến, đảm bảo hương vị bia thượng hạng và giữ trọn độ tươi mát.
+                    </p>
+                </div>
+                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
+                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_thaibeerloncao.jpg">
+                        <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                        Trình duyệt không hỗ trợ xem video.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Card 3: Video 123 ZO -->
+            <div class="reveal-on-scroll delay-200 rounded-3xl p-6 lg:p-7 text-white relative overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between" style="background-color: #007A29;">
+                <div>
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                        <span class="text-xs sm:text-sm text-white/90 font-bold tracking-wide">123 ZO</span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-black tracking-tight leading-tight uppercase text-white mb-2.5">
+                        Dây Chuyền Sản Xuất Bia 123 ZO
+                    </h3>
+                    <p class="text-xs sm:text-sm text-white/90 font-medium leading-relaxed mb-5">
+                        Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
+                    </p>
+                </div>
+                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
+                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_123zo.jpg">
+                        <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                 </div>

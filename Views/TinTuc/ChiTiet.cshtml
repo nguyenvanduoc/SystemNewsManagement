@@ -25,7 +25,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- CỘT BÊN TRÁI: Nội Dung Bài Viết Chính (8 Cột) -->
-            <article class="lg:col-span-8 bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm">
+            <article class="lg:col-span-8 min-w-0 max-w-full bg-white border border-gray-100 rounded-2xl p-4 sm:p-8 lg:p-10 shadow-sm overflow-hidden">
                 <!-- Tag / Danh Mục -->
                 <div class="mb-4">
                     <span class="inline-block px-3.5 py-1 rounded-full bg-[#EBF7EE] text-[#007A29] text-[11px] font-bold uppercase tracking-wider border border-[#007A29]/20">
@@ -73,7 +73,7 @@
                 }
 
                 <!-- Nội Dung Chi Tiết (HTML) -->
-                <div class="prose max-w-none text-[#2C2C2C] text-sm sm:text-base leading-relaxed space-y-5 pt-2">
+                <div class="article-content max-w-full text-[#2C2C2C] text-sm sm:text-base leading-relaxed space-y-5 pt-2">
                     @Html.Raw(Model.NoiDungHtml)
                 </div>
 
@@ -162,4 +162,26 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        function setupResponsiveArticleTables() {
+            document.querySelectorAll('.article-content table').forEach(function (table) {
+                if (!table.parentElement.classList.contains('table-responsive-wrapper')) {
+                    var wrapper = document.createElement('div');
+                    wrapper.className = 'table-responsive-wrapper';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
 
+                    // Thêm chú thích gợi ý vuốt ngang trên mobile
+                    var hint = document.createElement('div');
+                    hint.className = 'table-scroll-hint sm:hidden';
+                    hint.innerHTML = '<i class="fa-solid fa-arrows-left-right text-[#007A29]"></i> <span>Vuốt sang hai bên để xem toàn bộ bảng số liệu</span>';
+                    wrapper.parentNode.insertBefore(hint, wrapper.nextSibling);
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", setupResponsiveArticleTables);
+        document.addEventListener("turbo:load", setupResponsiveArticleTables);
+    </script>
+}

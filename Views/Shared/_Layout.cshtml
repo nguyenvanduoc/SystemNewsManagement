@@ -35,6 +35,7 @@
             return menu switch
             {
                 "home" => path == "/" || string.IsNullOrEmpty(path),
+                "gioi-thieu" => path.StartsWith("/gioi-thieu"),
                 "san-pham" => path.StartsWith("/san-pham") || path.StartsWith("/danh-muc"),
                 "tin-tuc" => path.StartsWith("/tin-tuc"),
                 "quy-trinh" => path.Contains("quy-trinh"),
@@ -372,37 +373,31 @@
                     <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-20 lg:h-[84px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 rounded-md shadow-sm" />
                 </a>
 
-                <!-- Desktop Navigation Links (Chuẩn 100% màu sắc & hiệu ứng hover/active theo uneed.vn) -->
-                <nav class="flex items-center gap-6 xl:gap-8">
-                    <a href="/" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("home") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                <!-- Desktop Navigation Links -->
+                <nav class="flex items-center gap-5 xl:gap-7">
+                    <a href="/" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("home") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
                         Trang Chủ
                     </a>
-                    <a href="/san-pham" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("san-pham") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                    <a href="/gioi-thieu" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("gioi-thieu") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
+                        Giới Thiệu
+                    </a>
+                    <a href="/san-pham" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("san-pham") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
                         Bộ Sưu Tập Sản Phẩm
                     </a>
-                    <a href="/tin-tuc" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tin-tuc") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                    <a href="/tin-tuc" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tin-tuc") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
                         Tin Tức
                     </a>
-                    <a href="/#quy-trinh-san-xuat" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                    <a href="/#quy-trinh-san-xuat" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("quy-trinh") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
                         Quy Trình Sản Xuất
                     </a>
-                    <a href="/tuyen-dung" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tuyen-dung") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                    <a href="/tuyen-dung" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tuyen-dung") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">
                         Tuyển Dụng
                     </a>
                 </nav>
 
-                <!-- Call to Action & Hotline Pill -->
-                <div class="flex items-center gap-3">
-                    <a href="tel:0965156658" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#B30D14] bg-[#FFF5F5] text-xs text-[#222222] hover:bg-[#B30D14] hover:text-white transition group shadow-sm">
-                        <span class="w-6 h-6 rounded-full bg-[#B30D14] text-white flex items-center justify-center group-hover:bg-white group-hover:text-[#B30D14] transition">
-                            <i class="fa-solid fa-phone text-[10px]"></i>
-                        </span>
-                        <div class="text-left">
-                            <span class="block text-[9px] text-[#666666] uppercase tracking-wider group-hover:text-white/80 leading-tight">Hotline</span>
-                            <span class="font-bold text-[#B30D14] group-hover:text-white text-xs leading-none">0965 156 658</span>
-                        </div>
-                    </a>
-                    <a href="/lien-he" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#B30D14] hover:bg-[#8E090F] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-105">
+                <!-- Call to Action Button -->
+                <div class="flex items-center">
+                    <a href="/lien-he" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all hover:scale-105">
                         <span>Đăng Ký Đại Lý</span>
                         <span class="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">→</span>
                     </a>
@@ -410,7 +405,7 @@
             </div>
         </div>
 
-        <!-- Mobile Header (Chuẩn 100% ThaiBeer.vn: Nền Đỏ Hoàng Gia #900C13, Hamburger Trắng, Logo To Giữa, Kính Lúp Vàng) -->
+        <!-- Mobile Header (Chuẩn 100% ThaiBeer.vn: Nền Đỏ Hoàng Gia #900C13) -->
         <div class="lg:hidden bg-[#900C13] border-b border-[#73090F] shadow-md">
             <div class="px-4 h-20 flex items-center justify-between relative">
                 <!-- Hamburger Menu Bên Trái -->
@@ -423,14 +418,14 @@
                     <img src="~/images/logo/logo-1782459965.webp.webp" asp-append-version="true" alt="ThaiBeer Logo" width="85" height="100" class="h-16 w-auto object-contain rounded-md shadow-sm" />
                 </a>
 
-                <!-- Nút Tìm Kiếm Tròn Màu Vàng Bên Phải -->
+                <!-- Nút Tìm Kiếm Tròn Bên Phải -->
                 <button id="mobileSearchToggleBtn" type="button" class="w-10 h-10 rounded-full bg-[#F5B400] hover:bg-[#E0A400] active:scale-95 text-white flex items-center justify-center shadow-md transition" aria-label="Mở tìm kiếm">
                     <i class="fa-solid fa-magnifying-glass text-lg"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Search Dropdown Bar (Hiển thị khi click nút kính lúp vàng) -->
+        <!-- Mobile Search Dropdown Bar -->
         <div id="mobileSearchBar" class="hidden lg:hidden bg-white border-b border-gray-200 px-4 py-3.5 shadow-md">
             <form action="/san-pham" method="get" class="flex items-center gap-2">
                 <div class="relative flex-1">
@@ -445,17 +440,15 @@
 
         <!-- Mobile Drawer Menu (Slide Down) -->
         <div id="mobileDrawer" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-6 space-y-3 shadow-lg">
-            <a href="/" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("home") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Trang Chủ</a>
-            <a href="/san-pham" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("san-pham") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Bộ Sưu Tập Sản Phẩm</a>
-            <a href="/tin-tuc" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tin-tuc") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Văn Hóa & Tin Tức</a>
-            <a href="/#quy-trinh-san-xuat" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Quy Trình Sản Xuất</a>
-            <a href="/tuyen-dung" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tuyen-dung") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Tuyển Dụng</a>
-            <div class="pt-4 flex flex-col gap-3">
-                <a href="/lien-he" class="w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
+            <a href="/" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("home") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Trang Chủ</a>
+            <a href="/gioi-thieu" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("gioi-thieu") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Giới Thiệu</a>
+            <a href="/san-pham" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("san-pham") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Bộ Sưu Tập Sản Phẩm</a>
+            <a href="/tin-tuc" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tin-tuc") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Văn Hóa & Tin Tức</a>
+            <a href="/#quy-trinh-san-xuat" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("quy-trinh") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Quy Trình Sản Xuất</a>
+            <a href="/tuyen-dung" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tuyen-dung") ? "text-[#900C13]" : "text-gray-600 hover:text-[#900C13]")">Tuyển Dụng</a>
+            <div class="pt-4">
+                <a href="/lien-he" class="block w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
                     Đăng Ký Đại Lý Phân Phối
-                </a>
-                <a href="tel:0965156658" class="w-full text-center py-2.5 rounded-full bg-gray-100 text-[#900C13] text-xs font-bold border border-gray-200">
-                    <i class="fa-solid fa-phone mr-1.5"></i> Hotline: 0965 156 658
                 </a>
             </div>
         </div>
@@ -531,6 +524,7 @@
                 <div>
                     <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-4 border-[#B30D14] pl-2.5">Về Chúng Tôi</h4>
                     <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
+                        <li><a href="/gioi-thieu" class="hover:text-[#FFBA1D] transition">Giới Thiệu Doanh Nghiệp</a></li>
                         <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Chặng Đường Phát Triển</a></li>
                         <li><a href="/#quy-trinh-san-xuat" class="hover:text-[#FFBA1D] transition">Quy Trình Nấu Men & Sản Xuất</a></li>
                         <li><a href="/tuyen-dung" class="hover:text-[#FFBA1D] transition">Cơ Hội Nghề Nghiệp - Tuyển Dụng</a></li>

@@ -38,6 +38,7 @@
                 "san-pham" => path.StartsWith("/san-pham") || path.StartsWith("/danh-muc"),
                 "tin-tuc" => path.StartsWith("/tin-tuc"),
                 "quy-trinh" => path.Contains("quy-trinh"),
+                "tuyen-dung" => path.StartsWith("/tuyen-dung"),
                 _ => false
             };
         }
@@ -385,6 +386,9 @@
                     <a href="/#quy-trinh-san-xuat" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
                         Quy Trình Sản Xuất
                     </a>
+                    <a href="/tuyen-dung" class="whitespace-nowrap text-xs xl:text-sm font-bold uppercase tracking-wider transition-colors duration-200 @(IsActiveMenu("tuyen-dung") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">
+                        Tuyển Dụng
+                    </a>
                 </nav>
 
                 <!-- Call to Action & Hotline Pill -->
@@ -445,6 +449,7 @@
             <a href="/san-pham" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("san-pham") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Bộ Sưu Tập Sản Phẩm</a>
             <a href="/tin-tuc" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tin-tuc") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Văn Hóa & Tin Tức</a>
             <a href="/#quy-trinh-san-xuat" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("quy-trinh") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Quy Trình Sản Xuất</a>
+            <a href="/tuyen-dung" class="block text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 py-2.5 border-b border-gray-100 @(IsActiveMenu("tuyen-dung") ? "text-[#00145a]" : "text-gray-600 hover:text-[#00145a]")">Tuyển Dụng</a>
             <div class="pt-4 flex flex-col gap-3">
                 <a href="/lien-he" class="w-full text-center py-3 rounded-full bg-[#900C13] hover:bg-[#73090F] text-white font-bold text-sm shadow">
                     Đăng Ký Đại Lý Phân Phối
@@ -528,6 +533,7 @@
                     <ul class="space-y-2.5 text-xs text-[#B0B0B0]">
                         <li><a href="/tin-tuc" class="hover:text-[#FFBA1D] transition">Chặng Đường Phát Triển</a></li>
                         <li><a href="/#quy-trinh-san-xuat" class="hover:text-[#FFBA1D] transition">Quy Trình Nấu Men & Sản Xuất</a></li>
+                        <li><a href="/tuyen-dung" class="hover:text-[#FFBA1D] transition">Cơ Hội Nghề Nghiệp - Tuyển Dụng</a></li>
                         <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Phát Triển Bền Vững</a></li>
                         <li><a href="/lien-he" class="hover:text-[#FFBA1D] transition">Chính Sách Nhà Phân Phối</a></li>
                     </ul>

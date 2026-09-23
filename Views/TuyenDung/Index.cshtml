@@ -1,0 +1,490 @@
+@model ThaiBeer.ViewModels.UngTuyenViewModel
+@{
+    ViewData["Title"] = "Tuyển Dụng Nhân Tài - Cơ Hội Nghề Nghiệp ThaiBeer";
+    ViewData["Description"] = "Cơ hội việc làm hấp dẫn tại ThaiBeer: Tuyển Quản lý kinh doanh khu vực (ASM), Nhân viên Sales thị trường tại khu vực Miền Trung, Miền Nam, Miền Tây. Thu nhập thỏa thuận cạnh tranh, đãi ngộ tốt.";
+}
+
+<!-- Header Banner (Tone Xanh Thương Hiệu) -->
+<div class="bg-[#EBF0FA] border-b border-blue-100 py-10 sm:py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-xs text-[#666666] mb-3">
+            <a href="/" class="hover:text-[#133089] transition">Trang Chủ</a>
+            <span>/</span>
+            <span class="text-[#222222] font-semibold">Tuyển Dụng</span>
+        </nav>
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#133089]/10 text-[#133089] text-xs font-bold uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-briefcase"></i> Gia Nhập Đội Ngũ Sài Gòn Cửu Long
+                </span>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[#222222] uppercase tracking-tight leading-tight">
+                    CƠ HỘI NGHỀ NGHIỆP CÙNG THAIBEER
+                </h1>
+                <div class="w-20 h-1.5 bg-[#133089] mt-3 mb-4 rounded-full"></div>
+                <p class="text-xs sm:text-sm text-[#555555] leading-relaxed">
+                    Đồng hành cùng sự phát triển của thương hiệu bia thượng hạng <strong>ThaiBeer</strong> và <strong>123 ZO</strong>. Chúng tôi chào đón những cộng sự nhiệt huyết, sẵn sàng bứt phá thu nhập và khẳng định năng lực tại các khu vực <strong>Miền Trung</strong>, <strong>Miền Nam</strong> và <strong>Miền Tây</strong>.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3 shrink-0">
+                <a href="#vi-tri-tuyen-dung" class="px-6 py-3 rounded-full bg-[#133089] hover:bg-[#0E2366] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md transition hover:scale-105">
+                    Xem Vị Trí Tuyển Dụng
+                </a>
+                <a href="#form-ung-tuyen" class="px-6 py-3 rounded-full bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs sm:text-sm font-bold uppercase tracking-wider shadow-sm transition">
+                    Nộp Hồ Sơ Ngay
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+
+    <!-- 1. ĐẶC QUYỀN & CHÍNH SÁCH ĐÃI NGỘ -->
+    <section>
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#133089] block mb-1">TẠI SAO CHỌN CHÚNG TÔI?</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight">CHÍNH SÁCH ĐÃI NGỘ BỨT PHÁ</h2>
+            <div class="w-16 h-1 bg-[#133089] mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-[#133089] flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+                <h3 class="text-base font-bold text-[#111111] mb-2">Thu Nhập Thỏa Thuận Cạnh Tranh</h3>
+                <p class="text-xs text-[#555555] leading-relaxed">
+                    Lương cứng ổn định kết hợp hoa hồng doanh số hấp dẫn, thưởng KPI định kỳ và thưởng phát triển thị trường tương xứng với năng lực.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+                <h3 class="text-base font-bold text-[#111111] mb-2">Lộ Trình Thăng Tiến Rõ Ràng</h3>
+                <p class="text-xs text-[#555555] leading-relaxed">
+                    Đánh giá hiệu quả công việc minh bạch định kỳ. Cơ hội thăng tiến lên Giám sát (SS), Giám đốc vùng (RSM) và Ban quản trị kinh doanh.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-base font-bold text-[#111111] mb-2">Đào Tạo Bán Hàng F&B Chuyên Sâu</h3>
+                <p class="text-xs text-[#555555] leading-relaxed">
+                    Được kèm cặp bởi đội ngũ quản lý giàu kinh nghiệm trong ngành đồ uống, hoàn thiện kỹ năng đàm phán, mở điểm bán và phủ sóng thị trường.
+                </p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <h3 class="text-base font-bold text-[#111111] mb-2">Phúc Lợi & Du Lịch Hằng Năm</h3>
+                <p class="text-xs text-[#555555] leading-relaxed">
+                    Đóng BHXH, BHYT đầy đủ; Thưởng các dịp lễ Tết, lương tháng 13; Tham gia các kỳ nghỉ dưỡng, teambuilding cùng công ty.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. DANH SÁCH VỊ TRÍ ĐANG TUYỂN DỤNG TRỌNG ĐIỂM -->
+    <section id="vi-tri-tuyen-dung" class="scroll-mt-24">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#133089] block mb-1">CÁC VỊ TRÍ MỞ TUYỂN</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight">VỊ TRÍ TUYỂN DỤNG TRỌNG ĐIỂM</h2>
+            <div class="w-16 h-1 bg-[#133089] mx-auto mt-2 rounded-full"></div>
+            <p class="text-xs sm:text-sm text-[#666666] mt-2">
+                Tuyển dụng nhân sự quản lý và kinh doanh thị trường tại khu vực Miền Trung, Miền Nam và Miền Tây.
+            </p>
+        </div>
+
+        <div class="space-y-6">
+
+            <!-- Vị trí 1: Quản Lý Khu Vực (ASM) -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:border-[#133089] transition duration-300">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 pb-6 border-b border-gray-100">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2.5 mb-2">
+                            <span class="px-3 py-1 rounded-full bg-blue-50 text-[#133089] text-xs font-bold uppercase tracking-wider">
+                                Vị Trí Quản Lý
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+                                Miền Trung • Miền Nam • Miền Tây
+                            </span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black text-[#111111] uppercase tracking-tight">
+                            QUẢN LÝ KINH DOANH KHU VỰC (AREA SALES MANAGER - ASM)
+                        </h3>
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-[#666666] mt-2">
+                            <span><i class="fa-solid fa-location-dot text-[#133089] mr-1"></i> Khu vực: Miền Trung, Miền Nam, Miền Tây</span>
+                            <span><i class="fa-solid fa-clock text-[#133089] mr-1"></i> Toàn thời gian</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 shrink-0">
+                        <div>
+                            <span class="text-xs text-[#777777] block lg:text-right">Mức thu nhập:</span>
+                            <span class="text-lg sm:text-xl font-black text-[#133089]">Thỏa thuận theo năng lực</span>
+                        </div>
+                        <a href="#form-ung-tuyen" onclick="document.getElementById('viTriSelect').value = 'Quản lý kinh doanh khu vực (ASM)';" class="px-5 py-2.5 rounded-full bg-[#133089] hover:bg-[#0E2366] text-white text-xs font-bold uppercase tracking-wider shadow transition">
+                            Ứng Tuyển Vị Trí Này
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 text-xs sm:text-sm text-[#444444]">
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-[#133089]"></i> Mô Tả Công Việc:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Xây dựng, phát triển và quản lý hệ thống Nhà Phân Phối (NPP), đại lý và chuỗi điểm bán tại khu vực phụ trách.</li>
+                            <li>Tuyển dụng, đào tạo, giao chỉ tiêu và dẫn dắt đội ngũ Giám sát bán hàng (SS) và Nhân viên kinh doanh (Sales Reps).</li>
+                            <li>Lập kế hoạch bán hàng, theo dõi tiến độ doanh số và triển khai các giải pháp mở rộng độ phủ thương hiệu ThaiBeer & 123 ZO.</li>
+                            <li>Phối hợp triển khai các chương trình khuyến mãi, tài trợ biển hiệu, vật phẩm POSM và sự kiện kích cầu tại khu vực.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-[#133089]"></i> Yêu Cầu Ứng Viên:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Có kinh nghiệm ở vị trí ASM hoặc tương đương trong ngành FMCG, ưu tiên ngành Bia, Nước giải khát, Rượu hoặc Thực phẩm.</li>
+                            <li>Kỹ năng đàm phán, làm việc với các đối tác Nhà Phân Phối và giải quyết vấn đề thị trường linh hoạt.</li>
+                            <li>Am hiểu văn hóa kinh doanh và mạng lưới NPP/đại lý tại khu vực ứng tuyển.</li>
+                            <li>Có tinh thần trách nhiệm cao, khả năng lãnh đạo đội ngũ và sẵn sàng di chuyển công tác tại khu vực phụ trách.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vị trí 2: Nhân Viên Kinh Doanh / Sale Thị Trường -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:border-[#133089] transition duration-300">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 pb-6 border-b border-gray-100">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2.5 mb-2">
+                            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+                                Nhân Viên Thị Trường
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-blue-50 text-[#133089] text-xs font-bold">
+                                Miền Trung • Miền Nam • Miền Tây
+                            </span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black text-[#111111] uppercase tracking-tight">
+                            NHÂN VIÊN KINH DOANH THỊ TRƯỜNG / SALES BÁN HÀNG
+                        </h3>
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-[#666666] mt-2">
+                            <span><i class="fa-solid fa-location-dot text-[#133089] mr-1"></i> Khu vực: Miền Trung, Miền Nam, Miền Tây</span>
+                            <span><i class="fa-solid fa-clock text-[#133089] mr-1"></i> Toàn thời gian</span>
+                            <span><i class="fa-solid fa-briefcase text-[#133089] mr-1"></i> Đào tạo thực tế khi nhận việc</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 shrink-0">
+                        <div>
+                            <span class="text-xs text-[#777777] block lg:text-right">Mức thu nhập:</span>
+                            <span class="text-lg sm:text-xl font-black text-[#133089]">Thỏa thuận hấp dẫn (Lương + Thưởng)</span>
+                        </div>
+                        <a href="#form-ung-tuyen" onclick="document.getElementById('viTriSelect').value = 'Nhân viên kinh doanh thị trường (Sales)';" class="px-5 py-2.5 rounded-full bg-[#133089] hover:bg-[#0E2366] text-white text-xs font-bold uppercase tracking-wider shadow transition">
+                            Ứng Tuyển Vị Trí Này
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 text-xs sm:text-sm text-[#444444]">
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-[#133089]"></i> Mô Tả Công Việc:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Chăm sóc và duy trì mối quan hệ tốt với các điểm bán hiện có (quán ăn, quán nhậu, nhà hàng, beer club, đại lý...).</li>
+                            <li>Tìm kiếm, tiếp cận và mở mới các điểm bán phân phối các dòng sản phẩm bia chai, bia lon ThaiBeer và 123 ZO.</li>
+                            <li>Tư vấn chính sách giá, chiết khấu đại lý, chương trình khuyến mãi và hỗ trợ khách hàng lên đơn đặt hàng.</li>
+                            <li>Đảm bảo sản phẩm được trưng bày nổi bật, hỗ trợ treo biển bảng và vật phẩm POSM nhận diện tại điểm bán.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-[#133089]"></i> Yêu Cầu Ứng Viên:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Nhanh nhẹn, trung thực, giao tiếp tự tin, có tinh thần trách nhiệm và yêu thích công việc bán hàng.</li>
+                            <li>Có xe máy cá nhân và điện thoại để phục vụ việc đi lại thị trường.</li>
+                            <li>Không yêu cầu bằng cấp cao; Ưu tiên ứng viên từng làm sales thị trường ngành tiêu dùng nhanh hoặc đồ uống.</li>
+                            <li>Có mong muốn nâng cao thu nhập và gắn bó phát triển lâu dài.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vị trí 3: Giám Sát Bán Hàng (SS) -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm hover:border-[#133089] transition duration-300">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 pb-6 border-b border-gray-100">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2.5 mb-2">
+                            <span class="px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider">
+                                Vị Trí Giám Sát
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-bold">
+                                Miền Trung • Miền Nam • Miền Tây
+                            </span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black text-[#111111] uppercase tracking-tight">
+                            GIÁM SÁT BÁN HÀNG (SALES SUPERVISOR - SS)
+                        </h3>
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-[#666666] mt-2">
+                            <span><i class="fa-solid fa-location-dot text-[#133089] mr-1"></i> Khu vực: Miền Trung, Miền Nam, Miền Tây</span>
+                            <span><i class="fa-solid fa-clock text-[#133089] mr-1"></i> Toàn thời gian</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 shrink-0">
+                        <div>
+                            <span class="text-xs text-[#777777] block lg:text-right">Mức thu nhập:</span>
+                            <span class="text-lg sm:text-xl font-black text-[#133089]">Thỏa thuận khi phỏng vấn</span>
+                        </div>
+                        <a href="#form-ung-tuyen" onclick="document.getElementById('viTriSelect').value = 'Giám sát bán hàng tỉnh (SS)';" class="px-5 py-2.5 rounded-full bg-[#133089] hover:bg-[#0E2366] text-white text-xs font-bold uppercase tracking-wider shadow transition">
+                            Ứng Tuyển Vị Trí Này
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 text-xs sm:text-sm text-[#444444]">
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-[#133089]"></i> Mô Tả Công Việc:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Đồng hành, giám sát và hỗ trợ đội ngũ Sales Reps đi tuyến thị trường hằng ngày tại khu vực được phân công.</li>
+                            <li>Theo dõi tiến độ doanh số của từng tuyến bán hàng và đôn đốc hoàn thành chỉ tiêu.</li>
+                            <li>Hỗ trợ nhân viên giải quyết các điểm bán khó, đàm phán các đơn hàng lớn và kết nối với đại lý.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-[#111111] uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-[#133089]"></i> Yêu Cầu Ứng Viên:
+                        </h4>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Có kinh nghiệm ở vị trí Giám sát bán hàng hoặc Sales cứng ngành tiêu dùng nhanh, bia, nước giải khát.</li>
+                            <li>Có kỹ năng quản lý nhóm, giao việc và bao quát thị trường tốt.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. KHU VỰC TUYỂN DỤNG TRỌNG ĐIỂM (MIỀN TRUNG - MIỀN NAM - MIỀN TÂY) -->
+    <section class="bg-white border border-gray-200 rounded-3xl p-8 sm:p-10 shadow-sm">
+        <div class="text-center max-w-2xl mx-auto mb-8">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#133089] block mb-1">MẠNG LƯỚI PHÁT TRIỂN</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-[#111111] uppercase tracking-tight">KHU VỰC TUYỂN DỤNG</h2>
+            <div class="w-16 h-1 bg-[#133089] mx-auto mt-2 rounded-full"></div>
+            <p class="text-xs sm:text-sm text-[#666666] mt-2">
+                Hệ thống phân phối ThaiBeer đang mở rộng và tuyển dụng nhân sự tại các khu vực trọng điểm:
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Khu Vực Miền Trung -->
+            <div class="p-6 rounded-2xl bg-blue-50/50 border border-blue-100 hover:border-[#133089] transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-blue-100 text-[#133089] flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <h3 class="text-base font-bold text-[#133089] uppercase tracking-wider mb-2">
+                    Khu Vực Miền Trung
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    Tuyển dụng các cấp quản lý khu vực và nhân sự bán hàng thị trường phụ trách phát triển mạng lưới đại lý và điểm bán trên toàn khu vực Miền Trung.
+                </p>
+            </div>
+
+            <!-- Khu Vực Miền Nam -->
+            <div class="p-6 rounded-2xl bg-emerald-50/50 border border-emerald-100 hover:border-emerald-600 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-city"></i>
+                </div>
+                <h3 class="text-base font-bold text-emerald-800 uppercase tracking-wider mb-2">
+                    Khu Vực Miền Nam
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    Tuyển dụng đội ngũ kinh doanh năng động, mở rộng mạng lưới phân phối, quán ăn, nhà hàng và beer club tại khu vực Miền Nam.
+                </p>
+            </div>
+
+            <!-- Khu Vực Miền Tây -->
+            <div class="p-6 rounded-2xl bg-amber-50/50 border border-amber-100 hover:border-amber-600 transition duration-300">
+                <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mb-4">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <h3 class="text-base font-bold text-amber-800 uppercase tracking-wider mb-2">
+                    Khu Vực Miền Tây
+                </h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    Tuyển dụng các vị trí Quản lý khu vực (ASM) và Sales đi tuyến đồng hành cùng thị trường tiềm năng khu vực Miền Tây (Đồng Bằng Sông Cửu Long).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FORM ỨNG TUYỂN & THÔNG TIN LIÊN HỆ CÔNG TY -->
+    <div id="form-ung-tuyen" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start scroll-mt-24">
+        
+        <!-- Cột Trái: Thông Tin Liên Hệ Trực Tiếp Công Ty & Phòng Nhân Sự -->
+        <div class="lg:col-span-5 space-y-6">
+            
+            <!-- Hộp Hotline Tuyển Dụng Xanh Hoàng Gia -->
+            <div class="bg-[#133089] text-white rounded-3xl p-8 shadow-md">
+                <span class="text-xs text-[#93C5FD] font-bold uppercase tracking-wider block mb-1">
+                    <i class="fa-solid fa-headset mr-1"></i> Hotline Tuyển Dụng / Zalo HR
+                </span>
+                <a href="tel:0965156658" class="text-3xl sm:text-4xl font-black font-mono mt-2 block hover:underline">
+                    0965 156 658
+                </a>
+                <p class="text-xs text-blue-100 mt-3 leading-relaxed">
+                    Ứng viên có thể gọi điện hoặc nhắn tin trực tiếp qua Zalo số trên để trao đổi công việc và xếp lịch phỏng vấn nhanh nhất.
+                </p>
+                <div class="pt-4 mt-4 border-t border-white/10 flex items-center gap-3">
+                    <a href="https://zalo.me/0965156658" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-white text-[#133089] font-bold text-xs shadow hover:bg-gray-100 transition">
+                        Nhắn Tin Zalo HR
+                    </a>
+                    <a href="mailto:nhuttrongchau@gmail.com" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs transition">
+                        Gửi Email CV
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hộp Thông Tin Doanh Nghiệp -->
+            <div class="bg-white border border-gray-200 rounded-3xl p-8 space-y-5 shadow-sm">
+                <div>
+                    <h3 class="text-lg font-extrabold text-[#222222] uppercase tracking-tight flex items-center gap-2.5">
+                        <i class="fa-solid fa-building text-[#133089]"></i>
+                        Thông Tin Công Ty
+                    </h3>
+                    <div class="w-12 h-1 bg-[#133089] mt-2"></div>
+                </div>
+
+                <div class="space-y-4 text-xs sm:text-sm text-[#444444]">
+                    <div>
+                        <span class="font-bold text-[#111111] block mb-1 uppercase">Đơn vị tuyển dụng:</span>
+                        <span class="font-semibold text-gray-800">CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG</span>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="w-8 h-8 rounded-full bg-[#133089]/10 text-[#133089] flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-location-dot text-sm"></i>
+                        </span>
+                        <div>
+                            <span class="font-bold text-[#222222] block mb-0.5">Địa chỉ văn phòng:</span>
+                            <span class="leading-relaxed">Số 108/4/1, đường Cộng Hòa, phường 4, quận Tân Bình, TP. Hồ Chí Minh</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="w-8 h-8 rounded-full bg-[#133089]/10 text-[#133089] flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-envelope text-sm"></i>
+                        </span>
+                        <div>
+                            <span class="font-bold text-[#222222] block mb-0.5">Email nhận hồ sơ:</span>
+                            <a href="mailto:nhuttrongchau@gmail.com" class="text-[#133089] font-semibold hover:underline">nhuttrongchau@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="w-8 h-8 rounded-full bg-[#133089]/10 text-[#133089] flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-calendar-check text-sm"></i>
+                        </span>
+                        <div>
+                            <span class="font-bold text-[#222222] block mb-0.5">Thời gian tiếp nhận:</span>
+                            <span>Thứ Hai - Thứ Bảy (8:00 - 17:30)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột Phải: Form Đăng Ký Ứng Tuyển Nhanh -->
+        <div class="lg:col-span-7 bg-white border border-gray-200 rounded-3xl p-8 sm:p-10 shadow-sm">
+            @if (TempData["NopHoSoThanhCong"] != null)
+            {
+                <div class="mb-8 p-6 rounded-2xl bg-blue-50 border border-[#133089] text-[#133089] text-sm space-y-1">
+                    <div class="flex items-center gap-2 font-bold text-base text-[#133089]">
+                        <i class="fa-solid fa-circle-check text-xl"></i>
+                        Nộp Hồ Sơ Thành Công!
+                    </div>
+                    <p>@TempData["NopHoSoThanhCong"]</p>
+                </div>
+            }
+
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-[#133089] block mb-1">ỨNG TUYỂN NHANH</span>
+                <h2 class="text-xl sm:text-2xl font-black text-[#222222] uppercase tracking-tight">GỬI HỒ SƠ ỨNG TUYỂN TRỰC TUYẾN</h2>
+                <div class="w-16 h-1 bg-[#133089] mt-2 mb-2"></div>
+                <p class="text-xs text-[#666666] mb-6">Điền thông tin bên dưới, Bộ phận Nhân sự sẽ liên hệ trao đổi công việc và mời bạn phỏng vấn.</p>
+            </div>
+
+            <form method="post" action="/tuyen-dung" class="space-y-5">
+                @Html.AntiForgeryToken()
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label asp-for="HoTen" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="HoTen" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]" placeholder="Nguyễn Văn A" />
+                        <span asp-validation-for="HoTen" class="text-xs text-rose-500 mt-1 block"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="SoDienThoai" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="SoDienThoai" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]" placeholder="0965 xxx xxx" />
+                        <span asp-validation-for="SoDienThoai" class="text-xs text-rose-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label asp-for="Email" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                        <input asp-for="Email" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]" placeholder="ungvien@gmail.com" />
+                        <span asp-validation-for="Email" class="text-xs text-rose-500 mt-1 block"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="TinhThanh" class="block text-xs font-semibold text-[#222222] mb-1.5">Khu vực bạn muốn làm việc</label>
+                        <select asp-for="TinhThanh" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]">
+                            <option value="Khu vực Miền Nam">Khu vực Miền Nam</option>
+                            <option value="Khu vực Miền Tây">Khu vực Miền Tây</option>
+                            <option value="Khu vực Miền Trung">Khu vực Miền Trung</option>
+                            <option value="Khác / Sẵn sàng nhận điều động">Khác / Sẵn sàng nhận điều động</option>
+                        </select>
+                        <span asp-validation-for="TinhThanh" class="text-xs text-rose-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="ViTriUngTuyen" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                    <select asp-for="ViTriUngTuyen" id="viTriSelect" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]">
+                        <option value="Quản lý kinh doanh khu vực (ASM)">Quản lý kinh doanh khu vực (Area Sales Manager - ASM)</option>
+                        <option value="Nhân viên kinh doanh thị trường (Sales)">Nhân viên kinh doanh thị trường / Sales bán hàng</option>
+                        <option value="Giám sát bán hàng (SS)">Giám sát bán hàng (Sales Supervisor - SS)</option>
+                        <option value="Vị trí khác">Vị trí khác / Nhân viên văn phòng</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label asp-for="KinhNghiem" class="block text-xs font-semibold text-[#222222] mb-1.5"></label>
+                    <textarea asp-for="KinhNghiem" rows="4" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-[#222222] focus:outline-none focus:border-[#133089] focus:ring-1 focus:ring-[#133089]" placeholder="Mô tả tóm tắt kinh nghiệm làm việc hoặc nguyện vọng của bạn..."></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3.5 rounded-full bg-[#133089] hover:bg-[#0E2366] text-white font-bold text-xs uppercase tracking-wider shadow-md transition hover:scale-[1.01]">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Gửi Hồ Sơ Ứng Tuyển Ngay
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

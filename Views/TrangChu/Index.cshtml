@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
     ViewData["Description"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
-    ViewData["OgImage"] = "/images/bia123zo.png";
+    ViewData["OgImage"] = "/images/nhanhang/cutouts/thailoncao.png";
 }
 
 <section class="relative w-full bg-black overflow-hidden shadow-sm">
@@ -475,7 +475,7 @@
                     var sp = danhSachNhanHang[i];
 
                     <div class="heineken-brand-item group" data-brand="@sp.Ma">
-                        <a href="@sp.HinhAnh" 
+                        <a href="@sp.HinhAnh?v=@DateTime.UtcNow.Ticks" 
                            data-fancybox="nhan-hang-thaibeer" 
                            data-caption="@sp.Ten"
                            title="@sp.Ten (Nhấp để phóng to)"
@@ -484,6 +484,7 @@
                             <!-- Lon bia đứng vững chắc trên mặt sàn (Thấp - Cao - Thấp) -->
                             <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
                                 <img src="@sp.HinhAnh" 
+                                     asp-append-version="true"
                                      alt="@sp.Ten" 
                                      class="brand-img-element max-h-full max-w-full object-contain select-none" 
                                      loading="lazy" />
@@ -495,7 +496,7 @@
                             <!-- Bóng gương phản chiếu sàn mờ dần xuống nền trắng (Không có chữ đè lên) -->
                             <div class="brand-reflection w-full h-10 lg:h-12 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                  style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
-                                <img src="@sp.HinhAnh" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                                <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
                             </div>
                         </a>
                     </div>
@@ -511,7 +512,7 @@
                     {
                         <div class="swiper-slide h-auto">
                             <div class="heineken-brand-item group p-1 text-center w-full">
-                                <a href="@sp.HinhAnh" 
+                                <a href="@sp.HinhAnh?v=@DateTime.UtcNow.Ticks" 
                                    data-fancybox="nhan-hang-thaibeer" 
                                    data-caption="@sp.Ten"
                                    title="@sp.Ten"
@@ -519,6 +520,7 @@
                                     
                                     <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
                                         <img src="@sp.HinhAnh" 
+                                             asp-append-version="true"
                                              alt="@sp.Ten" 
                                              class="brand-img-element max-h-full max-w-full object-contain select-none" 
                                              loading="lazy" />
@@ -530,7 +532,7 @@
                                     <!-- Bóng gương phản chiếu sàn -->
                                     <div class="brand-reflection w-full h-8 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                          style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
-                                        <img src="@sp.HinhAnh" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                                        <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
                                     </div>
                                 </a>
                             </div>

@@ -21,10 +21,14 @@
 
         var pageDesc = ViewData["Description"]?.ToString() ?? defaultMetaDesc;
         
-        var ogImageRelative = ViewData["OgImage"]?.ToString() ?? "/images/bia123zo.png";
-        var ogImageAbsolute = ogImageRelative.StartsWith("http", StringComparison.OrdinalIgnoreCase) 
+        var ogImageRelative = ViewData["OgImage"]?.ToString() ?? "/images/nhanhang/cutouts/thailoncao.png";
+        var ogImageAbsolute = (ogImageRelative.StartsWith("http", StringComparison.OrdinalIgnoreCase) 
             ? ogImageRelative 
-            : $"{baseUrl}{ogImageRelative}";
+            : $"{baseUrl}{ogImageRelative}") + "?v=20260923_2";
+            
+        var isThaiLonCao = ogImageRelative.Contains("thailoncao.png");
+        var ogWidth = isThaiLonCao ? "600" : "1200";
+        var ogHeight = isThaiLonCao ? "800" : "630";
             
         var currentUrl = $"{baseUrl}{request.Path}";
     }
@@ -62,8 +66,8 @@
     <meta property="og:image:secure_url" content="@ogImageAbsolute" />
     <meta property="og:image:alt" content="@pageTitle" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="@ogWidth" />
+    <meta property="og:image:height" content="@ogHeight" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />

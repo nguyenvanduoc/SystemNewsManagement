@@ -12,6 +12,79 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\bia123zo.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh1.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh2.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh3.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh4.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh5.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\hinhanh6.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh1.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh2.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh3.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh4.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh5.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinh6.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh1.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh2.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh3.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh4.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh5.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\khoangkhac\hinhanh6.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\123zolonlun.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-du-lich-1-anh-nhut-1783476074.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-du-lich-3-1783476269.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-du-lich-4-1783476283.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-du-lich-5-1783476305.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-du-lich-5-1783476452.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\anh-phong-hop-1783476331.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\bia123zo.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\BiaThai.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\BiaThai_backup_gray.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\introbeer-6545-1782743922.mp4" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\logonew.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\lonthai.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\lonthaido.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\thaibeer_original_sleek.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\thaibeer_sleek_can.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\thaido.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\thailoncao.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\thungthai.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\01_Lux.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\02_Thai.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\03_ThaiCao.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\04_LuxLun.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\05_LuxLun3Mat.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\05_LuxLun3Mat_clean.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\06_ZoCao.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\06_ZoCao_clean.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\07_ThaiCao.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\08_ZoLun.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\08_ZoLun_clean.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\3loailon.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\01_Lux.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\02_Thai.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\03_ThaiCao.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\04_LuxLun.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\05_LuxLun3Mat.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\06_ZoCao.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\07_ThaiCao.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\nhanhang\cutouts\08_ZoLun.png" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\quytrinh_123zo.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\quytrinh_biathai.jpg" />
+    <Content Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\quytrinh_thaibeerloncao.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\bannerdulich.webp" />
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\bannerdulich.webp.webp" />
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\bg-system.webp" />
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\.gitkeep" />
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\logo\logo-1782459965.webp.webp" />
+    <None Include="obj\Release\net8.0\win-x64\PubTmp\Out\wwwroot\images\map-viet-nam.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Entity Framework Core 8 cho Admin & Schema -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">

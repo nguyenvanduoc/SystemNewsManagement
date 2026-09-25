@@ -13,6 +13,6 @@ public interface ISanPhamReadRepository
     Task<IReadOnlyList<DanhMuc>> LayDanhSachDanhMucHoatDongAsync();
     Task<IReadOnlyList<BaiViet>> LayTinTucNoiBatAsync(int soLuong = 3);
     Task<BaiViet?> LayChiTietBaiVietAsync(string slug);
-    Task TangLuotXemSanPhamAsync(int id);
-    Task TangLuotXemBaiVietAsync(int id);
+    Task<int> TangLuotXemSanPhamAsync(int id);
+    Task<int> TangLuotXemBaiVietAsync(int id);
 }

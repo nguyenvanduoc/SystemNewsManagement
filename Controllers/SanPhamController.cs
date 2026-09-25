@@ -46,7 +46,6 @@ public class SanPhamController : Controller
     }
 
     [HttpGet("san-pham/{slug}")]
-    [OutputCache(PolicyName = "SanPhamChiTietCache")]
     public async Task<IActionResult> ChiTiet(string slug)
     {
         if (string.IsNullOrWhiteSpace(slug))
@@ -56,8 +55,8 @@ public class SanPhamController : Controller
         if (sanPham == null)
             return NotFound();
 
-        // Tăng lượt xem (chạy background không chặn render)
-        _ = _readRepo.TangLuotXemSanPhamAsync(sanPham.Id);
+        // Tăng lượt xem trong cột LuotXem của bảng SanPhams khi người dùng click xem chi tiết
+        sanPham.LuotXem = await _readRepo.TangLuotXemSanPhamAsync(sanPham.Id);
 
         var sanPhamLienQuan = await _readRepo.LaySanPhamLienQuanAsync(sanPham.DanhMucId, sanPham.Id, 4);
 

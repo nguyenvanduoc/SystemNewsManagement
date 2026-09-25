@@ -208,17 +208,25 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
         return await connection.QueryFirstOrDefaultAsync<BaiViet>(sql, new { Slug = slug });
     }
 
-    public async Task TangLuotXemSanPhamAsync(int id)
+    public async Task<int> TangLuotXemSanPhamAsync(int id)
     {
         using var connection = _connectionFactory.TaoKetNoi();
-        const string sql = "UPDATE SanPhams SET LuotXem = LuotXem + 1 WHERE Id = @Id;";
-        await connection.ExecuteAsync(sql, new { Id = id });
+        const string sql = @"
+            UPDATE SanPhams 
+            SET LuotXem = LuotXem + 1 
+            OUTPUT inserted.LuotXem 
+            WHERE Id = @Id;";
+        return await connection.ExecuteScalarAsync<int>(sql, new { Id = id });
     }
 
-    public async Task TangLuotXemBaiVietAsync(int id)
+    public async Task<int> TangLuotXemBaiVietAsync(int id)
     {
         using var connection = _connectionFactory.TaoKetNoi();
-        const string sql = "UPDATE BaiViets SET LuotXem = LuotXem + 1 WHERE Id = @Id;";
-        await connection.ExecuteAsync(sql, new { Id = id });
+        const string sql = @"
+            UPDATE BaiViets 
+            SET LuotXem = LuotXem + 1 
+            OUTPUT inserted.LuotXem 
+            WHERE Id = @Id;";
+        return await connection.ExecuteScalarAsync<int>(sql, new { Id = id });
     }
 }

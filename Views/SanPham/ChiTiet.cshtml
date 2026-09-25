@@ -52,11 +52,11 @@
                 @sp.TenSanPham
             </h1>
 
-            <!-- Mã sản phẩm & Lượt xem -->
+            <!-- Mã sản phẩm & Lượt xem (Lấy trực tiếp từ bảng SanPhams cột LuotXem) -->
             <div class="flex items-center gap-3 text-xs text-[#555555]">
-                <span>Mã sản phẩm: <strong class="text-[#B30D14] font-semibold">123 ZO Premium Lon Thấp - 01</strong></span>
+                <span>Mã sản phẩm: <strong class="text-[#B30D14] font-semibold">SP-@sp.Id.ToString("D4")</strong></span>
                 <span class="text-gray-300">|</span>
-                <span>Lượt xem: <strong class="text-[#B30D14] font-semibold">@(sp.LuotXem + 1)</strong></span>
+                <span>Lượt xem: <strong class="text-[#B30D14] font-semibold">@sp.LuotXem.ToString("N0")</strong></span>
             </div>
 
             <!-- Giá: Liên hệ chuẩn thaibeer.vn -->

@@ -16,7 +16,7 @@
         var pageTitle = ViewData["Title"]?.ToString() ?? defaultMetaTitle;
         if (!pageTitle.Contains("CÔNG TY CỔ PHẦN BIA", StringComparison.OrdinalIgnoreCase) && !pageTitle.Contains("ThaiBeer", StringComparison.OrdinalIgnoreCase))
         {
-            pageTitle = $"{pageTitle} - ThaiBeer | Bia Hoàng Gia Thái Lan Thượng Hạng";
+            pageTitle = $"{pageTitle} - ThaiBeer ";
         }
 
         var pageDesc = ViewData["Description"]?.ToString() ?? defaultMetaDesc;
@@ -50,7 +50,7 @@
     }
     <title>@pageTitle</title>
     <meta name="description" content="@pageDesc" />
-    <meta name="keywords" content="Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG, thaibeer, bia thái, bia chai thái lan, bia lon thái, bia hoàng gia, đại lý bia thái, bia 123 zo" />
+    <meta name="keywords" content="Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG, thaibeer, bia thái, bia lon thái, bia hoàng gia, đại lý bia thái, bia 123 zo" />
     <meta name="author" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long" />
     <meta name="copyright" content="Công Ty Cổ Phần Bia & Nước Giải Khát Sài Gòn Cửu Long - [nhuttrongchau@gmail.com]" />
     <meta name="robots" content="index,follow,noodp" />
@@ -684,27 +684,32 @@
                 videoBanner.muted = true;
                 videoBanner.defaultMuted = true;
                 videoBanner.playsInline = true;
+                videoBanner.controls = false;
+                videoBanner.style.pointerEvents = "none";
                 videoBanner.setAttribute("muted", "");
                 videoBanner.setAttribute("playsinline", "");
                 videoBanner.setAttribute("webkit-playsinline", "");
+                videoBanner.setAttribute("x5-playsinline", "true");
+                videoBanner.setAttribute("x5-video-player-type", "h5");
+                videoBanner.setAttribute("x5-video-player-fullscreen", "false");
+                videoBanner.setAttribute("disablePictureInPicture", "");
+                videoBanner.setAttribute("disableRemotePlayback", "");
+
+                // Ngăn chặn Safari/Webview tự động bật controls hoặc kích hoạt fullscreen
+                videoBanner.addEventListener("play", function() {
+                    videoBanner.controls = false;
+                });
+                videoBanner.addEventListener("webkitbeginfullscreen", function(e) {
+                    e.preventDefault();
+                    if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                });
 
                 const playVideo = function() {
                     const p = videoBanner.play();
                     if (p !== undefined) {
                         p.catch(function(e) {
-                            console.log("Autoplay waiting for touch gesture:", e);
-                            // Nếu iOS chế độ tiết kiệm pin chặn autoplay, kích hoạt ngay khi người dùng chạm hoặc cuộn
-                            const unlockGesture = function() {
-                                videoBanner.play().catch(function() {});
-                                window.removeEventListener("touchstart", unlockGesture);
-                                window.removeEventListener("touchend", unlockGesture);
-                                window.removeEventListener("scroll", unlockGesture);
-                                window.removeEventListener("click", unlockGesture);
-                            };
-                            window.addEventListener("touchstart", unlockGesture, { passive: true, once: true });
-                            window.addEventListener("touchend", unlockGesture, { passive: true, once: true });
-                            window.addEventListener("scroll", unlockGesture, { passive: true, once: true });
-                            window.addEventListener("click", unlockGesture, { passive: true, once: true });
+                            // Im lặng nếu trình duyệt hoặc chế độ tiết kiệm pin tạm hoãn autoplay.
+                            // Tuyệt đối không gán window touchstart để ép play vì iOS sẽ hiểu nhầm là cử chỉ người dùng và hiện thanh điều khiển native.
                         });
                     }
                 };
@@ -796,7 +801,7 @@
                 });
             }
 
-            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Không tự động trượt, chỉ chuyển khi người dùng lướt/kéo)
+            // 4. Khởi tạo Swiper Quy Trình Sản Xuất trên Mobile (Không tự động trượt, vuốt kéo mượt mà không dính cuộn trang)
             if (document.querySelector(".process-swiper")) {
                 const procSwiper = new Swiper(".process-swiper", {
                     slidesPerView: 1,
@@ -807,6 +812,10 @@
                     observeParents: true,
                     resizeObserver: true,
                     autoplay: false,
+                    touchAngle: 45,
+                    touchStartPreventDefault: false,
+                    touchMoveStopPropagation: false,
+                    resistanceRatio: 0.85,
                     scrollbar: {
                         el: ".process-scrollbar",
                         draggable: true,
@@ -819,14 +828,50 @@
                             if (counter) {
                                 counter.textContent = `${this.activeIndex + 1} / ${this.slides.length}`;
                             }
-                            // Tạm dừng video nếu đang phát khi người dùng lướt sang slide khác
-                            document.querySelectorAll(".process-swiper video").forEach(v => {
-                                try { v.pause(); } catch(e) {}
+                            // Tạm dừng video và khôi phục poster khi chuyển slide
+                            document.querySelectorAll(".process-swiper .video-card-wrapper").forEach(wrap => {
+                                const v = wrap.querySelector("video");
+                                const o = wrap.querySelector(".video-poster-overlay");
+                                if (v) {
+                                    try { v.pause(); } catch(e) {}
+                                    v.classList.add("hidden");
+                                }
+                                if (o) {
+                                    o.classList.remove("hidden");
+                                }
                             });
                         }
                     }
                 });
             }
+
+            // Xử lý phát video theo yêu cầu khi click vào poster (không bị kẹt vuốt cuộn màn hình)
+            document.querySelectorAll(".video-card-wrapper").forEach(wrap => {
+                const overlay = wrap.querySelector(".video-poster-overlay");
+                const video = wrap.querySelector("video");
+                if (overlay && video) {
+                    overlay.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Dừng tất cả các video quy trình khác đang phát
+                        document.querySelectorAll(".video-card-wrapper").forEach(otherWrap => {
+                            if (otherWrap !== wrap) {
+                                const otherV = otherWrap.querySelector("video");
+                                const otherO = otherWrap.querySelector(".video-poster-overlay");
+                                if (otherV) {
+                                    try { otherV.pause(); } catch(err) {}
+                                    otherV.classList.add("hidden");
+                                }
+                                if (otherO) otherO.classList.remove("hidden");
+                            }
+                        });
+                        // Hiện và phát video này
+                        overlay.classList.add("hidden");
+                        video.classList.remove("hidden");
+                        video.play().catch(function() {});
+                    });
+                }
+            });
 
             // 5. Khởi tạo Swiper Tin Tức & Sự Kiện trên Mobile (Tự động chuyển động + draggable)
             if (document.querySelector(".news-swiper")) {

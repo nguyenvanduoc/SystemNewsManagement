@@ -5,20 +5,30 @@
     ViewData["OgImage"] = "/images/nhanhang/cutouts/thailoncao.png";
 }
 
-<section class="relative w-full bg-black overflow-hidden shadow-sm">
-    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center cursor-pointer" onclick="var v = document.getElementById('videoId'); if(v){ if(v.paused){ v.play(); } else { v.pause(); } }">
+<section class="relative w-full bg-black overflow-hidden shadow-sm select-none">
+    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center overflow-hidden select-none">
         <video id="videoId" 
-               class="w-full h-full object-cover" 
+               class="w-full h-full object-cover pointer-events-none select-none" 
                src="~/images/logo/introbeer-6545-1782743922.mp4"
                autoplay 
                loop 
                muted 
                playsinline 
                webkit-playsinline 
+               x5-playsinline="true"
+               x5-video-player-type="h5"
+               x5-video-player-fullscreen="false"
+               disablePictureInPicture
+               disableRemotePlayback
+               tabindex="-1"
+               aria-hidden="true"
+               style="pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;"
                preload="auto">
             <source src="~/images/logo/introbeer-6545-1782743922.mp4" type="video/mp4" />
             Trình duyệt không hỗ trợ phát video banner.
         </video>
+        <!-- Lớp màng chắn trong suốt: ngón tay vuốt cuộn chạm vào đây sẽ cuộn trang bình thường, không chạm vào video -->
+        <div class="absolute inset-0 z-10 w-full h-full pointer-events-auto" style="touch-action: pan-y; background: transparent;"></div>
     </div>
 </section>
 
@@ -655,11 +665,18 @@
                                     Dây chuyền nấu men và chiết rót tiệt trùng khép kín, bảo toàn lớp bọt sánh mịn và hậu vị êm đằm.
                                 </p>
                             </div>
-                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_biathai.jpg">
+                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
+                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                                     <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
+                                <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                                    <img src="/images/quytrinh_biathai.jpg" alt="Dây truyền đóng lon cao bia Thái Xanh" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                                    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                                    <div class="relative z-10 w-13 h-13 rounded-full bg-white/95 text-[#900C13] flex items-center justify-center text-lg shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                                        <i class="fa-solid fa-play ml-1"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -678,11 +695,18 @@
                                     Dây chuyền chiết rót và đóng lon cao tự động công nghệ tiên tiến, đảm bảo hương vị bia thượng hạng và giữ trọn độ tươi mát.
                                 </p>
                             </div>
-                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_thaibeerloncao.jpg">
+                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
+                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                                     <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
+                                <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                                    <img src="/images/quytrinh_thaibeerloncao.jpg" alt="Dây chuyền sản xuất lon cao bia Thái Đỏ" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                                    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                                    <div class="relative z-10 w-13 h-13 rounded-full bg-white/95 text-[#B45309] flex items-center justify-center text-lg shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                                        <i class="fa-solid fa-play ml-1"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -701,11 +725,18 @@
                                     Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
                                 </p>
                             </div>
-                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto">
-                                <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_123zo.jpg">
+                            <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
+                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                                     <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
+                                <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                                    <img src="/images/quytrinh_123zo.jpg" alt="Dây chuyền sản xuất bia 123 ZO" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                                    <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                                    <div class="relative z-10 w-13 h-13 rounded-full bg-white/95 text-[#007A29] flex items-center justify-center text-lg shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                                        <i class="fa-solid fa-play ml-1"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -740,11 +771,18 @@
                         Dây chuyền nấu men và chiết rót tiệt trùng khép kín, bảo toàn lớp bọt sánh mịn và hậu vị êm đằm.
                     </p>
                 </div>
-                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_biathai.jpg">
+                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
+                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                         <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
+                    <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                        <img src="/images/quytrinh_biathai.jpg" alt="Dây truyền đóng lon cao bia Thái Xanh" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                        <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="relative z-10 w-14 h-14 rounded-full bg-white/95 text-[#900C13] flex items-center justify-center text-xl shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                            <i class="fa-solid fa-play ml-1"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -761,11 +799,18 @@
                         Dây chuyền chiết rót và đóng lon cao tự động công nghệ tiên tiến, đảm bảo hương vị bia thượng hạng và giữ trọn độ tươi mát.
                     </p>
                 </div>
-                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_thaibeerloncao.jpg">
+                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
+                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                         <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
+                    <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                        <img src="/images/quytrinh_thaibeerloncao.jpg" alt="Dây chuyền sản xuất lon cao bia Thái Đỏ" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                        <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="relative z-10 w-14 h-14 rounded-full bg-white/95 text-[#B45309] flex items-center justify-center text-xl shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                            <i class="fa-solid fa-play ml-1"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -782,11 +827,18 @@
                         Hệ thống đóng lon tự động hiện đại, tốc độ cao với tiêu chuẩn kiểm soát chất lượng vi sinh nghiêm ngặt đạt chuẩn quốc tế.
                     </p>
                 </div>
-                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10">
-                    <video class="w-full h-full object-cover" controls preload="metadata" playsinline webkit-playsinline poster="/images/quytrinh_123zo.jpg">
+                <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
+                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
                         <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
+                    <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
+                        <img src="/images/quytrinh_123zo.jpg" alt="Dây chuyền sản xuất bia 123 ZO" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                        <div class="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="relative z-10 w-14 h-14 rounded-full bg-white/95 text-[#007A29] flex items-center justify-center text-xl shadow-2xl transition transform group-hover:scale-110 active:scale-95">
+                            <i class="fa-solid fa-play ml-1"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

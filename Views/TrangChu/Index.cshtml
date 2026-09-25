@@ -5,30 +5,13 @@
     ViewData["OgImage"] = "/images/nhanhang/cutouts/thailoncao.png";
 }
 
-<section class="relative w-full bg-black overflow-hidden shadow-sm select-none">
-    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center overflow-hidden select-none">
-        <video id="videoId" 
-               class="w-full h-full object-cover pointer-events-none select-none" 
-               src="~/images/logo/introbeer-6545-1782743922.mp4"
-               autoplay 
-               loop 
-               muted 
-               playsinline 
-               webkit-playsinline 
-               x5-playsinline="true"
-               x5-video-player-type="h5"
-               x5-video-player-fullscreen="false"
-               disablePictureInPicture
-               disableRemotePlayback
-               tabindex="-1"
-               aria-hidden="true"
-               style="pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;"
-               preload="auto">
-            <source src="~/images/logo/introbeer-6545-1782743922.mp4" type="video/mp4" />
-            Trình duyệt không hỗ trợ phát video banner.
-        </video>
-        <!-- Lớp màng chắn trong suốt: ngón tay vuốt cuộn chạm vào đây sẽ cuộn trang bình thường, không chạm vào video -->
-        <div class="absolute inset-0 z-10 w-full h-full pointer-events-auto" style="touch-action: pan-y; background: transparent;"></div>
+<section class="relative w-full overflow-hidden shadow-sm">
+    <div class="w-full">
+        <img src="~/images/slide.jpg" 
+             alt="ThaiBeer - Tinh hoa của chất lượng" 
+             class="w-full h-auto block" 
+             loading="eager" 
+             fetchpriority="high" />
     </div>
 </section>
 
@@ -137,9 +120,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header Căn Giữa Bộ Sưu Tập -->
         <div class="reveal-on-scroll text-center mb-8 sm:mb-12">
-            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-widest block mb-1.5 text-[#007A29]">
-                THAI BEER
-            </span>
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-[#111111] uppercase tracking-tight">
                 BỘ SƯU TẬP SẢN PHẨM
             </h2>
@@ -156,7 +136,7 @@
                 <div class="reveal-on-scroll @delayClass bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg flex flex-col justify-between">
                     <!-- Khối ảnh có link điều hướng -->
                     <a href="/san-pham/@sp.DuongDanSlug" class="block relative bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100">
-                        <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/logo/BiaThai.png';" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
                             @sp.NongDoCon% Độ cồn
                         </div>

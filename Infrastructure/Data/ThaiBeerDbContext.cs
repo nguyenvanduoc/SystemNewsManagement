@@ -14,6 +14,7 @@ public class ThaiBeerDbContext : DbContext
     public DbSet<BaiViet> BaiViets => Set<BaiViet>();
     public DbSet<BannerQuangCao> BannerQuangCaos => Set<BannerQuangCao>();
     public DbSet<LienHe> LienHes => Set<LienHe>();
+    public DbSet<HinhAnhSanPham> HinhAnhSanPhams => Set<HinhAnhSanPham>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -97,6 +98,21 @@ public class ThaiBeerDbContext : DbContext
 
             entity.Property(e => e.SoDienThoai).IsUnicode(false);
             entity.Property(e => e.Email).IsUnicode(false);
+        });
+
+        // Cấu hình HinhAnhSanPham (tối đa 4 ảnh chi tiết cho mỗi sản phẩm)
+        modelBuilder.Entity<HinhAnhSanPham>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.SanPhamId, e.ThuTu })
+                  .HasDatabaseName("IX_HinhAnhSanPhams_SanPhamId");
+
+            entity.Property(e => e.DuongDanWebP).IsUnicode(false).HasMaxLength(500);
+
+            entity.HasOne(e => e.SanPham)
+                  .WithMany(s => s.HinhAnhPhus)
+                  .HasForeignKey(e => e.SanPhamId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

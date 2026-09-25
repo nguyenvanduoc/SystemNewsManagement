@@ -30,6 +30,14 @@ public class SanPhamUpsertViewModel
     [Display(Name = "Tải lên tệp ảnh mới (Tự động chuyển WebP)")]
     public IFormFile? TapTinHinhAnh { get; set; }
 
+    [Display(Name = "Ảnh chi tiết hiện tại (Tối đa 4 ảnh)")]
+    public List<string> HinhAnhPhuHienTai { get; set; } = new();
+
+    [Display(Name = "Tải lên các ảnh chi tiết bổ sung (Tối đa 4 ảnh)")]
+    public List<IFormFile>? TapTinHinhAnhPhu { get; set; }
+
+    public List<string>? XoaHinhAnhPhu { get; set; }
+
     [Display(Name = "Video giới thiệu URL (YouTube / CDN)")]
     public string? VideoGioiThieuUrl { get; set; }
 

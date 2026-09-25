@@ -63,4 +63,7 @@ public class SanPham : BaseEntity
 
     [ForeignKey(nameof(DanhMucId))]
     public virtual DanhMuc? DanhMuc { get; set; }
+
+    // Danh sách tối đa 4 hình ảnh chi tiết đính kèm
+    public virtual ICollection<HinhAnhSanPham> HinhAnhPhus { get; set; } = new List<HinhAnhSanPham>();
 }

@@ -3,6 +3,41 @@
     var sp = Model.SanPham;
     ViewData["Title"] = sp.TenSanPham;
     ViewData["Description"] = sp.MoTaNgan ?? sp.TenSanPham;
+
+    // Danh sách hình ảnh bộ sưu tập: Mặc định ảnh chính là ảnh đầu tiên, tiếp theo là tối đa 4 ảnh chi tiết
+    var allImages = new List<string>();
+    if (!string.IsNullOrWhiteSpace(sp.HinhAnhWebP))
+    {
+        allImages.Add(sp.HinhAnhWebP);
+    }
+
+    if (sp.HinhAnhPhus != null && sp.HinhAnhPhus.Any())
+    {
+        foreach (var h in sp.HinhAnhPhus.OrderBy(x => x.ThuTu).Take(4))
+        {
+            if (!string.IsNullOrWhiteSpace(h.DuongDanWebP) && !allImages.Contains(h.DuongDanWebP))
+            {
+                allImages.Add(h.DuongDanWebP);
+            }
+        }
+    }
+    else if (!string.IsNullOrWhiteSpace(sp.DanhSachHinhAnhPhu))
+    {
+        var phuArr = sp.DanhSachHinhAnhPhu.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var item in phuArr.Take(4))
+        {
+            var trimmed = item.Trim();
+            if (!string.IsNullOrWhiteSpace(trimmed) && !allImages.Contains(trimmed))
+            {
+                allImages.Add(trimmed);
+            }
+        }
+    }
+
+    if (!allImages.Any())
+    {
+        allImages.Add("/images/logo/BiaThai.png");
+    }
 }
 
 <!-- Breadcrumbs Bar -->
@@ -24,23 +59,85 @@
 </div>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Main Product Detail Layout (Chuẩn 100% Theo thaibeer.vn) -->
+    <!-- Main Product Detail Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-        <!-- Cột Khung Hình Ảnh Chuẩn ThaiBeer.vn (Tự động phóng to full ngang viền trắng, zoom Fancybox) -->
-        <div class="lg:col-span-6 xl:col-span-5">
-            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm relative group">
-                <a href="@sp.HinhAnhWebP" 
+        <!-- Cột Khung Hình Ảnh & Bộ Sưu Tập Ảnh Chi Tiết (Tối đa 5 ảnh: 1 chính + 4 phụ) -->
+        <div class="lg:col-span-6 xl:col-span-5 select-none space-y-3">
+            <!-- 1. KHUNG ẢNH LỚN CHÍNH -->
+            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm relative group aspect-[4/3] flex items-center justify-center p-4">
+                <a id="mainImageLink" 
+                   href="@allImages[0]" 
                    data-fancybox="product_gallery" 
-                   data-caption="@sp.TenSanPham"
+                   data-caption="@sp.TenSanPham (Ảnh 1/@allImages.Count)"
                    title="Nhấp để xem ảnh phóng to"
-                   class="block w-full cursor-zoom-in">
-                    <img src="@sp.HinhAnhWebP" 
+                   class="w-full h-full flex items-center justify-center cursor-zoom-in">
+                    <img id="mainProductImage" 
+                         src="@allImages[0]" 
                          alt="@sp.TenSanPham" 
-                         class="w-full h-auto block transition-transform duration-300 group-hover:scale-105 select-none" />
+                         class="max-h-full max-w-full object-contain transition-all duration-300 group-hover:scale-105" 
+                         loading="eager" />
                 </a>
-                <div class="absolute bottom-4 right-4 bg-black/40 hover:bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm backdrop-blur-sm pointer-events-none transition shadow">
+
+                <!-- Badge đếm số thứ tự ảnh (Ví dụ: 1/5, 3/5 như ảnh mẫu) -->
+                @if (allImages.Count > 1)
+                {
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full pointer-events-none shadow-md">
+                        <span id="galleryCurrentIndex">1</span>/@allImages.Count
+                    </div>
+                }
+
+                <!-- Nút kính lúp zoom góc phải -->
+                <div class="absolute top-4 right-4 bg-black/40 hover:bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm backdrop-blur-sm pointer-events-none transition shadow">
                     <i class="fa-solid fa-magnifying-glass-plus"></i>
                 </div>
+            </div>
+
+            <!-- 2. DẢI THUMBNAIL BÊN DƯỚI (Có 2 nút điều hướng mũi tên trái/phải tương tự ảnh mẫu) -->
+            @if (allImages.Count > 1)
+            {
+                <div class="relative px-7">
+                    <!-- Nút Previous Thumbnail -->
+                    <button type="button" 
+                            id="thumbPrevBtn" 
+                            class="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 bg-white hover:bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-gray-700 shadow-sm transition hover:scale-110 active:scale-95 z-10"
+                            aria-label="Ảnh trước">
+                        <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                    </button>
+
+                    <!-- Danh sách Thumbnails -->
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="thumbStrip">
+                        @for (int i = 0; i < allImages.Count; i++)
+                        {
+                            var imgUrl = allImages[i];
+                            <button type="button"
+                                    class="thumb-item relative flex-1 min-w-[60px] aspect-[4/3] bg-white border-2 rounded-xl overflow-hidden p-1 transition-all @(i == 0 ? "border-[#007A29] shadow-sm ring-2 ring-[#007A29]/20 opacity-100" : "border-gray-200 hover:border-gray-400 opacity-60 hover:opacity-100")"
+                                    data-index="@i"
+                                    data-src="@imgUrl"
+                                    onclick="selectProductImage(@i, '@imgUrl')">
+                                <img src="@imgUrl" 
+                                     alt="@sp.TenSanPham - Ảnh @(i + 1)" 
+                                     class="w-full h-full object-contain" 
+                                     loading="lazy" />
+                            </button>
+                        }
+                    </div>
+
+                    <!-- Nút Next Thumbnail -->
+                    <button type="button" 
+                            id="thumbNextBtn" 
+                            class="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 bg-white hover:bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-gray-700 shadow-sm transition hover:scale-110 active:scale-95 z-10"
+                            aria-label="Ảnh kế tiếp">
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                </div>
+            }
+
+            <!-- Ẩn các link phụ để Fancybox duyệt đủ album ảnh khi bấm zoom -->
+            <div class="hidden">
+                @for (int i = 1; i < allImages.Count; i++)
+                {
+                    <a href="@allImages[i]" data-fancybox="product_gallery" data-caption="@sp.TenSanPham (Ảnh @(i + 1)/@allImages.Count)"></a>
+                }
             </div>
         </div>
 
@@ -164,4 +261,64 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        const galleryImages = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(allImages));
+        let currentGalleryIndex = 0;
+
+        function selectProductImage(index, src) {
+            if (index < 0 || index >= galleryImages.length) return;
+            currentGalleryIndex = index;
+
+            // Cập nhật ảnh chính
+            const mainImg = document.getElementById("mainProductImage");
+            const mainLink = document.getElementById("mainImageLink");
+            const indexCounter = document.getElementById("galleryCurrentIndex");
+
+            if (mainImg) {
+                mainImg.style.opacity = '0.3';
+                mainImg.src = src;
+                setTimeout(() => { mainImg.style.opacity = '1'; }, 120);
+            }
+            if (mainLink) {
+                mainLink.href = src;
+                mainLink.setAttribute("data-caption", `@sp.TenSanPham (Ảnh ${index + 1}/${galleryImages.length})`);
+            }
+            if (indexCounter) {
+                indexCounter.textContent = (index + 1);
+            }
+
+            // Cập nhật viền active cho các thumbnail
+            document.querySelectorAll(".thumb-item").forEach((thumb, idx) => {
+                if (idx === index) {
+                    thumb.classList.remove("border-gray-200", "opacity-60");
+                    thumb.classList.add("border-[#007A29]", "shadow-sm", "ring-2", "ring-[#007A29]/20", "opacity-100");
+                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    thumb.classList.remove("border-[#007A29]", "shadow-sm", "ring-2", "ring-[#007A29]/20", "opacity-100");
+                    thumb.classList.add("border-gray-200", "opacity-60");
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const prevBtn = document.getElementById("thumbPrevBtn");
+            const nextBtn = document.getElementById("thumbNextBtn");
+
+            if (prevBtn) {
+                prevBtn.addEventListener("click", function() {
+                    let nextIdx = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
+                    selectProductImage(nextIdx, galleryImages[nextIdx]);
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener("click", function() {
+                    let nextIdx = (currentGalleryIndex + 1) % galleryImages.length;
+                    selectProductImage(nextIdx, galleryImages[nextIdx]);
+                });
+            }
+        });
+    </script>
+}
 

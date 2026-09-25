@@ -126,6 +126,28 @@ public class SanPhamController : Controller
             NgayTao = DateTime.UtcNow
         };
 
+        // Lưu tối đa 4 hình ảnh chi tiết bổ sung
+        if (vm.TapTinHinhAnhPhu != null && vm.TapTinHinhAnhPhu.Any())
+        {
+            int thuTu = 1;
+            var listPhu = new List<string>();
+            foreach (var file in vm.TapTinHinhAnhPhu.Take(4))
+            {
+                if (file.Length > 0)
+                {
+                    var phuUrl = await _imageOptimizer.ToiUuVaLuuWebPAsync(file, "san-pham", chieuRongToiDa: 1200, chatLuong: 82);
+                    sanPham.HinhAnhPhus.Add(new HinhAnhSanPham
+                    {
+                        DuongDanWebP = phuUrl,
+                        ThuTu = thuTu++,
+                        NgayTao = DateTime.UtcNow
+                    });
+                    listPhu.Add(phuUrl);
+                }
+            }
+            sanPham.DanhSachHinhAnhPhu = string.Join(";", listPhu);
+        }
+
         _context.SanPhams.Add(sanPham);
         await _context.SaveChangesAsync();
 
@@ -139,10 +161,19 @@ public class SanPhamController : Controller
     [HttpGet("chinh-sua/{id:int}")]
     public async Task<IActionResult> ChinhSua(int id)
     {
-        var sp = await _context.SanPhams.FindAsync(id);
+        var sp = await _context.SanPhams
+            .Include(s => s.HinhAnhPhus)
+            .FirstOrDefaultAsync(s => s.Id == id);
         if (sp == null)
         {
             return NotFound();
+        }
+
+        var hinhAnhPhuHienTai = sp.HinhAnhPhus.OrderBy(h => h.ThuTu).Select(h => h.DuongDanWebP).ToList();
+        if (!hinhAnhPhuHienTai.Any() && !string.IsNullOrWhiteSpace(sp.DanhSachHinhAnhPhu))
+        {
+            hinhAnhPhuHienTai = sp.DanhSachHinhAnhPhu.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
         var vm = new SanPhamUpsertViewModel
@@ -153,6 +184,7 @@ public class SanPhamController : Controller
             MoTaNgan = sp.MoTaNgan,
             NoiDungChiTiet = sp.NoiDungChiTiet,
             HinhAnhHienTai = sp.HinhAnhWebP,
+            HinhAnhPhuHienTai = hinhAnhPhuHienTai,
             VideoGioiThieuUrl = sp.VideoGioiThieuUrl,
             NongDoCon = sp.NongDoCon,
             DungTichMl = sp.DungTichMl,
@@ -181,7 +213,9 @@ public class SanPhamController : Controller
             return View(vm);
         }
 
-        var sp = await _context.SanPhams.FindAsync(id);
+        var sp = await _context.SanPhams
+            .Include(s => s.HinhAnhPhus)
+            .FirstOrDefaultAsync(s => s.Id == id);
         if (sp == null)
             return NotFound();
 
@@ -200,7 +234,7 @@ public class SanPhamController : Controller
             sp.DuongDanSlug = slugMoi;
         }
 
-        // Tải ảnh mới nếu có
+        // Tải ảnh chính mới nếu có
         if (vm.TapTinHinhAnh != null && vm.TapTinHinhAnh.Length > 0)
         {
             var oldImage = sp.HinhAnhWebP;
@@ -211,6 +245,43 @@ public class SanPhamController : Controller
         {
             sp.HinhAnhWebP = vm.HinhAnhHienTai.Trim();
         }
+
+        // Xóa ảnh chi tiết nếu có yêu cầu
+        if (vm.XoaHinhAnhPhu != null && vm.XoaHinhAnhPhu.Any())
+        {
+            var canXoa = sp.HinhAnhPhus.Where(h => vm.XoaHinhAnhPhu.Contains(h.DuongDanWebP)).ToList();
+            foreach (var h in canXoa)
+            {
+                sp.HinhAnhPhus.Remove(h);
+                _imageOptimizer.XoaHinhAnh(h.DuongDanWebP);
+            }
+        }
+
+        // Tải thêm ảnh chi tiết mới (tối đa tổng cộng 4 ảnh chi tiết)
+        if (vm.TapTinHinhAnhPhu != null && vm.TapTinHinhAnhPhu.Any())
+        {
+            int soLuongHienCo = sp.HinhAnhPhus.Count;
+            int choPhepThem = Math.Max(0, 4 - soLuongHienCo);
+            int thuTu = (sp.HinhAnhPhus.Any() ? sp.HinhAnhPhus.Max(h => h.ThuTu) : 0) + 1;
+
+            foreach (var file in vm.TapTinHinhAnhPhu.Take(choPhepThem))
+            {
+                if (file.Length > 0)
+                {
+                    var phuUrl = await _imageOptimizer.ToiUuVaLuuWebPAsync(file, "san-pham", chieuRongToiDa: 1200, chatLuong: 82);
+                    sp.HinhAnhPhus.Add(new HinhAnhSanPham
+                    {
+                        SanPhamId = sp.Id,
+                        DuongDanWebP = phuUrl,
+                        ThuTu = thuTu++,
+                        NgayTao = DateTime.UtcNow
+                    });
+                }
+            }
+        }
+
+        // Đồng bộ cột DanhSachHinhAnhPhu
+        sp.DanhSachHinhAnhPhu = string.Join(";", sp.HinhAnhPhus.OrderBy(h => h.ThuTu).Select(h => h.DuongDanWebP));
 
         sp.TenSanPham = vm.TenSanPham.Trim();
         sp.MoTaNgan = vm.MoTaNgan;

@@ -110,19 +110,30 @@ public class DapperSanPhamReadRepository : ISanPhamReadRepository
                 d.Id, d.TenDanhMuc, d.DuongDanSlug
             FROM SanPhams p WITH (NOLOCK)
             INNER JOIN DanhMucs d WITH (NOLOCK) ON p.DanhMucId = d.Id
-            WHERE p.DuongDanSlug = @Slug AND p.TrangThaiHoatDong = 1;";
+            WHERE p.DuongDanSlug = @Slug AND p.TrangThaiHoatDong = 1;
 
-        var ketQua = await connection.QueryAsync<SanPham, DanhMuc, SanPham>(
-            sql,
+            SELECT h.Id, h.SanPhamId, h.DuongDanWebP, h.ThuTu, h.NgayTao
+            FROM HinhAnhSanPhams h WITH (NOLOCK)
+            INNER JOIN SanPhams p WITH (NOLOCK) ON h.SanPhamId = p.Id
+            WHERE p.DuongDanSlug = @Slug
+            ORDER BY h.ThuTu ASC, h.Id ASC;";
+
+        using var multi = await connection.QueryMultipleAsync(sql, new { Slug = slug });
+        var sanPham = multi.Read<SanPham, DanhMuc, SanPham>(
             (sp, dm) =>
             {
                 sp.DanhMuc = dm;
                 return sp;
             },
-            new { Slug = slug },
-            splitOn: "Id");
+            splitOn: "Id").FirstOrDefault();
 
-        return ketQua.FirstOrDefault();
+        if (sanPham != null)
+        {
+            var hinhAnhs = (await multi.ReadAsync<HinhAnhSanPham>()).ToList();
+            sanPham.HinhAnhPhus = hinhAnhs;
+        }
+
+        return sanPham;
     }
 
     public async Task<IReadOnlyList<SanPham>> LaySanPhamLienQuanAsync(int danhMucId, int sanPhamHienTaiId, int soLuong = 4)

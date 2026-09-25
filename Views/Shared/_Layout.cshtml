@@ -673,14 +673,51 @@
                 }
             });
 
+            // 0. Tự động phát Video Banner Introbeer trên mọi thiết bị (kể cả iPhone iOS và tiết kiệm pin)
+            const videoBanner = document.getElementById("videoId");
+            if (videoBanner) {
+                videoBanner.muted = true;
+                videoBanner.defaultMuted = true;
+                videoBanner.playsInline = true;
+                videoBanner.controls = false;
+                videoBanner.style.pointerEvents = "none";
+                videoBanner.setAttribute("muted", "");
+                videoBanner.setAttribute("playsinline", "");
+                videoBanner.setAttribute("webkit-playsinline", "");
+                videoBanner.setAttribute("x5-playsinline", "true");
+                videoBanner.setAttribute("x5-video-player-type", "h5");
+                videoBanner.setAttribute("x5-video-player-fullscreen", "false");
+                videoBanner.setAttribute("disablePictureInPicture", "");
+                videoBanner.setAttribute("disableRemotePlayback", "");
+
+                // Ngăn chặn Safari/Webview tự động bật controls hoặc kích hoạt fullscreen
+                videoBanner.addEventListener("play", function() {
+                    videoBanner.controls = false;
+                });
+                videoBanner.addEventListener("webkitbeginfullscreen", function(e) {
+                    e.preventDefault();
+                    if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                });
+
+                const playVideo = function() {
+                    const p = videoBanner.play();
+                    if (p !== undefined) {
+                        p.catch(function(e) {
+                            // Im lặng nếu trình duyệt hoặc chế độ tiết kiệm pin tạm hoãn autoplay
+                        });
+                    }
+                };
+
+                playVideo();
+                videoBanner.addEventListener("loadedmetadata", playVideo, { once: true });
+                videoBanner.addEventListener("canplay", playVideo, { once: true });
+            }
+
             if (typeof Swiper === "undefined") {
                 setTimeout(initializeThaiBeerUI, 50);
                 return;
             }
 
-
-
-            // 1. Khởi tạo lại Swiper Hero Banner (nếu dùng)
             if (document.querySelector(".hero-swiper")) {
                 new Swiper(".hero-swiper", {
                     loop: true,

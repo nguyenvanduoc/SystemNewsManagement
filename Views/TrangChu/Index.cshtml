@@ -5,13 +5,30 @@
     ViewData["OgImage"] = "/images/nhanhang/cutouts/thailoncao.png";
 }
 
-<section class="relative w-full overflow-hidden shadow-sm">
-    <div class="w-full">
-        <img src="~/images/slide.jpg" 
-             alt="ThaiBeer - Tinh hoa của chất lượng" 
-             class="w-full h-auto block" 
-             loading="eager" 
-             fetchpriority="high" />
+<section class="relative w-full bg-black overflow-hidden shadow-sm select-none">
+    <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center overflow-hidden select-none">
+        <video id="videoId" 
+               class="w-full h-full object-cover pointer-events-none select-none" 
+               src="~/images/logo/introbeer-6545-1782743922.mp4"
+               autoplay 
+               loop 
+               muted 
+               playsinline 
+               webkit-playsinline 
+               x5-playsinline="true"
+               x5-video-player-type="h5"
+               x5-video-player-fullscreen="false"
+               disablePictureInPicture
+               disableRemotePlayback
+               tabindex="-1"
+               aria-hidden="true"
+               style="pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;"
+               preload="auto">
+            <source src="~/images/logo/introbeer-6545-1782743922.mp4" type="video/mp4" />
+            Trình duyệt không hỗ trợ phát video banner.
+        </video>
+        <!-- Lớp màng chắn trong suốt: ngón tay vuốt cuộn chạm vào đây sẽ cuộn trang bình thường, không chạm vào video -->
+        <div class="absolute inset-0 z-10 w-full h-full pointer-events-auto" style="touch-action: pan-y; background: transparent;"></div>
     </div>
 </section>
 

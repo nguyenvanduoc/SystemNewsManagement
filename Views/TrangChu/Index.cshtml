@@ -482,30 +482,25 @@
                     var sp = danhSachNhanHang[i];
 
                     <div class="heineken-brand-item group" data-brand="@sp.Ma">
-                        <a href="@sp.HinhAnh?v=@DateTime.UtcNow.Ticks" 
-                           data-fancybox="nhan-hang-thaibeer" 
-                           data-caption="@sp.Ten"
-                           title="@sp.Ten (Nhấp để phóng to)"
-                           class="block w-full focus:outline-none">
-                            
+                        <div class="block w-full select-none cursor-default">
                             <!-- Lon bia đứng vững chắc trên mặt sàn (Thấp - Cao - Thấp) -->
-                            <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
+                            <div class="relative w-full @sp.ChieuCao flex items-end justify-center pointer-events-none">
                                 <img src="@sp.HinhAnh" 
                                      asp-append-version="true"
                                      alt="@sp.Ten" 
-                                     class="brand-img-element max-h-full max-w-full object-contain select-none" 
+                                     class="brand-img-element max-h-full max-w-full object-contain select-none pointer-events-none" 
                                      loading="lazy" />
                             </div>
 
                             <!-- Bóng sàn tiếp xúc mặt đất tự nhiên -->
-                            <div class="brand-floor-shadow w-12 sm:w-14 lg:w-16 h-2 bg-black/15 rounded-full blur-[2px] mt-1 mx-auto"></div>
+                            <div class="brand-floor-shadow w-12 sm:w-14 lg:w-16 h-2 bg-black/15 rounded-full blur-[2px] mt-1 mx-auto pointer-events-none"></div>
 
                             <!-- Bóng gương phản chiếu sàn mờ dần xuống nền trắng (Không có chữ đè lên) -->
                             <div class="brand-reflection w-full h-10 lg:h-12 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                  style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
                                 <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
                             </div>
-                        </a>
+                        </div>
                     </div>
                 }
             </div>
@@ -519,29 +514,24 @@
                     {
                         <div class="swiper-slide h-auto">
                             <div class="heineken-brand-item group p-1 text-center w-full">
-                                <a href="@sp.HinhAnh?v=@DateTime.UtcNow.Ticks" 
-                                   data-fancybox="nhan-hang-thaibeer" 
-                                   data-caption="@sp.Ten"
-                                   title="@sp.Ten"
-                                   class="block w-full focus:outline-none">
-                                    
-                                    <div class="relative w-full @sp.ChieuCao flex items-end justify-center">
+                                <div class="block w-full select-none cursor-default">
+                                    <div class="relative w-full @sp.ChieuCao flex items-end justify-center pointer-events-none">
                                         <img src="@sp.HinhAnh" 
                                              asp-append-version="true"
                                              alt="@sp.Ten" 
-                                             class="brand-img-element max-h-full max-w-full object-contain select-none" 
+                                             class="brand-img-element max-h-full max-w-full object-contain select-none pointer-events-none" 
                                              loading="lazy" />
                                     </div>
 
                                     <!-- Bóng sàn -->
-                                    <div class="brand-floor-shadow w-12 h-2 bg-black/15 rounded-full blur-[2px] mx-auto mt-1"></div>
+                                    <div class="brand-floor-shadow w-12 h-2 bg-black/15 rounded-full blur-[2px] mx-auto mt-1 pointer-events-none"></div>
 
                                     <!-- Bóng gương phản chiếu sàn -->
                                     <div class="brand-reflection w-full h-8 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                          style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
                                         <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     }

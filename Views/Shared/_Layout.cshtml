@@ -289,30 +289,30 @@
             align-items: center;
             justify-content: flex-end;
             transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            cursor: pointer;
+            cursor: default;
             text-align: center;
             flex-shrink: 0;
             user-select: none;
         }
 
-        /* Hover: Nhấc lon bia lên 12px mượt mà giống Heineken */
+        /* Hover: Nhấc lon bia lên cao hơn nổi bật rõ rệt (-28px) theo yêu cầu người dùng */
         .heineken-brand-item:hover {
-            transform: translateY(-12px);
+            transform: translateY(-28px) scale(1.03);
             z-index: 30;
         }
 
         /* Đổ bóng tự nhiên khi nhấc lên */
         .heineken-brand-item:hover .brand-img-element {
-            filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.18));
+            filter: drop-shadow(0 26px 32px rgba(0, 0, 0, 0.22));
         }
 
-        /* Bóng sàn tự co lại nhẹ khi lon bia nhấc lên */
+        /* Bóng sàn tự co lại khi lon bia nhấc lên cao */
         .heineken-brand-item .brand-floor-shadow {
             transition: transform 0.35s ease, opacity 0.35s ease;
         }
         .heineken-brand-item:hover .brand-floor-shadow {
-            transform: scale(0.85);
-            opacity: 0.5;
+            transform: scale(0.75);
+            opacity: 0.35;
         }
 
         /* Bóng gương phản chiếu sàn */
@@ -320,8 +320,8 @@
             transition: opacity 0.35s ease, transform 0.35s ease;
         }
         .heineken-brand-item:hover .brand-reflection {
-            opacity: 0.12;
-            transform: translateY(4px);
+            opacity: 0.08;
+            transform: translateY(6px);
         }
 
         /* Sắc nét 100%, KHÔNG bao giờ làm mờ (NO blur, NO dimming) */
@@ -951,17 +951,6 @@
 
                
                     Fancybox.unbind("[data-fancybox='nhan-hang-thaibeer']");
-                    Fancybox.bind("[data-fancybox='nhan-hang-thaibeer']", {
-                        dragToClose: true,
-                        autoFocus: false,
-                        Toolbar: {
-                            display: {
-                                left: ["infobar"],
-                                middle: ["zoomIn", "zoomOut", "toggle1to1"],
-                                right: ["slideshow", "fullscreen", "close"]
-                            }
-                        }
-                    });
 
                  
                     Fancybox.unbind("[data-fancybox='product_gallery']");

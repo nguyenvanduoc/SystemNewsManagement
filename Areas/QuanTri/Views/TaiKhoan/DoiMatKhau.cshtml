@@ -1,0 +1,55 @@
+@model DoiMatKhauViewModel
+@{
+    ViewData["Title"] = "Đổi Mật Khẩu";
+    var inputCss = "w-full bg-stone-950 border border-stone-700 hover:border-stone-600 focus:border-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-100 transition";
+}
+
+<div class="max-w-lg mx-auto">
+    <div class="mb-6 pb-4 border-b border-stone-800">
+        <h1 class="text-2xl font-bold text-stone-100">Đổi Mật Khẩu</h1>
+        <p class="text-xs text-stone-400 mt-1">Tài khoản: <span class="font-mono text-amber-400 font-bold">@User.Identity?.Name</span></p>
+    </div>
+
+    @if (Model.BatBuoc)
+    {
+        <div class="mb-5 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm flex gap-3">
+            <i class="fa-solid fa-shield-halved text-lg mt-0.5"></i>
+            <p>Vì lý do bảo mật, bạn cần <strong>đặt mật khẩu mới</strong> trước khi tiếp tục sử dụng trang quản trị.</p>
+        </div>
+    }
+
+    <form method="post" action="/quan-tri/tai-khoan/doi-mat-khau" class="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-5">
+        @Html.AntiForgeryToken()
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div asp-validation-summary="ModelOnly" class="p-3 rounded-xl bg-rose-950/80 border border-rose-600 text-rose-200 text-sm"></div>
+        }
+
+        <div>
+            <label asp-for="MatKhauHienTai" class="block text-xs font-semibold text-stone-300 mb-1.5">Mật khẩu hiện tại <span class="text-rose-400">*</span></label>
+            <input asp-for="MatKhauHienTai" class="@inputCss" autocomplete="current-password" />
+            <span asp-validation-for="MatKhauHienTai" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+        </div>
+        <div>
+            <label asp-for="MatKhauMoi" class="block text-xs font-semibold text-stone-300 mb-1.5">Mật khẩu mới <span class="text-rose-400">*</span></label>
+            <input asp-for="MatKhauMoi" class="@inputCss" autocomplete="new-password" />
+            <span asp-validation-for="MatKhauMoi" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+        </div>
+        <div>
+            <label asp-for="XacNhanMatKhauMoi" class="block text-xs font-semibold text-stone-300 mb-1.5">Nhập lại mật khẩu mới <span class="text-rose-400">*</span></label>
+            <input asp-for="XacNhanMatKhauMoi" class="@inputCss" autocomplete="new-password" />
+            <span asp-validation-for="XacNhanMatKhauMoi" class="text-xs text-rose-400 mt-1 block font-medium"></span>
+        </div>
+        <p class="text-[11px] text-stone-500">Mật khẩu tối thiểu 8 ký tự, gồm cả chữ và số. Đổi xong, các thiết bị khác đang đăng nhập tài khoản này sẽ bị đăng xuất.</p>
+
+        <div class="flex justify-end gap-3">
+            @if (!Model.BatBuoc)
+            {
+                <a href="/quan-tri" class="px-5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-semibold transition">Hủy</a>
+            }
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold transition">
+                <i class="fa-solid fa-floppy-disk mr-2"></i> Lưu Mật Khẩu Mới
+            </button>
+        </div>
+    </form>
+</div>

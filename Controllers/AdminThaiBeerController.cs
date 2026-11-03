@@ -1,7 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+using ThaiBeer.Core.Interfaces;
 using ThaiBeer.ViewModels;
 
 namespace ThaiBeer.Controllers;
@@ -9,14 +10,17 @@ namespace ThaiBeer.Controllers;
 [Route("adminthaibeer")]
 public class AdminThaiBeerController : Controller
 {
-    private readonly IConfiguration _configuration;
+    private readonly ITaiKhoanService _taiKhoanService;
+    private readonly ILogger<AdminThaiBeerController> _logger;
 
-    public AdminThaiBeerController(IConfiguration configuration)
+    public AdminThaiBeerController(ITaiKhoanService taiKhoanService, ILogger<AdminThaiBeerController> logger)
     {
-        _configuration = configuration;
+        _taiKhoanService = taiKhoanService;
+        _logger = logger;
     }
 
     [HttpGet("")]
+    [OutputCache(NoStore = true)] // trang có antiforgery token, không được cache dùng chung
     public IActionResult DangNhap([FromQuery] string? returnUrl)
     {
         // Nếu đã đăng nhập thì chuyển thẳng vào trang Quản trị
@@ -46,36 +50,28 @@ public class AdminThaiBeerController : Controller
             return View(vm);
         }
 
-        // Lấy cấu hình tài khoản từ appsettings hoặc dùng mặc định an toàn
-        var configuredUser = _configuration["AdminAccount:Username"] ?? "admin";
-        var configuredPass = _configuration["AdminAccount:Password"] ?? "admin";
+        // Xác thực bằng bảng NguoiDungs (mật khẩu đã băm), không còn mật khẩu viết cứng trong code
+        var ketQua = await _taiKhoanService.DangNhapAsync(vm.TenDangNhap, vm.MatKhau);
 
-        // Cho phép đăng nhập với tài khoản cấu hình hoặc các mật khẩu quản trị chuẩn
-        var isValidUser = string.Equals(vm.TenDangNhap?.Trim(), configuredUser, StringComparison.OrdinalIgnoreCase) ||
-                          string.Equals(vm.TenDangNhap?.Trim(), "admin", StringComparison.OrdinalIgnoreCase);
-
-        var isValidPass = vm.MatKhau == configuredPass || 
-                          vm.MatKhau == "admin" || 
-                          vm.MatKhau == "thaibeer2026" || 
-                          vm.MatKhau == "ThaiBeer@2026";
-
-        if (!isValidUser || !isValidPass)
+        switch (ketQua.TrangThai)
         {
-            ModelState.AddModelError(string.Empty, "Tên đăng nhập hoặc mật khẩu không chính xác.");
-            return View(vm);
+            case TrangThaiDangNhap.BiKhoaTam:
+                var conLai = Math.Max(1, (int)Math.Ceiling((ketQua.KhoaDenLuc!.Value - DateTime.UtcNow).TotalMinutes));
+                _logger.LogWarning("Tài khoản {TenDangNhap} bị khóa tạm do nhập sai mật khẩu nhiều lần. IP: {IP}", vm.TenDangNhap, HttpContext.Connection.RemoteIpAddress);
+                ModelState.AddModelError(string.Empty, $"Tài khoản tạm khóa do nhập sai mật khẩu nhiều lần. Vui lòng thử lại sau {conLai} phút.");
+                return View(vm);
+
+            case TrangThaiDangNhap.BiVoHieuHoa:
+                ModelState.AddModelError(string.Empty, "Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên.");
+                return View(vm);
+
+            case TrangThaiDangNhap.SaiThongTin:
+                _logger.LogWarning("Đăng nhập thất bại với tên {TenDangNhap}. IP: {IP}", vm.TenDangNhap, HttpContext.Connection.RemoteIpAddress);
+                ModelState.AddModelError(string.Empty, "Tên đăng nhập hoặc mật khẩu không chính xác.");
+                return View(vm);
         }
 
-        // Thiết lập Claims danh tính quản trị viên
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, vm.TenDangNhap?.Trim() ?? "admin"),
-            new Claim(ClaimTypes.Role, "Admin"),
-            new Claim("HoTen", "Quản Trị Viên ThaiBeer"),
-            new Claim(ClaimTypes.AuthenticationInstant, DateTime.UtcNow.ToString("o"))
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
+        var principal = _taiKhoanService.TaoPrincipal(ketQua.NguoiDung!);
 
         var authProperties = new AuthenticationProperties
         {
@@ -90,6 +86,20 @@ public class AdminThaiBeerController : Controller
             return Redirect(vm.ReturnUrl);
         }
 
+        return Redirect("/quan-tri");
+    }
+
+    /// <summary>
+    /// Đã đăng nhập nhưng không đủ vai trò (vd. Biên tập viên mở trang Quản lý tài khoản).
+    /// Không trỏ về trang đăng nhập vì trang đó sẽ đẩy ngược lại returnUrl => vòng lặp chuyển hướng.
+    /// </summary>
+    [HttpGet("khong-co-quyen")]
+    public IActionResult KhongCoQuyen()
+    {
+        if (User.Identity?.IsAuthenticated != true)
+            return Redirect("/adminthaibeer");
+
+        TempData["ThongBaoLoi"] = "Tài khoản của bạn không có quyền truy cập chức năng này.";
         return Redirect("/quan-tri");
     }
 

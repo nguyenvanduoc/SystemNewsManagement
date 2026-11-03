@@ -1,0 +1,35 @@
+@model KhoiPhanBo
+@{
+    var max = Model.Muc.Count > 0 ? Model.Muc.Max(m => m.SoLuong) : 0;
+}
+<section class="bg-stone-900 border border-stone-800 rounded-2xl p-5 flex flex-col min-w-0">
+    <h2 class="text-sm font-bold text-stone-100 mb-4 flex items-center gap-2">
+        <i class="fa-solid @Model.Icon text-stone-400"></i> @Model.TieuDe
+    </h2>
+    @if (Model.Muc.Count == 0)
+    {
+        <p class="text-xs text-stone-500 py-6 text-center">Chưa có dữ liệu trong khoảng thời gian này.</p>
+    }
+    else
+    {
+        <ul class="space-y-3 @(Model.CuonDoc ? "max-h-[420px] overflow-y-auto pr-1" : "")">
+            @foreach (var m in Model.Muc)
+            {
+                var phanTram = Model.Tong > 0 ? m.SoLuong * 100.0 / Model.Tong : 0;
+                var rong = max > 0 ? Math.Max(2, m.SoLuong * 100.0 / max) : 0;
+                <li title="@m.Ten: @m.SoLuong phiên (@phanTram.ToString("0.#")%) · ở lại TB @DinhDangThongKe.ThoiLuong(m.ThoiGianTBGiay)">
+                    <div class="flex items-baseline justify-between gap-3 text-xs mb-1">
+                        <span class="text-stone-200 font-medium truncate">@(string.IsNullOrEmpty(m.Ten) ? "Không xác định" : m.Ten)</span>
+                        <span class="shrink-0 tabular-nums text-stone-400">
+                            <span class="text-stone-100 font-semibold">@m.SoLuong.ToString("N0")</span>
+                            · @phanTram.ToString("0.#")%
+                        </span>
+                    </div>
+                    <div class="h-2 rounded bg-stone-800 overflow-hidden">
+                        <div class="h-full rounded" style="width:@rong.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%; background: var(--series-1);"></div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</section>

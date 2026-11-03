@@ -85,6 +85,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Dữ liệu IP -> tỉnh thành cho Thống kê truy cập: phải được copy khi Publish -->
+    <None Update="App_Data\ip-vn.csv.gz" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Entity Framework Core 8 cho Admin & Schema -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">

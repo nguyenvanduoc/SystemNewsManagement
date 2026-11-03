@@ -105,6 +105,7 @@
                 var isDanhMuc = currentPath.StartsWith("/quan-tri/danh-muc");
                 var isBaiViet = currentPath.StartsWith("/quan-tri/bai-viet");
                 var isLienHe = currentPath.StartsWith("/quan-tri/lien-he");
+                var isThongKe = currentPath.StartsWith("/quan-tri/thong-ke");
                 var isTaiKhoan = currentPath.StartsWith("/quan-tri/tai-khoan") && !currentPath.StartsWith("/quan-tri/tai-khoan/doi-mat-khau");
             }
             <nav class="p-4 space-y-1.5 text-sm font-medium">
@@ -112,6 +113,13 @@
                     <i class="fa-solid fa-chart-pie w-5 text-center text-amber-500"></i>
                     <span>Tổng quan</span>
                 </a>
+                @if (laQuanTriVien)
+                {
+                    <a href="/quan-tri/thong-ke" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isThongKe ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
+                        <i class="fa-solid fa-chart-line w-5 text-center text-amber-500"></i>
+                        <span>Thống kê truy cập</span>
+                    </a>
+                }
                 <a href="/quan-tri/san-pham" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isSanPham ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
                     <i class="fa-solid fa-beer-mug-empty w-5 text-center text-amber-500"></i>
                     <span>Quản lý sản phẩm</span>

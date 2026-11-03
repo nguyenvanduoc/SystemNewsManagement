@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using System.Security.Claims;
+using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -36,6 +37,20 @@ builder.Services.AddScoped<ISanPhamReadRepository, DapperSanPhamReadRepository>(
 builder.Services.AddScoped<IImageOptimizerService, WebPOptimizerService>();
 builder.Services.AddScoped<ICacheInvalidatorService, CacheInvalidatorService>();
 builder.Services.AddScoped<ITaiKhoanService, TaiKhoanService>();
+
+// Thống kê truy cập: tra IP -> tỉnh thành (offline, nạp 1 lần) + ghi nhận lượt xem
+builder.Services.AddSingleton<IpViTriService>();
+builder.Services.AddScoped<ThongKeTruyCapService>();
+
+// Giới hạn API thống kê: tối đa 120 request/phút cho mỗi IP (chống spam làm sai số liệu / đầy database)
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(ThaiBeer.Controllers.ThongKeApiController.ChinhSachGioiHan, httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "khong-ro",
+            _ => new FixedWindowRateLimiterOptions { PermitLimit = 120, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+});
 
 // 2. Nén phản hồi HTTP (Brotli + Gzip) - Tối ưu FCP & TTFB < 100ms
 builder.Services.AddResponseCompression(options =>
@@ -176,6 +191,7 @@ app.UseOutputCache();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 // Routing: Phân hệ Quản trị (Areas/QuanTri)
 app.MapControllerRoute(

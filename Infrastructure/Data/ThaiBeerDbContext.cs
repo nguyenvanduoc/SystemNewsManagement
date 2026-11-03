@@ -16,6 +16,8 @@ public class ThaiBeerDbContext : DbContext
     public DbSet<LienHe> LienHes => Set<LienHe>();
     public DbSet<HinhAnhSanPham> HinhAnhSanPhams => Set<HinhAnhSanPham>();
     public DbSet<NguoiDung> NguoiDungs => Set<NguoiDung>();
+    public DbSet<PhienTruyCap> PhienTruyCaps => Set<PhienTruyCap>();
+    public DbSet<LuotXemTrang> LuotXemTrangs => Set<LuotXemTrang>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -123,6 +125,28 @@ public class ThaiBeerDbContext : DbContext
             entity.HasIndex(e => e.TenDangNhap)
                   .IsUnique()
                   .HasDatabaseName("IX_NguoiDungs_TenDangNhap");
+        });
+
+        // Cấu hình thống kê truy cập
+        modelBuilder.Entity<PhienTruyCap>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.BatDau).HasDatabaseName("IX_PhienTruyCaps_BatDau");
+            entity.HasIndex(e => e.MaPhien).HasDatabaseName("IX_PhienTruyCaps_MaPhien");
+            entity.HasIndex(e => e.MaKhach).HasDatabaseName("IX_PhienTruyCaps_MaKhach");
+            entity.HasIndex(e => e.HoatDongCuoi).HasDatabaseName("IX_PhienTruyCaps_HoatDongCuoi");
+        });
+
+        modelBuilder.Entity<LuotXemTrang>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.ThoiDiem).HasDatabaseName("IX_LuotXemTrangs_ThoiDiem");
+            entity.HasIndex(e => e.PhienTruyCapId).HasDatabaseName("IX_LuotXemTrangs_PhienTruyCapId");
+
+            entity.HasOne(e => e.PhienTruyCap)
+                  .WithMany(p => p.LuotXemTrangs)
+                  .HasForeignKey(e => e.PhienTruyCapId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

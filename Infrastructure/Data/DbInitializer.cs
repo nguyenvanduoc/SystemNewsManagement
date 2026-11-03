@@ -31,6 +31,7 @@ public static class DbInitializer
 
         // 3. Bảng tài khoản đăng nhập Quản trị + tài khoản quản trị đầu tiên
         await DamBaoBangNguoiDungAsync(context);
+        await DamBaoBangThongKeAsync(context);
         await KhoiTaoTaiKhoanQuanTriAsync(context, configuration, logger);
 
         // 4. Nếu database đã có dữ liệu danh mục hoặc sản phẩm, dừng lại ngay lập tức.
@@ -70,6 +71,54 @@ public static class DbInitializer
                     NgayCapNhat       DATETIME2     NULL
                 );
                 CREATE UNIQUE INDEX IX_NguoiDungs_TenDangNhap ON NguoiDungs (TenDangNhap);
+            END
+        ");
+    }
+
+    /// <summary>Tạo 2 bảng thống kê truy cập trên database đã tồn tại (khớp entity PhienTruyCap, LuotXemTrang).</summary>
+    private static async Task DamBaoBangThongKeAsync(ThaiBeerDbContext context)
+    {
+        await context.Database.ExecuteSqlRawAsync(@"
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'PhienTruyCaps')
+            BEGIN
+                CREATE TABLE PhienTruyCaps (
+                    Id               BIGINT IDENTITY(1,1) NOT NULL CONSTRAINT PK_PhienTruyCaps PRIMARY KEY,
+                    MaPhien          VARCHAR(36)   NOT NULL,
+                    MaKhach          VARCHAR(36)   NOT NULL,
+                    KhachMoi         BIT           NOT NULL,
+                    DiaChiIp         VARCHAR(45)   NULL,
+                    UserAgent        NVARCHAR(500) NULL,
+                    ThietBi          NVARCHAR(30)  NOT NULL,
+                    HeDieuHanh       NVARCHAR(50)  NOT NULL,
+                    TrinhDuyet       NVARCHAR(50)  NOT NULL,
+                    TinhThanh        NVARCHAR(100) NOT NULL,
+                    NguonTruyCap     NVARCHAR(200) NOT NULL,
+                    TrangVao         NVARCHAR(500) NOT NULL,
+                    KichThuocManHinh VARCHAR(20)   NULL,
+                    BatDau           DATETIME2     NOT NULL,
+                    HoatDongCuoi     DATETIME2     NOT NULL,
+                    ThoiGianOGiay    INT           NOT NULL,
+                    SoTrangXem       INT           NOT NULL
+                );
+                CREATE INDEX IX_PhienTruyCaps_BatDau ON PhienTruyCaps (BatDau);
+                CREATE INDEX IX_PhienTruyCaps_MaPhien ON PhienTruyCaps (MaPhien);
+                CREATE INDEX IX_PhienTruyCaps_MaKhach ON PhienTruyCaps (MaKhach);
+                CREATE INDEX IX_PhienTruyCaps_HoatDongCuoi ON PhienTruyCaps (HoatDongCuoi);
+            END
+
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LuotXemTrangs')
+            BEGIN
+                CREATE TABLE LuotXemTrangs (
+                    Id             BIGINT IDENTITY(1,1) NOT NULL CONSTRAINT PK_LuotXemTrangs PRIMARY KEY,
+                    PhienTruyCapId BIGINT        NOT NULL CONSTRAINT FK_LuotXemTrangs_PhienTruyCaps_PhienTruyCapId
+                                   REFERENCES PhienTruyCaps (Id) ON DELETE CASCADE,
+                    DuongDan       NVARCHAR(500) NOT NULL,
+                    TieuDe         NVARCHAR(300) NULL,
+                    ThoiDiem       DATETIME2     NOT NULL,
+                    ThoiGianOGiay  INT           NOT NULL
+                );
+                CREATE INDEX IX_LuotXemTrangs_ThoiDiem ON LuotXemTrangs (ThoiDiem);
+                CREATE INDEX IX_LuotXemTrangs_PhienTruyCapId ON LuotXemTrangs (PhienTruyCapId);
             END
         ");
     }

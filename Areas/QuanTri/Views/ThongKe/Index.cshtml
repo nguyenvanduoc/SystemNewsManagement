@@ -1,0 +1,412 @@
+@using System.Text.Json
+@using ThaiBeer.Infrastructure.Services
+@model ThongKeViewModel
+@{
+    ViewData["Title"] = "Thống Kê Truy Cập";
+    var ht = Model.HienTai;
+    var kt = Model.KyTruoc;
+    var soNgay = (int)(Model.DenNgay - Model.TuNgay).TotalDays + 1;
+    var nhanKhoang = Model.TuNgay == Model.DenNgay
+        ? Model.TuNgay.ToString("dd/MM/yyyy")
+        : $"{Model.TuNgay:dd/MM/yyyy} – {Model.DenNgay:dd/MM/yyyy}";
+    var nutKhoang = new[] { ("hom-nay", "Hôm nay"), ("7-ngay", "7 ngày"), ("30-ngay", "30 ngày"), ("90-ngay", "90 ngày") };
+
+    var duLieuBieuDo = JsonSerializer.Serialize(new
+    {
+        nhan = Model.ChuoiThoiGian.Select(x => x.Nhan),
+        luotXem = Model.ChuoiThoiGian.Select(x => x.LuotXem),
+        phien = Model.ChuoiThoiGian.Select(x => x.Phien),
+        khach = Model.ChuoiThoiGian.Select(x => x.Khach),
+        theoGio = Model.LuotXemTheoGio
+    });
+
+    string LinkTrang(int t) => $"?khoang={Model.Khoang}" +
+        (Model.Khoang == "tuy-chon" ? $"&tuNgay={Model.TuNgay:yyyy-MM-dd}&denNgay={Model.DenNgay:yyyy-MM-dd}" : "") + $"&trang={t}#phien";
+
+    string IconThietBi(string tb) => tb switch
+    {
+        ThietBiParser.DienThoai => "fa-mobile-screen",
+        ThietBiParser.MayTinhBang => "fa-tablet-screen-button",
+        _ => "fa-desktop"
+    };
+}
+
+@functions {
+    // Ô chỉ số: giá trị + % thay đổi so với kỳ trước. tangLaTot=false cho chỉ số "càng thấp càng tốt" (tỷ lệ thoát).
+    private Microsoft.AspNetCore.Html.IHtmlContent ThayDoi(double hienTai, double truoc, bool tangLaTot = true)
+    {
+        var pt = DinhDangThongKe.PhanTramThayDoi(hienTai, truoc);
+        if (pt == null)
+            return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"text-stone-500\">Chưa có số liệu kỳ trước</span>");
+        if (Math.Abs(pt.Value) < 0.5)
+            return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"text-stone-400\"><i class=\"fa-solid fa-minus mr-1\"></i>Không đổi so với kỳ trước</span>");
+        var tang = pt.Value > 0;
+        var tot = tang == tangLaTot;
+        var mau = tot ? "text-emerald-400" : "text-rose-400";
+        var icon = tang ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
+        var chu = tang ? "Tăng" : "Giảm";
+        return new Microsoft.AspNetCore.Html.HtmlString(
+            $"<span class=\"{mau} font-semibold\"><i class=\"fa-solid {icon} mr-1\"></i>{chu} {Math.Abs(pt.Value):0.#}%</span> <span class=\"text-stone-500\">so với kỳ trước</span>");
+    }
+}
+
+<style>
+    /* Bảng màu biểu đồ (nền tối) - đã kiểm định phân biệt màu cho người mù màu & độ tương phản */
+    .viz-root {
+        --surface-1: #1c1917;
+        --series-1: #3987e5;  /* Lượt xem trang */
+        --series-2: #d95926;  /* Phiên truy cập */
+        --series-3: #199e70;  /* Khách truy cập */
+        --grid: #292524;
+        --axis-text: #a8a29e;
+    }
+</style>
+
+<div class="viz-root space-y-6">
+
+    <!-- Tiêu đề + đang trực tuyến -->
+    <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-stone-100">Thống Kê Truy Cập</h1>
+            <p class="text-xs text-stone-400 mt-1">Khoảng thời gian: <span class="text-stone-200 font-semibold">@nhanKhoang</span> (@soNgay ngày) · giờ Việt Nam</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300" title="Số phiên có hoạt động trong 5 phút gần nhất">
+            <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+            </span>
+            <span><strong class="text-emerald-200">@Model.DangTrucTuyen</strong> người đang xem website</span>
+        </div>
+    </div>
+
+    <!-- Bộ lọc thời gian (1 hàng) -->
+    <div class="flex flex-wrap items-center gap-3 bg-stone-900 border border-stone-800 rounded-2xl p-3">
+        <div class="flex flex-wrap gap-1.5">
+            @foreach (var (ma, ten) in nutKhoang)
+            {
+                <a href="?khoang=@ma" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition @(Model.Khoang == ma ? "bg-amber-500 text-stone-950" : "bg-stone-800 text-stone-300 hover:bg-stone-700")">@ten</a>
+            }
+        </div>
+        <form method="get" action="/quan-tri/thong-ke" class="flex flex-wrap items-center gap-2 ml-auto">
+            <input type="hidden" name="khoang" value="tuy-chon" />
+            <label class="text-xs text-stone-400" for="tuNgay">Từ</label>
+            <input type="date" id="tuNgay" name="tuNgay" value="@Model.TuNgay.ToString("yyyy-MM-dd")" class="bg-stone-950 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 [color-scheme:dark]" />
+            <label class="text-xs text-stone-400" for="denNgay">đến</label>
+            <input type="date" id="denNgay" name="denNgay" value="@Model.DenNgay.ToString("yyyy-MM-dd")" class="bg-stone-950 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-stone-100 [color-scheme:dark]" />
+            <button type="submit" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition @(Model.Khoang == "tuy-chon" ? "bg-amber-500 text-stone-950" : "bg-stone-800 text-stone-300 hover:bg-stone-700")">Xem</button>
+        </form>
+    </div>
+
+    <!-- Chỉ số chính -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm" style="background:var(--series-1)"></span>Lượt xem trang</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@ht.LuotXem.ToString("N0")</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.LuotXem, kt.LuotXem)</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm" style="background:var(--series-2)"></span>Phiên truy cập (lượt vào web)</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@ht.Phien.ToString("N0")</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.Phien, kt.Phien)</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm" style="background:var(--series-3)"></span>Khách truy cập (không trùng)</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@ht.KhachDuyNhat.ToString("N0")</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.KhachDuyNhat, kt.KhachDuyNhat)</p>
+            <p class="text-[11px] text-stone-500 mt-1">@ht.KhachMoi.ToString("N0") phiên của khách mới · @((ht.Phien - ht.KhachMoi).ToString("N0")) phiên khách quay lại</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400"><i class="fa-regular fa-clock mr-1.5"></i>Thời gian ở lại trung bình / phiên</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@DinhDangThongKe.ThoiLuong(ht.ThoiGianTBGiay)</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.ThoiGianTBGiay, kt.ThoiGianTBGiay)</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400"><i class="fa-regular fa-file-lines mr-1.5"></i>Số trang xem / phiên</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@ht.TrangMoiPhien.ToString("0.0")</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.TrangMoiPhien, kt.TrangMoiPhien)</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+            <p class="text-xs font-semibold text-stone-400" title="Tỷ lệ phiên chỉ xem 1 trang rồi rời đi - càng thấp càng tốt"><i class="fa-solid fa-person-walking-arrow-right mr-1.5"></i>Tỷ lệ thoát (chỉ xem 1 trang)</p>
+            <p class="text-3xl font-bold text-stone-100 mt-2 tabular-nums">@ht.TyLeThoat.ToString("0.#")%</p>
+            <p class="text-[11px] mt-2">@ThayDoi(ht.TyLeThoat, kt.TyLeThoat, tangLaTot: false)</p>
+        </div>
+    </div>
+
+    <!-- Biểu đồ tăng trưởng -->
+    <section class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <h2 class="text-sm font-bold text-stone-100"><i class="fa-solid fa-chart-line text-stone-400 mr-2"></i>Biểu đồ tăng trưởng @(Model.TheoGio ? "theo giờ" : "theo ngày")</h2>
+            <ul class="flex flex-wrap gap-4 text-xs text-stone-300" aria-label="Chú thích">
+                <li class="flex items-center gap-1.5"><span class="w-4 h-0.5 rounded" style="background:var(--series-1)"></span>Lượt xem trang</li>
+                <li class="flex items-center gap-1.5"><span class="w-4 h-0.5 rounded" style="background:var(--series-2)"></span>Phiên truy cập</li>
+                <li class="flex items-center gap-1.5"><span class="w-4 h-0.5 rounded" style="background:var(--series-3)"></span>Khách truy cập</li>
+            </ul>
+        </div>
+        <div class="relative h-72"><canvas id="bieuDoTangTruong" role="img" aria-label="Biểu đồ đường lượt xem trang, phiên truy cập và khách truy cập @(Model.TheoGio ? "theo giờ" : "theo ngày")"></canvas></div>
+        <details class="mt-4 group">
+            <summary class="text-xs text-stone-400 hover:text-amber-400 cursor-pointer select-none"><i class="fa-solid fa-table mr-1"></i>Xem số liệu dạng bảng</summary>
+            <div class="mt-3 max-h-72 overflow-auto rounded-xl border border-stone-800">
+                <table class="w-full text-xs text-stone-300">
+                    <thead class="bg-stone-950/80 text-stone-400 sticky top-0">
+                        <tr><th class="text-left py-2 px-3">@(Model.TheoGio ? "Giờ" : "Ngày")</th><th class="text-right py-2 px-3">Lượt xem trang</th><th class="text-right py-2 px-3">Phiên</th><th class="text-right py-2 px-3">Khách</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-800/80 tabular-nums">
+                        @foreach (var d in Model.ChuoiThoiGian)
+                        {
+                            <tr><td class="py-1.5 px-3">@d.Nhan</td><td class="text-right py-1.5 px-3">@d.LuotXem.ToString("N0")</td><td class="text-right py-1.5 px-3">@d.Phien.ToString("N0")</td><td class="text-right py-1.5 px-3">@d.Khach.ToString("N0")</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    </section>
+
+    <!-- Khung giờ + thiết bị -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+        <section class="xl:col-span-2 bg-stone-900 border border-stone-800 rounded-2xl p-5 min-w-0">
+            <h2 class="text-sm font-bold text-stone-100 mb-4"><i class="fa-regular fa-clock text-stone-400 mr-2"></i>Lượt xem theo khung giờ trong ngày</h2>
+            <div class="relative h-56"><canvas id="bieuDoTheoGio" role="img" aria-label="Biểu đồ cột lượt xem trang theo từng giờ trong ngày"></canvas></div>
+        </section>
+        <partial name="_PhanBo" model='new KhoiPhanBo { TieuDe = "Thiết bị", Icon = "fa-display", Muc = Model.ThietBi, Tong = ht.Phien }' />
+    </div>
+
+    <!-- Khu vực, nguồn, hệ điều hành, trình duyệt -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+        <partial name="_PhanBo" model='new KhoiPhanBo { TieuDe = "Khu vực (tỉnh / thành)", Icon = "fa-location-dot", Muc = Model.TinhThanh, Tong = ht.Phien, CuonDoc = true }' />
+        <partial name="_PhanBo" model='new KhoiPhanBo { TieuDe = "Nguồn truy cập", Icon = "fa-share-nodes", Muc = Model.NguonTruyCap, Tong = ht.Phien }' />
+        <partial name="_PhanBo" model='new KhoiPhanBo { TieuDe = "Hệ điều hành", Icon = "fa-microchip", Muc = Model.HeDieuHanh, Tong = ht.Phien }' />
+        <partial name="_PhanBo" model='new KhoiPhanBo { TieuDe = "Trình duyệt", Icon = "fa-globe", Muc = Model.TrinhDuyet, Tong = ht.Phien }' />
+    </div>
+
+    <!-- Trang xem nhiều -->
+    <section class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden">
+        <h2 class="text-sm font-bold text-stone-100 p-5 pb-3"><i class="fa-solid fa-ranking-star text-stone-400 mr-2"></i>Trang được xem nhiều nhất</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-stone-300">
+                <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-y border-stone-800">
+                    <tr><th class="py-3 px-4">Trang</th><th class="py-3 px-4 text-right">Lượt xem</th><th class="py-3 px-4 text-right">Thời gian xem TB</th></tr>
+                </thead>
+                <tbody class="divide-y divide-stone-800/80">
+                    @if (!Model.TrangXemNhieu.Any())
+                    {
+                        <tr><td colspan="3" class="py-6 text-center text-stone-500 text-xs">Chưa có dữ liệu.</td></tr>
+                    }
+                    @foreach (var t in Model.TrangXemNhieu)
+                    {
+                        <tr class="hover:bg-stone-800/50">
+                            <td class="py-2.5 px-4 max-w-md">
+                                <span class="block text-stone-100 text-xs font-semibold truncate">@(t.TieuDe ?? t.DuongDan)</span>
+                                <a href="@t.DuongDan" target="_blank" rel="noopener" class="block text-[11px] text-stone-500 hover:text-amber-400 font-mono truncate">@t.DuongDan</a>
+                            </td>
+                            <td class="py-2.5 px-4 text-right tabular-nums font-semibold text-stone-100">@t.LuotXem.ToString("N0")</td>
+                            <td class="py-2.5 px-4 text-right tabular-nums text-xs">@DinhDangThongKe.ThoiLuong(t.ThoiGianTBGiay)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Danh sách phiên truy cập -->
+    <section id="phien" class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden">
+        <div class="p-5 pb-3 flex flex-wrap items-center justify-between gap-2">
+            <h2 class="text-sm font-bold text-stone-100"><i class="fa-solid fa-list-ul text-stone-400 mr-2"></i>Chi tiết lượt truy cập</h2>
+            <span class="text-xs text-stone-500">@ht.Phien.ToString("N0") phiên · trang @Model.Trang/@Model.TongTrang</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-stone-300">
+                <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-y border-stone-800">
+                    <tr>
+                        <th class="py-3 px-4">Thời gian truy cập</th>
+                        <th class="py-3 px-4">Ở lại</th>
+                        <th class="py-3 px-4">IP</th>
+                        <th class="py-3 px-4">Thiết bị</th>
+                        <th class="py-3 px-4">Khu vực</th>
+                        <th class="py-3 px-4 text-right">Số trang</th>
+                        <th class="py-3 px-4">Trang vào / Nguồn</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-800/80">
+                    @if (!Model.PhienGanDay.Any())
+                    {
+                        <tr><td colspan="7" class="py-8 text-center text-stone-500 text-xs">Chưa có lượt truy cập nào trong khoảng thời gian này.</td></tr>
+                    }
+                    @foreach (var p in Model.PhienGanDay)
+                    {
+                        var dangXem = p.HoatDongCuoi >= DateTime.UtcNow.AddMinutes(-5);
+                        <tr class="hover:bg-stone-800/50 cursor-pointer" onclick="location.href='/quan-tri/thong-ke/phien/@p.Id'">
+                            <td class="py-2.5 px-4 whitespace-nowrap">
+                                <a href="/quan-tri/thong-ke/phien/@p.Id" class="font-mono text-xs text-stone-100 hover:text-amber-400">@DinhDangThongKe.SangGioVN(p.BatDau).ToString("dd/MM/yyyy HH:mm:ss")</a>
+                                <span class="block text-[10px] @(p.KhachMoi ? "text-sky-300" : "text-stone-500")">@(p.KhachMoi ? "Khách mới" : "Khách quay lại")</span>
+                            </td>
+                            <td class="py-2.5 px-4 whitespace-nowrap text-xs tabular-nums">
+                                @DinhDangThongKe.ThoiLuong(p.ThoiGianOGiay)
+                                @if (dangXem)
+                                {
+                                    <span class="ml-1 text-[10px] text-emerald-400"><i class="fa-solid fa-circle text-[6px] align-middle mr-0.5"></i>đang xem</span>
+                                }
+                            </td>
+                            <td class="py-2.5 px-4 font-mono text-xs text-stone-300">@p.DiaChiIp</td>
+                            <td class="py-2.5 px-4 whitespace-nowrap text-xs">
+                                <i class="fa-solid @IconThietBi(p.ThietBi) text-stone-400 w-4 text-center mr-1" aria-hidden="true"></i>@p.ThietBi
+                                <span class="block text-[11px] text-stone-500 ml-5">@p.HeDieuHanh · @p.TrinhDuyet</span>
+                            </td>
+                            <td class="py-2.5 px-4 text-xs whitespace-nowrap">@p.TinhThanh</td>
+                            <td class="py-2.5 px-4 text-right tabular-nums text-xs font-semibold text-stone-100">@p.SoTrangXem</td>
+                            <td class="py-2.5 px-4 text-xs max-w-xs">
+                                <span class="block font-mono text-[11px] text-stone-300 truncate">@p.TrangVao</span>
+                                <span class="block text-[11px] text-stone-500 truncate">@p.NguonTruyCap</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.TongTrang > 1)
+        {
+            <nav class="flex items-center justify-between gap-2 p-4 border-t border-stone-800 text-xs" aria-label="Phân trang">
+                @if (Model.Trang > 1)
+                {
+                    <a href="@LinkTrang(Model.Trang - 1)" class="px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300"><i class="fa-solid fa-chevron-left mr-1"></i>Trước</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+                <span class="text-stone-500">Trang @Model.Trang / @Model.TongTrang</span>
+                @if (Model.Trang < Model.TongTrang)
+                {
+                    <a href="@LinkTrang(Model.Trang + 1)" class="px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300">Sau<i class="fa-solid fa-chevron-right ml-1"></i></a>
+                }
+                else
+                {
+                    <span></span>
+                }
+            </nav>
+        }
+    </section>
+
+    <p class="text-[11px] text-stone-600">
+        Thời gian ở lại chỉ tính lúc khách đang mở tab trang web. Không tính lượt xem của quản trị viên đang đăng nhập và các bot.
+        Khu vực xác định theo IP, có thể sai với mạng di động 4G/5G. Dữ liệu vị trí IP:
+        <a href="https://db-ip.com" target="_blank" rel="noopener" class="underline hover:text-stone-400">IP Geolocation by DB-IP</a> (CC BY 4.0).
+    </p>
+</div>
+
+<script type="application/json" id="duLieuThongKe">@Html.Raw(duLieuBieuDo)</script>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script>
+        (function () {
+            if (typeof Chart === "undefined") return;
+            var dl = JSON.parse(document.getElementById("duLieuThongKe").textContent);
+            var css = getComputedStyle(document.querySelector(".viz-root"));
+            var mau = function (ten) { return css.getPropertyValue(ten).trim(); };
+            var soVN = function (v) { return Number(v).toLocaleString("vi-VN"); };
+
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+            Chart.defaults.font.size = 11;
+            Chart.defaults.color = mau("--axis-text");
+
+            var tooltipChung = {
+                backgroundColor: "#0c0a09", borderColor: "#44403c", borderWidth: 1,
+                titleColor: "#f5f5f4", bodyColor: "#d6d3d1", padding: 10, cornerRadius: 8,
+                boxWidth: 8, boxHeight: 8, usePointStyle: true,
+                callbacks: { label: function (c) { return " " + c.dataset.label + ": " + soVN(c.parsed.y); } }
+            };
+
+            // Đường dọc (crosshair) tại điểm đang rê chuột
+            var crosshair = {
+                id: "crosshair",
+                afterDatasetsDraw: function (chart) {
+                    var act = chart.tooltip && chart.tooltip.getActiveElements();
+                    if (!act || !act.length) return;
+                    var x = act[0].element.x, a = chart.chartArea, ctx = chart.ctx;
+                    ctx.save(); ctx.beginPath(); ctx.moveTo(x, a.top); ctx.lineTo(x, a.bottom);
+                    ctx.lineWidth = 1; ctx.strokeStyle = "#57534e"; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.restore();
+                }
+            };
+
+            // Nhãn tên trực tiếp ở cuối mỗi đường (không phụ thuộc màu để nhận diện)
+            var nhanCuoiDuong = {
+                id: "nhanCuoiDuong",
+                afterDatasetsDraw: function (chart) {
+                    var ctx = chart.ctx;
+                    ctx.save(); ctx.font = "600 11px 'Plus Jakarta Sans', sans-serif"; ctx.fillStyle = "#d6d3d1"; ctx.textBaseline = "middle";
+                    var daVe = [];
+                    chart.data.datasets.forEach(function (ds, i) {
+                        var meta = chart.getDatasetMeta(i);
+                        if (meta.hidden || !meta.data.length) return;
+                        var p = meta.data[meta.data.length - 1];
+                        var y = p.y;
+                        daVe.forEach(function (yy) { if (Math.abs(yy - y) < 13) y = yy + 13; }); // tránh chồng nhãn
+                        daVe.push(y);
+                        ctx.fillText(ds.nhanNgan, p.x + 8, y);
+                    });
+                    ctx.restore();
+                }
+            };
+
+            var duong = function (nhan, nhanNgan, duLieu, bien) {
+                return {
+                    label: nhan, nhanNgan: nhanNgan, data: duLieu,
+                    borderColor: mau(bien), backgroundColor: mau(bien),
+                    borderWidth: 2, tension: 0.3, pointRadius: duLieu.length === 1 ? 4 : 0,
+                    pointHoverRadius: 5, pointHoverBorderWidth: 2, pointHoverBorderColor: mau("--surface-1"), pointHitRadius: 12
+                };
+            };
+
+            new Chart(document.getElementById("bieuDoTangTruong"), {
+                type: "line",
+                data: {
+                    labels: dl.nhan,
+                    datasets: [
+                        duong("Lượt xem trang", "Lượt xem", dl.luotXem, "--series-1"),
+                        duong("Phiên truy cập", "Phiên", dl.phien, "--series-2"),
+                        duong("Khách truy cập", "Khách", dl.khach, "--series-3")
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { mode: "index", intersect: false },
+                    layout: { padding: { right: 64 } },
+                    plugins: { legend: { display: false }, tooltip: tooltipChung },
+                    scales: {
+                        x: { grid: { display: false }, border: { color: mau("--grid") }, ticks: { maxRotation: 0, autoSkipPadding: 16 } },
+                        y: { beginAtZero: true, grid: { color: mau("--grid") }, border: { display: false }, ticks: { precision: 0, callback: soVN } }
+                    }
+                },
+                plugins: [crosshair, nhanCuoiDuong]
+            });
+
+            new Chart(document.getElementById("bieuDoTheoGio"), {
+                type: "bar",
+                data: {
+                    labels: Array.from({ length: 24 }, function (_, h) { return (h < 10 ? "0" : "") + h + "h"; }),
+                    datasets: [{
+                        label: "Lượt xem trang", data: dl.theoGio,
+                        backgroundColor: mau("--series-1"), hoverBackgroundColor: "#5598e7",
+                        borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: "bottom",
+                        barPercentage: 0.8, categoryPercentage: 0.9
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { mode: "index", intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: Object.assign({}, tooltipChung, { callbacks: {
+                            title: function (it) { var h = it[0].dataIndex; return h + ":00 – " + h + ":59"; },
+                            label: function (c) { return " Lượt xem: " + soVN(c.parsed.y); }
+                        } })
+                    },
+                    scales: {
+                        x: { grid: { display: false }, border: { color: mau("--grid") }, ticks: { maxRotation: 0, autoSkipPadding: 6 } },
+                        y: { beginAtZero: true, grid: { color: mau("--grid") }, border: { display: false }, ticks: { precision: 0, callback: soVN } }
+                    }
+                }
+            });
+        })();
+    </script>
+}

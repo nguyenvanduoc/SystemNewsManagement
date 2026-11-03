@@ -1,0 +1,86 @@
+@model ThaiBeer.Core.Domain.Entities.PhienTruyCap
+@{
+    ViewData["Title"] = "Chi Tiết Lượt Truy Cập";
+    var soPhien = (int)ViewBag.SoPhienCuaKhach;
+    var dangXem = Model.HoatDongCuoi >= DateTime.UtcNow.AddMinutes(-5);
+    var maxGiay = Model.LuotXemTrangs.Any() ? Math.Max(1, Model.LuotXemTrangs.Max(l => l.ThoiGianOGiay)) : 1;
+}
+
+<div class="max-w-5xl mx-auto space-y-6">
+    <div class="flex items-center justify-between gap-4 pb-4 border-b border-stone-800">
+        <div>
+            <h1 class="text-2xl font-bold text-stone-100">Chi Tiết Lượt Truy Cập</h1>
+            <p class="text-xs text-stone-400 mt-1">
+                Vào lúc <span class="font-mono text-stone-200">@DinhDangThongKe.SangGioVN(Model.BatDau).ToString("dd/MM/yyyy HH:mm:ss")</span>
+                @if (dangXem)
+                {
+                    <span class="ml-2 text-emerald-400"><i class="fa-solid fa-circle text-[7px] align-middle mr-1"></i>đang xem website</span>
+                }
+            </p>
+        </div>
+        <a href="javascript:history.back()" class="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-semibold transition">Quay lại</a>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4">
+            <p class="text-[11px] text-stone-400">Thời gian ở lại</p>
+            <p class="text-xl font-bold text-stone-100 mt-1">@DinhDangThongKe.ThoiLuong(Model.ThoiGianOGiay)</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4">
+            <p class="text-[11px] text-stone-400">Số trang đã xem</p>
+            <p class="text-xl font-bold text-stone-100 mt-1">@Model.SoTrangXem</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4">
+            <p class="text-[11px] text-stone-400">Hoạt động cuối</p>
+            <p class="text-xl font-bold text-stone-100 mt-1 font-mono">@DinhDangThongKe.SangGioVN(Model.HoatDongCuoi).ToString("HH:mm:ss")</p>
+        </div>
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4">
+            <p class="text-[11px] text-stone-400">Khách này đã vào</p>
+            <p class="text-xl font-bold text-stone-100 mt-1">@soPhien lần</p>
+        </div>
+    </div>
+
+    <section class="bg-stone-900 border border-stone-800 rounded-2xl p-5">
+        <h2 class="text-sm font-bold text-stone-100 mb-4"><i class="fa-solid fa-circle-info text-stone-400 mr-2"></i>Thông tin khách</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm">
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Địa chỉ IP</dt><dd class="font-mono text-stone-100">@Model.DiaChiIp</dd></div>
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Khu vực</dt><dd class="text-stone-100">@Model.TinhThanh</dd></div>
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Thiết bị</dt><dd class="text-stone-100">@Model.ThietBi @(string.IsNullOrEmpty(Model.KichThuocManHinh) ? "" : $"({Model.KichThuocManHinh})")</dd></div>
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Hệ điều hành / Trình duyệt</dt><dd class="text-stone-100">@Model.HeDieuHanh · @Model.TrinhDuyet</dd></div>
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Nguồn truy cập</dt><dd class="text-stone-100">@Model.NguonTruyCap</dd></div>
+            <div class="flex justify-between gap-4 border-b border-stone-800/70 pb-2"><dt class="text-stone-400">Loại khách</dt><dd class="text-stone-100">@(Model.KhachMoi ? "Khách mới" : "Khách quay lại")</dd></div>
+            <div class="md:col-span-2 flex flex-col gap-1"><dt class="text-stone-400">User-Agent</dt><dd class="font-mono text-[11px] text-stone-500 break-all">@Model.UserAgent</dd></div>
+        </dl>
+    </section>
+
+    <section class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden">
+        <h2 class="text-sm font-bold text-stone-100 p-5 pb-3"><i class="fa-solid fa-route text-stone-400 mr-2"></i>Hành trình xem trang</h2>
+        <table class="w-full text-left text-sm text-stone-300">
+            <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-y border-stone-800">
+                <tr><th class="py-3 px-4 w-10">#</th><th class="py-3 px-4">Lúc</th><th class="py-3 px-4">Trang</th><th class="py-3 px-4 w-64">Thời gian xem</th></tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800/80">
+                @{ var stt = 1; }
+                @foreach (var l in Model.LuotXemTrangs)
+                {
+                    <tr>
+                        <td class="py-2.5 px-4 text-stone-500 text-xs">@(stt++)</td>
+                        <td class="py-2.5 px-4 font-mono text-xs whitespace-nowrap">@DinhDangThongKe.SangGioVN(l.ThoiDiem).ToString("HH:mm:ss")</td>
+                        <td class="py-2.5 px-4 max-w-md">
+                            <span class="block text-xs text-stone-100 font-semibold truncate">@(l.TieuDe ?? l.DuongDan)</span>
+                            <a href="@l.DuongDan" target="_blank" rel="noopener" class="block text-[11px] text-stone-500 hover:text-amber-400 font-mono truncate">@l.DuongDan</a>
+                        </td>
+                        <td class="py-2.5 px-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex-1 h-2 rounded bg-stone-800 overflow-hidden">
+                                    <div class="h-full rounded" style="width:@((Math.Max(2, l.ThoiGianOGiay * 100.0 / maxGiay)).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%; background:#3987e5"></div>
+                                </div>
+                                <span class="text-xs tabular-nums text-stone-200 w-24 text-right">@DinhDangThongKe.ThoiLuong(l.ThoiGianOGiay)</span>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>

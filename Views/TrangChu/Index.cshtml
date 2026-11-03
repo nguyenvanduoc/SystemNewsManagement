@@ -1,4 +1,5 @@
 @model ThaiBeer.ViewModels.TrangChuViewModel
+@using ThaiBeer.Infrastructure.Services
 @{
     ViewData["Title"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
     ViewData["Description"] = "Hotline: 0965 156 658 | Email: nhuttrongchau@gmail.com | Website: www.thaibeer.vn | CÔNG TY CỔ PHẦN BIA & NƯỚC GIẢI KHÁT SÀI GÒN CỬU LONG";
@@ -7,14 +8,23 @@
 
 <section class="relative w-full bg-black overflow-hidden shadow-sm select-none">
     <div class="relative w-full h-[45vh] sm:h-[60vh] lg:h-[72vh] min-h-[300px] max-h-[850px] flex items-center justify-center overflow-hidden select-none">
-        <video id="videoId" 
-               class="w-full h-full object-cover pointer-events-none select-none" 
-               src="~/images/logo/introbeer-6545-1782743922.mp4"
-               autoplay 
-               loop 
-               muted 
-               playsinline 
-               webkit-playsinline 
+        @* Ảnh poster hiện NGAY (LCP nhanh), video chỉ tải sau khi trang đã hiển thị.
+           Mobile (< 768px): ảnh/video vuông 600px ~0,9MB; Desktop: 1280x720 ~1,6MB. Cả 2 đã faststart (phát được khi chưa tải xong). *@
+        <picture>
+            <source media="(max-width: 767px)" srcset="/videos/banner/intro-poster-600.webp" width="600" height="600" />
+            <img src="/videos/banner/intro-poster-1280.webp" width="1280" height="720"
+                 alt="" aria-hidden="true" fetchpriority="high" decoding="async"
+                 class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+        </picture>
+        <video id="videoId"
+               class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+               data-src-mobile="/videos/banner/intro-600.mp4"
+               data-src-desktop="/videos/banner/intro-1280.mp4"
+               autoplay
+               loop
+               muted
+               playsinline
+               webkit-playsinline
                x5-playsinline="true"
                x5-video-player-type="h5"
                x5-video-player-fullscreen="false"
@@ -22,10 +32,8 @@
                disableRemotePlayback
                tabindex="-1"
                aria-hidden="true"
-               style="pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;"
-               preload="auto">
-            <source src="~/images/logo/introbeer-6545-1782743922.mp4" type="video/mp4" />
-            Trình duyệt không hỗ trợ phát video banner.
+               style="pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; opacity: 0; transition: opacity .6s ease;"
+               preload="none">
         </video>
         <!-- Lớp màng chắn trong suốt: ngón tay vuốt cuộn chạm vào đây sẽ cuộn trang bình thường, không chạm vào video -->
         <div class="absolute inset-0 z-10 w-full h-full pointer-events-auto" style="touch-action: pan-y; background: transparent;"></div>
@@ -153,7 +161,7 @@
                 <div class="reveal-on-scroll @delayClass bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg flex flex-col justify-between">
                     <!-- Khối ảnh có link điều hướng: Đảm bảo luôn flex căn giữa 100% trên cả mobile và desktop -->
                     <a href="/san-pham/@sp.DuongDanSlug" class="relative w-full bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100" style="display: flex !important; align-items: center !important; justify-content: center !important;">
-                        <img src="@sp.HinhAnhWebP" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/no-image.svg'" class="max-h-full max-w-full w-auto h-auto object-contain mx-auto my-auto group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        <img src="@AnhThuNho.Url(sp.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(sp.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/no-image.svg'" class="max-h-full max-w-full w-auto h-auto object-contain mx-auto my-auto group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
                             @sp.NongDoCon% Độ cồn
                         </div>
@@ -322,7 +330,7 @@
                             <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-md flex flex-col justify-between h-full">
                                 <div>
                                     <div class="aspect-video overflow-hidden">
-                                        <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover" loading="lazy" />
+                                        <img src="@AnhThuNho.Url(tin.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(tin.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@tin.TieuDe" class="w-full h-full object-cover" loading="lazy" />
                                     </div>
                                     <div class="p-5 bg-white">
                                         <span class="text-[11px] text-[#666666] font-mono block mb-1.5">
@@ -378,7 +386,7 @@
                 <article class="reveal-on-scroll @delayClass bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
                     <div>
                         <div class="aspect-video overflow-hidden">
-                            <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                            <img src="@AnhThuNho.Url(tin.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(tin.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                         </div>
                         <div class="p-6 bg-white">
                             <span class="text-[11px] text-[#666666] font-mono block mb-1">
@@ -430,45 +438,45 @@
                 new { 
                     Ma = "08_", 
                     Ten = "123 ZO Lager - Lon Lùn 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/08_ZoLun.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/08_ZoLun.webp", 
                     ChieuCao = "h-[185px] sm:h-[195px] lg:h-[215px] xl:h-[225px]"
                 },
                 
                 new { 
                     Ma = "06_", 
                     Ten = "123 ZO Premium - Lon Cao 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/06_ZoCao.webp", 
                     ChieuCao = "h-[210px] sm:h-[225px] lg:h-[245px] xl:h-[255px]"
                 },
                
                 new { 
                     Ma = "02_", 
                     Ten = "Thai Beer Lager - Lon Lùn 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/02_Thai.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/02_Thai.webp", 
                     ChieuCao = "h-[245px] sm:h-[260px] lg:h-[285px] xl:h-[295px]"
                 },
                 new { 
                     Ma = "07_", 
                     Ten = "Thai Beer Special - Lon Cao 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/07_ThaiCao.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/07_ThaiCao.webp", 
                     ChieuCao = "h-[290px] sm:h-[315px] lg:h-[345px] xl:h-[360px]"
                 },
                 new { 
                     Ma = "03_", 
                     Ten = "Thai Beer Premium - Lon Cao 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/03_ThaiCao.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/03_ThaiCao.webp", 
                     ChieuCao = "h-[275px] sm:h-[295px] lg:h-[325px] xl:h-[338px]"
                 },
                 new { 
                     Ma = "01_", 
                     Ten = "Lux 65 Premium - Lon Cao 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/01_Lux.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/01_Lux.webp", 
                     ChieuCao = "h-[245px] sm:h-[265px] lg:h-[285px] xl:h-[295px]"
                 },
                 new { 
                     Ma = "04_",     
                     Ten = "Lux 65 Original - Lon Lùn 330ml", 
-                    HinhAnh = "/images/nhanhang/cutouts/04_LuxLun.png", 
+                    HinhAnh = "/images/nhanhang/cutouts/04_LuxLun.webp", 
                     ChieuCao = "h-[205px] sm:h-[215px] lg:h-[235px] xl:h-[245px]"
                 }
             };
@@ -498,7 +506,7 @@
                             <!-- Bóng gương phản chiếu sàn mờ dần xuống nền trắng (Không có chữ đè lên) -->
                             <div class="brand-reflection w-full h-10 lg:h-12 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                  style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
-                                <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                                <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" loading="lazy" decoding="async" />
                             </div>
                         </div>
                     </div>
@@ -529,7 +537,7 @@
                                     <!-- Bóng gương phản chiếu sàn -->
                                     <div class="brand-reflection w-full h-8 overflow-hidden pointer-events-none opacity-25 select-none mt-0.5" 
                                          style="-webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 85%);">
-                                        <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" />
+                                        <img src="@sp.HinhAnh" asp-append-version="true" alt="" class="w-auto @sp.ChieuCao mx-auto object-contain transform scale-y-[-1]" aria-hidden="true" loading="lazy" decoding="async" />
                                     </div>
                                 </div>
                             </div>
@@ -653,8 +661,8 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
-                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                                    <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                                <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                                    <source src="~/videos/biathai.mp4" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                                 <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
@@ -683,8 +691,8 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
-                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                                    <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                                <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                                    <source src="~/videos/thaibeerloncao.mp4" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                                 <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
@@ -713,8 +721,8 @@
                                 </p>
                             </div>
                             <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg relative mt-auto video-card-wrapper" style="touch-action: pan-y;">
-                                <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                                    <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                                <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                                    <source src="~/videos/123zo.mp4" type="video/mp4" />
                                     Trình duyệt không hỗ trợ phát video này.
                                 </video>
                                 <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
@@ -759,8 +767,8 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
-                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                        <source src="~/videos/biathai.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                    <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                        <source src="~/videos/biathai.mp4" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                     <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
@@ -787,8 +795,8 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
-                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                        <source src="~/videos/thaibeerloncao.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                    <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                        <source src="~/videos/thaibeerloncao.mp4" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                     <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">
@@ -815,8 +823,8 @@
                     </p>
                 </div>
                 <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl relative ring-2 ring-white/10 video-card-wrapper" style="touch-action: pan-y;">
-                    <video class="w-full h-full object-cover hidden" controls preload="metadata" playsinline webkit-playsinline>
-                        <source src="~/videos/123zo.mp4?v=@DateTime.UtcNow.Ticks" type="video/mp4" />
+                    <video class="w-full h-full object-cover hidden" controls preload="none" playsinline webkit-playsinline>
+                        <source src="~/videos/123zo.mp4" type="video/mp4" />
                         Trình duyệt không hỗ trợ xem video.
                     </video>
                     <div class="video-poster-overlay absolute inset-0 w-full h-full cursor-pointer flex items-center justify-center group" style="touch-action: pan-y;">

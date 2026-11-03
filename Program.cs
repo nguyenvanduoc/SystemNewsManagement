@@ -61,7 +61,6 @@ builder.Services.AddResponseCompression(options =>
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
     {
         "image/svg+xml",
-        "image/webp",
         "application/javascript",
         "text/css",
         "application/json"
@@ -173,6 +172,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseResponseCompression();
+
+// Ảnh thu nhỏ theo yêu cầu: /uploads/...?w=480 (tạo 1 lần, lưu App_Data/anh-thu-nho) - phải đứng trước UseStaticFiles
+app.UseMiddleware<AnhThuNhoMiddleware>();
 
 // Phục vụ tệp tĩnh với Cache-Control 30 ngày trên client
 app.UseStaticFiles(new StaticFileOptions

@@ -80,6 +80,8 @@
     <!-- Google Fonts: Plus Jakarta Sans & Montserrat (Chuẩn thaibeer.vn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
     <!-- Turbo Drive (Hotwired) - Chuyển trang mượt mà không chớp trắng -->
@@ -91,44 +93,17 @@
 
     <!-- Swiper Slider CSS & JS - 60fps Mobile Swipe Touch -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
     <!-- Fancybox 5 Lightbox - Phóng to ảnh mượt mà chuẩn thaibeer.vn -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.css" /></noscript>
+    <script src="https://cdn.jsdelivr.net/npm/@@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js" defer></script>
 
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        hnkgreen: '#007A29',
-                        hnkdeep: '#003110',
-                        hnkred: '#E31B23',
-                        hnkbody: '#F4F4F4',
-                        hnksub: '#E5E8E7',
-                        hnkfooter: '#E0E2E1',
-                        hnktext: '#222222',
-                        hnkmuted: '#666666',
-                        // Compatibility aliases
-                        thaigold: '#007A29',
-                        thaiamber: '#007A29',
-                        thaidark: '#FFFFFF',
-                        thaicard: '#FFFFFF',
-                        thaimuted: '#F4F4F4'
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         /* Turbo progress bar styling */
         .turbo-progress-bar {
@@ -386,6 +361,9 @@
             animation: contactPulse 2.2s infinite;
         }
     </style>
+
+    <!-- Tailwind CSS dựng sẵn (thay cdn.tailwindcss.com). Thêm class mới => chạy Scripts/build-css.ps1 -->
+    <link rel="stylesheet" href="~/css/tailwind.min.css" asp-append-version="true" />
 </head>
 <body class="bg-[#F4F4F4] text-[#222222] font-sans antialiased selection:bg-[#007A29] selection:text-white flex flex-col min-h-screen">
 
@@ -676,44 +654,46 @@
                 }
             });
 
-            // 0. Tự động phát Video Banner Introbeer trên mọi thiết bị (kể cả iPhone iOS và tiết kiệm pin)
+            // 0. Video banner: ảnh poster (thẻ <picture>) đã hiển thị ngay khi tải trang.
+            //    Tới đây mới chọn file video theo kích thước màn hình rồi bắt đầu tải, video hiện lên (mờ dần) khi đã phát được.
+            //    Bỏ qua video (chỉ giữ poster) nếu người dùng bật Tiết kiệm dữ liệu, mạng 2G, hoặc chọn giảm chuyển động.
             const videoBanner = document.getElementById("videoId");
-            if (videoBanner) {
-                videoBanner.muted = true;
-                videoBanner.defaultMuted = true;
-                videoBanner.playsInline = true;
-                videoBanner.controls = false;
-                videoBanner.style.pointerEvents = "none";
-                videoBanner.setAttribute("muted", "");
-                videoBanner.setAttribute("playsinline", "");
-                videoBanner.setAttribute("webkit-playsinline", "");
-                videoBanner.setAttribute("x5-playsinline", "true");
-                videoBanner.setAttribute("x5-video-player-type", "h5");
-                videoBanner.setAttribute("x5-video-player-fullscreen", "false");
-                videoBanner.setAttribute("disablePictureInPicture", "");
-                videoBanner.setAttribute("disableRemotePlayback", "");
+            if (videoBanner && videoBanner.dataset.daKhoiTao) {
+                // Trang được Turbo khôi phục từ bộ nhớ (nút Back): video đã có nguồn nhưng bị dừng -> phát tiếp
+                if (videoBanner.getAttribute("src") && videoBanner.paused) {
+                    videoBanner.muted = true;
+                    const p0 = videoBanner.play();
+                    if (p0 !== undefined) p0.catch(function () { });
+                }
+            } else if (videoBanner) {
+                videoBanner.dataset.daKhoiTao = "1";
+                const ketNoi = navigator.connection || {};
+                const tietKiemDuLieu = ketNoi.saveData === true || /(^|-)2g$/.test(ketNoi.effectiveType || "");
+                const giamChuyenDong = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-                // Ngăn chặn Safari/Webview tự động bật controls hoặc kích hoạt fullscreen
-                videoBanner.addEventListener("play", function() {
+                if (!tietKiemDuLieu && !giamChuyenDong && videoBanner.dataset.srcDesktop) {
+                    const laMobile = window.matchMedia("(max-width: 767px)").matches;
+                    videoBanner.muted = true;
+                    videoBanner.defaultMuted = true;
+                    videoBanner.playsInline = true;
                     videoBanner.controls = false;
-                });
-                videoBanner.addEventListener("webkitbeginfullscreen", function(e) {
-                    e.preventDefault();
-                    if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                });
 
-                const playVideo = function() {
-                    const p = videoBanner.play();
-                    if (p !== undefined) {
-                        p.catch(function(e) {
-                            // Im lặng nếu trình duyệt hoặc chế độ tiết kiệm pin tạm hoãn autoplay
-                        });
-                    }
-                };
+                    videoBanner.addEventListener("playing", function () { videoBanner.style.opacity = "1"; }, { once: true });
+                    videoBanner.addEventListener("play", function () { videoBanner.controls = false; });
+                    // Ngăn Safari/Webview tự bật toàn màn hình
+                    videoBanner.addEventListener("webkitbeginfullscreen", function (e) {
+                        e.preventDefault();
+                        if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    });
 
-                playVideo();
-                videoBanner.addEventListener("loadedmetadata", playVideo, { once: true });
-                videoBanner.addEventListener("canplay", playVideo, { once: true });
+                    const playVideo = function () {
+                        const p = videoBanner.play();
+                        if (p !== undefined) p.catch(function () { /* chế độ tiết kiệm pin chặn autoplay: giữ nguyên poster */ });
+                    };
+                    videoBanner.src = laMobile ? videoBanner.dataset.srcMobile : videoBanner.dataset.srcDesktop;
+                    videoBanner.addEventListener("canplay", playVideo, { once: true });
+                    playVideo();
+                }
             }
 
             if (typeof Swiper === "undefined") {

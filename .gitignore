@@ -19,3 +19,6 @@ bld/
 *.suo
 *.userosscache
 *.sln.docstates
+
+## Ảnh thu nhỏ tự sinh (AnhThuNhoMiddleware)
+App_Data/anh-thu-nho/

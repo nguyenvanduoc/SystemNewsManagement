@@ -1,4 +1,5 @@
 @model ThaiBeer.ViewModels.SanPhamChiTietViewModel
+@using ThaiBeer.Infrastructure.Services
 @{
     var sp = Model.SanPham;
     ViewData["Title"] = sp.TenSanPham;
@@ -72,7 +73,7 @@
                    title="Nhấp để xem ảnh phóng to"
                    class="w-full h-full flex items-center justify-center cursor-zoom-in">
                     <img id="mainProductImage" 
-                         src="@allImages[0]" onerror="if(!this.src.endsWith('/images/no-image.svg'))this.src='/images/no-image.svg'" 
+                         src="@AnhThuNho.Url(allImages[0], 960)" srcset="@AnhThuNho.SrcSet(allImages[0], 480, 640, 960)" sizes="(max-width: 1024px) 100vw, 600px" fetchpriority="high" onerror="if(!this.src.endsWith('/images/no-image.svg'))this.src='/images/no-image.svg'" 
                          alt="@sp.TenSanPham" 
                          class="max-h-full max-w-full object-contain transition-all duration-300 group-hover:scale-105" 
                          loading="eager" />
@@ -114,7 +115,7 @@
                                     data-index="@i"
                                     data-src="@imgUrl"
                                     onclick="selectProductImage(@i, '@imgUrl')">
-                                <img src="@imgUrl" onerror="this.onerror=null;this.src='/images/no-image.svg'" 
+                                <img src="@AnhThuNho.Url(imgUrl, 320)" onerror="this.onerror=null;this.src='/images/no-image.svg'" 
                                      alt="@sp.TenSanPham - Ảnh @(i + 1)" 
                                      class="w-full h-full object-contain" 
                                      loading="lazy" />
@@ -242,7 +243,7 @@
                     <div class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-lg flex flex-col justify-between">
                         <!-- Khối ảnh có link điều hướng: Đảm bảo luôn flex căn giữa 100% trên cả mobile và desktop -->
                         <a href="/san-pham/@lq.DuongDanSlug" class="relative w-full bg-white aspect-square overflow-hidden p-6 flex items-center justify-center cursor-pointer group-hover:bg-gray-50/50 transition-colors border-b border-gray-100" style="display: flex !important; align-items: center !important; justify-content: center !important;">
-                            <img src="@lq.HinhAnhWebP" alt="@lq.TenSanPham" onerror="this.onerror=null;this.src='/images/no-image.svg'" class="max-h-full max-w-full w-auto h-auto object-contain mx-auto my-auto group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                            <img src="@AnhThuNho.Url(lq.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(lq.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@lq.TenSanPham" onerror="this.onerror=null;this.src='/images/no-image.svg'" class="max-h-full max-w-full w-auto h-auto object-contain mx-auto my-auto group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                             <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-gray-200 text-[11px] font-bold text-[#007A29] shadow-sm">
                                 @lq.NongDoCon% Độ cồn
                             </div>
@@ -299,7 +300,9 @@
 
             if (mainImg) {
                 mainImg.style.opacity = '0.3';
-                mainImg.src = src;
+                // Ảnh có srcset thì đổi src không có tác dụng -> bỏ srcset, dùng bản thu nhỏ 960px cho ảnh upload
+                mainImg.removeAttribute('srcset');
+                mainImg.src = (src.indexOf('/uploads/') === 0 && src.indexOf('?') < 0) ? src + '?w=960' : src;
                 setTimeout(() => { mainImg.style.opacity = '1'; }, 120);
             }
             if (mainLink) {

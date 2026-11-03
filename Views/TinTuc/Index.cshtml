@@ -1,4 +1,5 @@
 @model IReadOnlyList<ThaiBeer.Core.Domain.Entities.BaiViet>
+@using ThaiBeer.Infrastructure.Services
 @{
     ViewData["Title"] = "Tin Tức & Sự Kiện";
     ViewData["Description"] = "Cập nhật các thông cáo báo chí, hoạt động văn hóa và sự kiện thương hiệu mới nhất.";
@@ -26,7 +27,7 @@
             <article class="bg-white border border-gray-200 rounded-xl overflow-hidden group hover:border-[#007A29] transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
                 <div>
                     <div class="aspect-video overflow-hidden">
-                        <img src="@tin.HinhAnhWebP" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        <img src="@AnhThuNho.Url(tin.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(tin.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@tin.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 text-[11px] text-[#666666] font-['Montserrat',sans-serif] mb-2">

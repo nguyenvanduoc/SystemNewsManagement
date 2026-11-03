@@ -1,4 +1,5 @@
 @model ThaiBeer.Core.Domain.Entities.BaiViet
+@using ThaiBeer.Infrastructure.Services
 @{
     ViewData["Title"] = Model.TieuDe;
     ViewData["Description"] = Model.TomTat ?? Model.TieuDe;
@@ -60,7 +61,7 @@
                 @if (!string.IsNullOrWhiteSpace(Model.HinhAnhWebP))
                 {
                     <div class="my-6 rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
-                        <img src="@Model.HinhAnhWebP" alt="@Model.TieuDe" class="w-full max-h-[520px] object-cover" />
+                        <img src="@AnhThuNho.Url(Model.HinhAnhWebP, 960)" srcset="@AnhThuNho.SrcSet(Model.HinhAnhWebP, 640, 960)" sizes="(max-width: 1024px) 100vw, 900px" fetchpriority="high" alt="@Model.TieuDe" class="w-full max-h-[520px] object-cover" />
                     </div>
                 }
 
@@ -114,7 +115,7 @@
                             {
                                 <a href="/tin-tuc/@r.DuongDanSlug" class="group flex items-start gap-3.5 py-3.5 first:pt-0 last:pb-0 hover:bg-gray-50/80 -mx-2 px-2 rounded-xl transition duration-200">
                                     <div class="w-24 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-100">
-                                        <img src="@r.HinhAnhWebP" alt="@r.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                                        <img src="@AnhThuNho.Url(r.HinhAnhWebP, 480)" srcset="@AnhThuNho.SrcSet(r.HinhAnhWebP, 320, 480, 640)" sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px" alt="@r.TieuDe" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <h3 class="text-xs sm:text-sm font-bold text-gray-800 line-clamp-2 group-hover:text-[#007A29] transition-colors leading-snug">

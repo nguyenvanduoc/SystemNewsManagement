@@ -1,7 +1,10 @@
 using System.IO.Compression;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using ThaiBeer.Areas.QuanTri.Filters;
 using ThaiBeer.Core.Interfaces;
 using ThaiBeer.Infrastructure.Data;
 using ThaiBeer.Infrastructure.Repositories;
@@ -32,6 +35,7 @@ builder.Services.AddSingleton<IDbConnectionFactory>(_ => new SqlConnectionFactor
 builder.Services.AddScoped<ISanPhamReadRepository, DapperSanPhamReadRepository>();
 builder.Services.AddScoped<IImageOptimizerService, WebPOptimizerService>();
 builder.Services.AddScoped<ICacheInvalidatorService, CacheInvalidatorService>();
+builder.Services.AddScoped<ITaiKhoanService, TaiKhoanService>();
 
 // 2. Nén phản hồi HTTP (Brotli + Gzip) - Tối ưu FCP & TTFB < 100ms
 builder.Services.AddResponseCompression(options =>
@@ -91,16 +95,40 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/adminthaibeer";
         options.LogoutPath = "/adminthaibeer/dang-xuat";
-        options.AccessDeniedPath = "/adminthaibeer";
+        options.AccessDeniedPath = "/adminthaibeer/khong-co-quyen"; // đã đăng nhập nhưng không đủ vai trò
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
         options.Cookie.Name = "ThaiBeer_Admin_Auth";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+        // Mỗi request mang cookie đăng nhập: kiểm tra tài khoản trong bảng NguoiDungs còn hoạt động
+        // và mã bảo mật (MaBaoMat) còn khớp. Đổi mật khẩu / vô hiệu hóa tài khoản => phiên cũ bị đăng xuất ngay.
+        // Cookie của cơ chế đăng nhập cũ (không có Id người dùng) cũng bị loại bỏ.
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnValidatePrincipal = async ctx =>
+            {
+                var idText = ctx.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+                var maBaoMat = ctx.Principal?.FindFirstValue(TaiKhoanService.ClaimMaBaoMat);
+                var taiKhoanService = ctx.HttpContext.RequestServices.GetRequiredService<ITaiKhoanService>();
+
+                if (!int.TryParse(idText, out var id) || !await taiKhoanService.PhienConHopLeAsync(id, maBaoMat))
+                {
+                    ctx.RejectPrincipal();
+                    await ctx.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                }
+            }
+        };
     });
 
 // 5. Cấu hình MVC Controllers & Views
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // Tài khoản mới tạo / vừa được đặt lại mật khẩu: bắt buộc đổi mật khẩu trước khi dùng trang Quản trị
+    options.Filters.Add<BatBuocDoiMatKhauFilter>();
+});
 
 var app = builder.Build();
 
@@ -111,7 +139,8 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ThaiBeerDbContext>();
-        await DbInitializer.KhoiTaoDuLieuMauAsync(context);
+        var initLogger = services.GetRequiredService<ILogger<Program>>();
+        await DbInitializer.KhoiTaoDuLieuMauAsync(context, app.Configuration, initLogger);
     }
     catch (Exception ex)
     {

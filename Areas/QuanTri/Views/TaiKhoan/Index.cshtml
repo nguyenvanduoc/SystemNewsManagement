@@ -1,0 +1,104 @@
+@using ThaiBeer.Core.Domain.Common
+@model IEnumerable<ThaiBeer.Core.Domain.Entities.NguoiDung>
+@{
+    ViewData["Title"] = "Quản Lý Tài Khoản";
+    var idHienTai = (int)ViewBag.IdHienTai;
+    var nowUtc = DateTime.UtcNow;
+}
+
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-stone-100">Tài Khoản Quản Trị</h1>
+        <p class="text-xs text-stone-400 mt-1">Mật khẩu được mã hóa một chiều (PBKDF2-SHA512), không ai xem được mật khẩu gốc.</p>
+    </div>
+    <a href="/quan-tri/tai-khoan/them-moi" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold transition">
+        <i class="fa-solid fa-user-plus mr-1.5"></i> Thêm tài khoản
+    </a>
+</div>
+
+<div class="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-stone-300">
+            <thead class="bg-stone-950/80 text-stone-400 uppercase text-[11px] font-bold tracking-wider border-b border-stone-800">
+                <tr>
+                    <th class="py-3.5 px-4">Tên đăng nhập</th>
+                    <th class="py-3.5 px-4">Họ tên / Email</th>
+                    <th class="py-3.5 px-4">Vai trò</th>
+                    <th class="py-3.5 px-4">Đăng nhập gần nhất</th>
+                    <th class="py-3.5 px-4 text-center">Trạng thái</th>
+                    <th class="py-3.5 px-4 text-right">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800/80">
+                @foreach (var nd in Model)
+                {
+                    var biKhoaTam = nd.KhoaDenLuc.HasValue && nd.KhoaDenLuc.Value > nowUtc;
+                    <tr class="hover:bg-stone-800/50 transition">
+                        <td class="py-3 px-4 font-mono font-bold text-stone-100">
+                            @nd.TenDangNhap
+                            @if (nd.Id == idHienTai)
+                            {
+                                <span class="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-sans">Bạn</span>
+                            }
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="font-semibold text-stone-200">@nd.HoTen</span>
+                            @if (!string.IsNullOrWhiteSpace(nd.Email))
+                            {
+                                <span class="block text-xs text-stone-500">@nd.Email</span>
+                            }
+                        </td>
+                        <td class="py-3 px-4 text-xs">
+                            <span class="@(nd.VaiTro == VaiTroNguoiDung.QuanTriVien ? "text-amber-400 font-bold" : "text-stone-300")">
+                                @(VaiTroNguoiDung.TenHienThi.TryGetValue(nd.VaiTro, out var ten) ? ten : nd.VaiTro)
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 font-mono text-xs text-stone-400">
+                            @(nd.LanDangNhapCuoi.HasValue ? nd.LanDangNhapCuoi.Value.AddHours(7).ToString("dd/MM/yyyy HH:mm") : "Chưa đăng nhập")
+                        </td>
+                        <td class="py-3 px-4 text-center space-y-1">
+                            @if (!nd.TrangThaiHoatDong)
+                            {
+                                <span class="text-[11px] px-2.5 py-1 rounded-full bg-stone-800 text-stone-400 border border-stone-700">Vô hiệu hóa</span>
+                            }
+                            else if (biKhoaTam)
+                            {
+                                <span class="text-[11px] px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Khóa tạm đến @nd.KhoaDenLuc!.Value.AddHours(7).ToString("HH:mm")</span>
+                            }
+                            else
+                            {
+                                <span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">Hoạt động</span>
+                            }
+                            @if (nd.PhaiDoiMatKhau)
+                            {
+                                <span class="block text-[10px] text-amber-500/80 mt-1">Chờ đổi mật khẩu</span>
+                            }
+                        </td>
+                        <td class="py-3 px-4 text-right whitespace-nowrap">
+                            <a href="/quan-tri/tai-khoan/dat-lai-mat-khau/@nd.Id" class="inline-block px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-800 text-stone-300 hover:bg-stone-700 transition">
+                                <i class="fa-solid fa-key mr-1"></i> Đặt lại MK
+                            </a>
+                            @if (biKhoaTam)
+                            {
+                                <form method="post" action="/quan-tri/tai-khoan/mo-khoa/@nd.Id" class="inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition">Mở khóa</button>
+                                </form>
+                            }
+                            @if (nd.Id != idHienTai)
+                            {
+                                <form method="post" action="/quan-tri/tai-khoan/doi-trang-thai/@nd.Id" class="inline"
+                                      onsubmit="return confirm('@(nd.TrangThaiHoatDong ? "Vô hiệu hóa" : "Kích hoạt lại") tài khoản @nd.TenDangNhap?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition @(nd.TrangThaiHoatDong ? "bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20" : "bg-emerald-600 text-white hover:bg-emerald-500")">
+                                        @(nd.TrangThaiHoatDong ? "Vô hiệu hóa" : "Kích hoạt")
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

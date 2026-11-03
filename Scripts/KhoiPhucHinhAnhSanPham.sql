@@ -17,6 +17,8 @@
    ===================================================================== */
 
 SET XACT_ABORT ON;
+SET QUOTED_IDENTIFIER ON;  -- bắt buộc cho FOR XML ... .value() ở bước 4 (một số công cụ mặc định OFF)
+SET ANSI_NULLS ON;
 
 PRINT N'--- TRƯỚC KHI KHÔI PHỤC ---';
 SELECT Id, TenSanPham, DuongDanSlug, HinhAnhWebP, DanhSachHinhAnhPhu FROM SanPhams ORDER BY Id;

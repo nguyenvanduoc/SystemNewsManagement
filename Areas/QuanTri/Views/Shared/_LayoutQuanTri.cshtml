@@ -1,4 +1,10 @@
- <!DOCTYPE html>
+@using System.Security.Claims
+@using ThaiBeer.Core.Domain.Common
+@{
+    var hoTenDangNhap = User.FindFirstValue("HoTen") ?? User.Identity?.Name ?? "Admin";
+    var laQuanTriVien = User.IsInRole(VaiTroNguoiDung.QuanTriVien);
+}
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -99,6 +105,7 @@
                 var isDanhMuc = currentPath.StartsWith("/quan-tri/danh-muc");
                 var isBaiViet = currentPath.StartsWith("/quan-tri/bai-viet");
                 var isLienHe = currentPath.StartsWith("/quan-tri/lien-he");
+                var isTaiKhoan = currentPath.StartsWith("/quan-tri/tai-khoan") && !currentPath.StartsWith("/quan-tri/tai-khoan/doi-mat-khau");
             }
             <nav class="p-4 space-y-1.5 text-sm font-medium">
                 <a href="/quan-tri" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isTongQuan ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
@@ -121,6 +128,13 @@
                     <i class="fa-solid fa-handshake w-5 text-center text-amber-500"></i>
                     <span>Liên hệ & Hợp tác</span>
                 </a>
+                @if (laQuanTriVien)
+                {
+                    <a href="/quan-tri/tai-khoan" class="flex items-center gap-3 px-4 py-3 rounded-xl transition @(isTaiKhoan ? "bg-stone-800 text-amber-400 font-semibold shadow-sm" : "hover:bg-stone-800 hover:text-amber-400 text-stone-300")">
+                        <i class="fa-solid fa-users-gear w-5 text-center text-amber-500"></i>
+                        <span>Tài khoản quản trị</span>
+                    </a>
+                }
             </nav>
         </div>
 
@@ -146,10 +160,11 @@
                 <span class="text-sm font-semibold text-amber-400">@ViewData["Title"]</span>
             </div>
             <div class="flex items-center gap-3">
-                <div class="flex items-center gap-2 text-xs bg-stone-800 text-stone-300 px-3 py-1.5 rounded-full border border-stone-700">
+                <a href="/quan-tri/tai-khoan/doi-mat-khau" title="Đổi mật khẩu" class="flex items-center gap-2 text-xs bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-1.5 rounded-full border border-stone-700 transition">
                     <i class="fa-solid fa-user-shield text-amber-400"></i>
-                    <span class="font-medium">Admin</span>
-                </div>
+                    <span class="font-medium">@hoTenDangNhap</span>
+                    <i class="fa-solid fa-key text-[10px] text-stone-500"></i>
+                </a>
                 <a href="/adminthaibeer/dang-xuat" class="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 px-3 py-1.5 rounded-full transition font-semibold" title="Đăng xuất">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Đăng xuất</span>

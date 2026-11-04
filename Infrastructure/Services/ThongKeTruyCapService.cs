@@ -24,11 +24,13 @@ public class ThongKeTruyCapService
 
     private readonly ThaiBeerDbContext _context;
     private readonly IpViTriService _ipViTri;
+    private readonly HangDoiViTriIp _hangDoiViTri;
 
-    public ThongKeTruyCapService(ThaiBeerDbContext context, IpViTriService ipViTri)
+    public ThongKeTruyCapService(ThaiBeerDbContext context, IpViTriService ipViTri, HangDoiViTriIp hangDoiViTri)
     {
         _context = context;
         _ipViTri = ipViTri;
+        _hangDoiViTri = hangDoiViTri;
     }
 
     /// <summary>Ghi 1 lượt xem trang, tạo phiên mới nếu cần. Trả về Id lượt xem (null nếu bỏ qua: bot, dữ liệu sai...).</summary>
@@ -55,17 +57,26 @@ public class ThongKeTruyCapService
         if (phien == null || phien.MaKhach != yc.MaKhach || now - phien.HoatDongCuoi > HetHanPhien)
         {
             var khachMoi = !await _context.PhienTruyCaps.AnyAsync(p => p.MaKhach == yc.MaKhach);
+            var chuoiIp = (ip?.IsIPv4MappedToIPv6 == true ? ip.MapToIPv4() : ip)?.ToString();
+
+            // Khu vực: ưu tiên kết quả ipinfo.io đã tra trước đó (chính xác hơn); chưa có thì dùng DB-IP offline
+            // rồi đưa IP vào hàng đợi để tiến trình nền tra lại và sửa sau vài giây.
+            var hanLuu = DateTime.UtcNow - ViTriIpNenService.HanLuu;
+            var daTra = chuoiIp == null ? null : await _context.ViTriIps.AsNoTracking()
+                .Where(v => v.DiaChiIp == chuoiIp && v.NgayTra >= hanLuu)
+                .Select(v => v.TinhThanh).FirstOrDefaultAsync();
+            if (daTra == null) _hangDoiViTri.Them(chuoiIp);
             phien = new PhienTruyCap
             {
                 MaPhien = yc.MaPhien,
                 MaKhach = yc.MaKhach,
                 KhachMoi = khachMoi,
-                DiaChiIp = (ip?.IsIPv4MappedToIPv6 == true ? ip.MapToIPv4() : ip)?.ToString(),
+                DiaChiIp = chuoiIp,
                 UserAgent = ua,
                 ThietBi = tb.ThietBi,
                 HeDieuHanh = tb.HeDieuHanh,
                 TrinhDuyet = tb.TrinhDuyet,
-                TinhThanh = _ipViTri.TraTinhThanh(ip),
+                TinhThanh = daTra ?? _ipViTri.TraTinhThanh(ip),
                 NguonTruyCap = XacDinhNguon(utmSource, yc.NguonGioiThieu, tenMienWebsite),
                 TrangVao = duongDan,
                 KichThuocManHinh = Cat(yc.ManHinh, 20),

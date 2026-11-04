@@ -18,6 +18,7 @@ public class ThaiBeerDbContext : DbContext
     public DbSet<NguoiDung> NguoiDungs => Set<NguoiDung>();
     public DbSet<PhienTruyCap> PhienTruyCaps => Set<PhienTruyCap>();
     public DbSet<LuotXemTrang> LuotXemTrangs => Set<LuotXemTrang>();
+    public DbSet<ViTriIp> ViTriIps => Set<ViTriIp>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

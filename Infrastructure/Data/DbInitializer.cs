@@ -120,6 +120,19 @@ public static class DbInitializer
                 CREATE INDEX IX_LuotXemTrangs_ThoiDiem ON LuotXemTrangs (ThoiDiem);
                 CREATE INDEX IX_LuotXemTrangs_PhienTruyCapId ON LuotXemTrangs (PhienTruyCapId);
             END
+
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'ViTriIps')
+            BEGIN
+                CREATE TABLE ViTriIps (
+                    DiaChiIp  VARCHAR(45)   NOT NULL CONSTRAINT PK_ViTriIps PRIMARY KEY,
+                    TinhThanh NVARCHAR(100) NOT NULL,
+                    MaNuoc    VARCHAR(2)    NULL,
+                    VungGoc   NVARCHAR(100) NULL,
+                    ToChuc    NVARCHAR(200) NULL,
+                    LaMayChu  BIT           NOT NULL,
+                    NgayTra   DATETIME2     NOT NULL
+                );
+            END
         ");
     }
 

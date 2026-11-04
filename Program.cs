@@ -41,6 +41,14 @@ builder.Services.AddScoped<ITaiKhoanService, TaiKhoanService>();
 // Thống kê truy cập: tra IP -> tỉnh thành (offline, nạp 1 lần) + ghi nhận lượt xem
 builder.Services.AddSingleton<IpViTriService>();
 builder.Services.AddScoped<ThongKeTruyCapService>();
+// Tra lại vị trí IP chính xác hơn bằng ipinfo.io (chạy nền, có lưu kết quả)
+builder.Services.AddSingleton<HangDoiViTriIp>();
+builder.Services.AddHostedService<ViTriIpNenService>();
+builder.Services.AddHttpClient(ViTriIpNenService.TenHttpClient, c =>
+{
+    c.Timeout = TimeSpan.FromSeconds(8);
+    c.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+});
 
 // Giới hạn API thống kê: tối đa 120 request/phút cho mỗi IP (chống spam làm sai số liệu / đầy database)
 builder.Services.AddRateLimiter(options =>

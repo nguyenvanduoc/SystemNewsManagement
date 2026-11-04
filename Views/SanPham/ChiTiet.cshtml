@@ -65,18 +65,16 @@
         <!-- Cột Khung Hình Ảnh & Bộ Sưu Tập Ảnh Chi Tiết (Tối đa 5 ảnh: 1 chính + 4 phụ) -->
         <div class="lg:col-span-6 xl:col-span-5 select-none space-y-3">
             <!-- 1. KHUNG ẢNH LỚN CHÍNH -->
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm relative group aspect-[4/3] flex items-center justify-center p-4">
+            <div id="khungAnhChinh" class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm relative group aspect-[4/3] flex items-center justify-center p-4" style="touch-action: pan-y;">
                 <a id="mainImageLink" 
                    href="@allImages[0]" 
-                   data-fancybox="product_gallery" 
-                   data-caption="@sp.TenSanPham (Ảnh 1/@allImages.Count)"
                    title="Nhấp để xem ảnh phóng to"
                    class="w-full h-full flex items-center justify-center cursor-zoom-in">
                     <img id="mainProductImage" 
                          src="@AnhThuNho.Url(allImages[0], 960)" srcset="@AnhThuNho.SrcSet(allImages[0], 480, 640, 960)" sizes="(max-width: 1024px) 100vw, 600px" fetchpriority="high" onerror="if(!this.src.endsWith('/images/no-image.svg'))this.src='/images/no-image.svg'" 
                          alt="@sp.TenSanPham" 
-                         class="max-h-full max-w-full object-contain transition-all duration-300 group-hover:scale-105" 
-                         loading="eager" />
+                         class="max-h-full max-w-full object-contain transition-all duration-200 group-hover:scale-105" 
+                         loading="eager" draggable="false" />
                 </a>
 
                 <!-- Badge đếm số thứ tự ảnh (Ví dụ: 1/5, 3/5 như ảnh mẫu) -->
@@ -113,8 +111,7 @@
                             <button type="button"
                                     class="thumb-item relative flex-1 min-w-[60px] aspect-[4/3] bg-white border-2 rounded-xl overflow-hidden p-1 transition-all @(i == 0 ? "border-[#007A29] shadow-sm ring-2 ring-[#007A29]/20 opacity-100" : "border-gray-200 hover:border-gray-400 opacity-60 hover:opacity-100")"
                                     data-index="@i"
-                                    data-src="@imgUrl"
-                                    onclick="selectProductImage(@i, '@imgUrl')">
+                                    aria-label="Xem ảnh @(i + 1)">
                                 <img src="@AnhThuNho.Url(imgUrl, 320)" onerror="this.onerror=null;this.src='/images/no-image.svg'" 
                                      alt="@sp.TenSanPham - Ảnh @(i + 1)" 
                                      class="w-full h-full object-contain" 
@@ -133,13 +130,6 @@
                 </div>
             }
 
-            <!-- Ẩn các link phụ để Fancybox duyệt đủ album ảnh khi bấm zoom -->
-            <div class="hidden">
-                @for (int i = 1; i < allImages.Count; i++)
-                {
-                    <a href="@allImages[i]" data-fancybox="product_gallery" data-caption="@sp.TenSanPham (Ảnh @(i + 1)/@allImages.Count)"></a>
-                }
-            </div>
         </div>
 
         <!-- Cột Thông Tin Sản Phẩm Chuẩn 100% ThaiBeer.vn -->
@@ -285,64 +275,128 @@
 </div>
 
 @section Scripts {
+    @{
+        // Dữ liệu từng ảnh: ảnh gốc (phóng to), ảnh hiển thị 960px và srcset theo màn hình
+        var duLieuAnh = allImages.Select(u => new { goc = u, src = AnhThuNho.Url(u, 960), srcset = AnhThuNho.SrcSet(u, 480, 640, 960) });
+    }
     <script>
-        const galleryImages = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(allImages));
-        let currentGalleryIndex = 0;
+        // Bọc trong hàm riêng: Turbo chạy lại script mỗi lần vào trang, không được khai báo biến toàn cục (const/let)
+        (function () {
+            const anh = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(duLieuAnh));
+            const tenSanPham = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(sp.TenSanPham));
+            const SIZES = "(max-width: 1024px) 100vw, 600px";
 
-        function selectProductImage(index, src) {
-            if (index < 0 || index >= galleryImages.length) return;
-            currentGalleryIndex = index;
+            const khung = document.getElementById("khungAnhChinh");
+            const anhChinh = document.getElementById("mainProductImage");
+            const linkChinh = document.getElementById("mainImageLink");
+            const boDem = document.getElementById("galleryCurrentIndex");
+            const dai = document.getElementById("thumbStrip");
+            const thumbs = Array.from(document.querySelectorAll("#thumbStrip .thumb-item"));
+            if (!khung || !anhChinh || !linkChinh || !anh.length) return;
 
-            // Cập nhật ảnh chính
-            const mainImg = document.getElementById("mainProductImage");
-            const mainLink = document.getElementById("mainImageLink");
-            const indexCounter = document.getElementById("galleryCurrentIndex");
+            let hienTai = 0, lanChon = 0;
+            const dangTai = {};
 
-            if (mainImg) {
-                mainImg.style.opacity = '0.3';
-                // Ảnh có srcset thì đổi src không có tác dụng -> bỏ srcset, dùng bản thu nhỏ 960px cho ảnh upload
-                mainImg.removeAttribute('srcset');
-                mainImg.src = (src.indexOf('/uploads/') === 0 && src.indexOf('?') < 0) ? src + '?w=960' : src;
-                setTimeout(() => { mainImg.style.opacity = '1'; }, 120);
+            // Tải sẵn ảnh (cùng srcset/sizes với ảnh chính nên trình duyệt chọn đúng cỡ và dùng lại từ cache)
+            function taiTruoc(i) {
+                if (!dangTai[i]) {
+                    dangTai[i] = new Promise(function (xong) {
+                        const im = new Image();
+                        im.decoding = "async";
+                        if (anh[i].srcset) { im.sizes = SIZES; im.srcset = anh[i].srcset; }
+                        im.onload = im.onerror = function () { xong(); };
+                        im.src = anh[i].src;
+                        if (im.complete) xong();
+                    });
+                }
+                return dangTai[i];
             }
-            if (mainLink) {
-                mainLink.href = src;
-                mainLink.setAttribute("data-caption", `@sp.TenSanPham (Ảnh ${index + 1}/${galleryImages.length})`);
-            }
-            if (indexCounter) {
-                indexCounter.textContent = (index + 1);
+
+            function capNhatThumb(i) {
+                thumbs.forEach(function (t, k) {
+                    const chon = k === i;
+                    t.classList.toggle("border-[#007A29]", chon);
+                    t.classList.toggle("shadow-sm", chon);
+                    t.classList.toggle("ring-2", chon);
+                    t.classList.toggle("ring-[#007A29]/20", chon);
+                    t.classList.toggle("opacity-100", chon);
+                    t.classList.toggle("border-gray-200", !chon);
+                    t.classList.toggle("opacity-60", !chon);
+                    t.setAttribute("aria-current", chon ? "true" : "false");
+                });
+                // Cuộn dải thumbnail ngang (không dùng scrollIntoView vì làm cả trang bị cuộn dọc trên mobile)
+                const t = thumbs[i];
+                if (dai && t) dai.scrollTo({ left: t.offsetLeft - (dai.clientWidth - t.clientWidth) / 2, behavior: "smooth" });
             }
 
-            // Cập nhật viền active cho các thumbnail
-            document.querySelectorAll(".thumb-item").forEach((thumb, idx) => {
-                if (idx === index) {
-                    thumb.classList.remove("border-gray-200", "opacity-60");
-                    thumb.classList.add("border-[#007A29]", "shadow-sm", "ring-2", "ring-[#007A29]/20", "opacity-100");
-                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            function chonAnh(i) {
+                const n = anh.length;
+                i = ((i % n) + n) % n;
+                if (i === hienTai) return;
+                hienTai = i;
+                const ma = ++lanChon;
+
+                if (boDem) boDem.textContent = i + 1;
+                capNhatThumb(i);
+                linkChinh.href = anh[i].goc;
+
+                anhChinh.style.opacity = "0.5";
+                // Chỉ đổi ảnh khi ảnh mới đã tải xong -> không bị trắng/nháy; bấm liên tục thì chỉ lấy lần cuối
+                taiTruoc(i).then(function () {
+                    if (ma !== lanChon) return;
+                    if (anh[i].srcset) { anhChinh.sizes = SIZES; anhChinh.srcset = anh[i].srcset; }
+                    else anhChinh.removeAttribute("srcset");
+                    anhChinh.src = anh[i].src;
+                    anhChinh.style.opacity = "1";
+                });
+                taiTruoc((i + 1) % n);
+            }
+
+            thumbs.forEach(function (t, k) { t.addEventListener("click", function () { chonAnh(k); }); });
+            const nutTruoc = document.getElementById("thumbPrevBtn");
+            const nutSau = document.getElementById("thumbNextBtn");
+            if (nutTruoc) nutTruoc.addEventListener("click", function () { chonAnh(hienTai - 1); });
+            if (nutSau) nutSau.addEventListener("click", function () { chonAnh(hienTai + 1); });
+
+            // Vuốt trái/phải trên ảnh lớn (mobile)
+            let x0 = null, y0 = 0, lucVuot = 0; // lucVuot: thời điểm vừa vuốt, để bỏ qua cú "click" sinh ra ngay sau đó
+            khung.addEventListener("touchstart", function (e) {
+                if (e.touches.length !== 1) { x0 = null; return; }
+                x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+            }, { passive: true });
+            khung.addEventListener("touchend", function (e) {
+                if (x0 === null) return;
+                const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+                x0 = null;
+                if (anh.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+                    lucVuot = Date.now();
+                    chonAnh(hienTai + (dx < 0 ? 1 : -1));
+                }
+            }, { passive: true });
+
+            // Bấm ảnh lớn: mở trình xem phóng to ĐÚNG ảnh đang xem, duyệt được cả album
+            linkChinh.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (Date.now() - lucVuot < 500) return;
+                if (window.Fancybox && typeof Fancybox.show === "function") {
+                    Fancybox.show(anh.map(function (a, k) {
+                        return { src: a.goc, type: "image", caption: tenSanPham + " (Ảnh " + (k + 1) + "/" + anh.length + ")" };
+                    }), {
+                        startIndex: hienTai,
+                        dragToClose: true,
+                        autoFocus: false,
+                        Toolbar: { display: { left: ["infobar"], middle: ["zoomIn", "zoomOut", "toggle1to1"], right: ["slideshow", "fullscreen", "close"] } }
+                    });
                 } else {
-                    thumb.classList.remove("border-[#007A29]", "shadow-sm", "ring-2", "ring-[#007A29]/20", "opacity-100");
-                    thumb.classList.add("border-gray-200", "opacity-60");
+                    window.open(anh[hienTai].goc, "_blank");
                 }
             });
-        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const prevBtn = document.getElementById("thumbPrevBtn");
-            const nextBtn = document.getElementById("thumbNextBtn");
-
-            if (prevBtn) {
-                prevBtn.addEventListener("click", function() {
-                    let nextIdx = (currentGalleryIndex - 1 + galleryImages.length) % galleryImages.length;
-                    selectProductImage(nextIdx, galleryImages[nextIdx]);
-                });
-            }
-            if (nextBtn) {
-                nextBtn.addEventListener("click", function() {
-                    let nextIdx = (currentGalleryIndex + 1) % galleryImages.length;
-                    selectProductImage(nextIdx, galleryImages[nextIdx]);
-                });
-            }
-        });
+            // Tải sẵn các ảnh còn lại sau khi trang đã hiển thị xong -> bấm chuyển ảnh là hiện ngay
+            function batDauTaiSan() { anh.forEach(function (_, k) { if (k > 0) taiTruoc(k); }); }
+            if (document.readyState === "complete") setTimeout(batDauTaiSan, 300);
+            else window.addEventListener("load", function () { setTimeout(batDauTaiSan, 300); }, { once: true });
+        })();
     </script>
 }
 
